@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0f172a">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Yoğun Bakım Günlük Vizit v2.3</title>
+<title>Yoğun Bakım Günlük Vizit v2.4</title>
 <style>
 :root{--bg:#f3f6fa;--card:#fff;--ink:#172033;--muted:#64748b;--line:#dbe3ee;--nav:#0f172a;--accent:#2563eb;--soft:#eff6ff;--warn:#b45309;--warnbg:#fff7ed;--danger:#b42318;--dangerbg:#fff1f0;--ok:#18794e;--shadow:0 5px 18px rgba(15,23,42,.07)}
 *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
@@ -21,7 +21,7 @@ main{max-width:1180px;margin:14px auto 70px;padding:0 12px}
 .maintab{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:12px;padding:9px 12px;font-weight:800;color:#334155;cursor:pointer}
 .maintab.active{background:var(--nav);border-color:var(--nav);color:#fff}
 .page{display:none}.page.active{display:block}
-.subtabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:10px}.subtab{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 10px;font-weight:700;color:#475569;cursor:pointer}.subtab.active{background:var(--soft);border-color:#93c5fd;color:#0b4f8a}
+.subtabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:10px}.bottom-org-tabs{margin-top:14px;padding-top:10px;border-top:1px solid var(--line)}.subtab{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 10px;font-weight:700;color:#475569;cursor:pointer}.subtab.active{background:var(--soft);border-color:#93c5fd;color:#0b4f8a}
 .subpage{display:none}.subpage.active{display:block}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:12px}
 .card h2{font-size:15px;margin:0;padding:12px 14px;border-bottom:1px solid var(--line);background:#fbfdff}.body{padding:13px 14px}
@@ -45,7 +45,7 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 </head>
 <body>
 <header><div class="headerin">
-<div class="brand"><h1>Yoğun Bakım Günlük Vizit ve Progres Sistemi</h1><div>Muayene odaklı • Tab yapısı • Lokal PWA • v2.3</div></div>
+<div class="brand"><h1>Yoğun Bakım Günlük Vizit ve Progres Sistemi</h1><div>Muayene odaklı • Tab yapısı • Lokal PWA • v2.4</div></div>
 <div class="actions"><button class="btn ghost" type="button" id="saveBtn">Kaydet</button><button class="btn danger" type="button" id="clearBtn">Yeni gün</button><button class="btn primary" type="button" id="generateBtn">Çıktıları Oluştur</button></div>
 </div></header>
 <main>
@@ -195,6 +195,13 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 <label class="chip"><input type="checkbox" data-group="monitor" value="Pulmoner arter kateteri"><span>Pulmoner arter kateteri</span></label>
 <label class="chip"><input type="checkbox" data-group="monitor" value="EKO temelli"><span>EKO temelli</span></label>
 </div>
+<div class="section fields four">
+<div><label class="fieldlabel">Kalp atım hızı (/dk)</label><input id="heartRate" type="number" min="0" max="300" inputmode="numeric"></div>
+<div><label class="fieldlabel">Sistolik KB (mmHg)</label><input id="sbp" type="number" min="0" max="300" inputmode="numeric"></div>
+<div><label class="fieldlabel">Diyastolik KB (mmHg)</label><input id="dbp" type="number" min="0" max="200" inputmode="numeric"></div>
+<div><label class="fieldlabel">Ortalama KB / OAB (mmHg)</label><input id="map" type="number" readonly placeholder="Otomatik"></div>
+</div>
+<div class="hint">OAB = (Sistolik KB + 2 × Diyastolik KB) / 3</div>
 <div class="section fields three">
 <div><label class="fieldlabel">Ritim</label><select id="rhythm"><option value="">Seçiniz</option><option>Düzenli</option><option>Düzensiz</option><option>Atriyal fibrilasyon</option><option>Taşikardik</option><option>Bradikardik</option><option>Pacemaker ritmi</option><option>Diğer</option></select></div>
 <div><label class="fieldlabel">Kapiller dolum</label><select id="crt"><option value="">Seçiniz</option><option>&lt;3 sn</option><option>≥3 sn</option></select></div>
@@ -221,6 +228,10 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 <div><label class="fieldlabel">Batın görünümü</label><select id="abdAppearance"><option value="">Seçiniz</option><option>Normal</option><option>Hafif distandü</option><option>Belirgin distandü</option><option>Asimetrik</option><option>Postoperatif</option></select></div>
 <div><label class="fieldlabel">Palpasyon</label><select id="abdPalp"><option value="">Seçiniz</option><option>Yumuşak, hassasiyet yok</option><option>Lokal hassasiyet</option><option>Diffüz hassasiyet</option><option>Defans</option><option>Rijidite</option><option>Değerlendirilemiyor</option></select></div>
 <div><label class="fieldlabel">Bağırsak sesleri</label><select id="bowel"><option value="">Seçiniz</option><option>Normal</option><option>Hipoaktif</option><option>Hiperaktif</option><option>Alınmıyor</option><option>Değerlendirilemedi</option></select></div>
+</div>
+<div class="section fields two">
+<div><label class="fieldlabel">Karın İçi Basıncı (mmHg)</label><input id="iap" type="number" min="0" max="60" step="1" inputmode="numeric" placeholder="Ölçüldüyse giriniz"></div>
+<div><label class="fieldlabel">Karın içi basınç izlemi</label><input id="iapFollow" type="text" readonly placeholder="Otomatik değerlendirme"></div>
 </div>
 <div class="section fields two">
 <div><label class="fieldlabel">Organomegali</label><select id="organomegaly"><option value="">Seçiniz</option><option>Yok</option><option>Hepatomegali</option><option>Splenomegali</option><option>Hepatosplenomegali</option><option>Değerlendirilemedi</option></select></div>
@@ -293,6 +304,16 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 </div>
 </div></div>
 </div>
+
+<div class="subtabs bottom-org-tabs" aria-label="Organ sistemleri alt gezinme">
+<button class="subtab active" type="button" data-sub="neuro">Nörolojik</button>
+<button class="subtab" type="button" data-sub="resp">Solunum</button>
+<button class="subtab" type="button" data-sub="hemo">Dolaşım</button>
+<button class="subtab" type="button" data-sub="abd">Batın / Beslenme</button>
+<button class="subtab" type="button" data-sub="renal">Renal / Sıvı</button>
+<button class="subtab" type="button" data-sub="skin">Cilt / Ekstremite</button>
+</div>
+
 </section>
 
 <section class="page" id="devices">
@@ -379,9 +400,22 @@ function activateMain(id){
 }
 document.querySelectorAll('.maintab').forEach(b=>b.addEventListener('click',()=>activateMain(b.dataset.main)));
 document.querySelectorAll('.subtab').forEach(b=>b.addEventListener('click',()=>{
- document.querySelectorAll('.subtab').forEach(x=>x.classList.toggle('active',x===b));
- document.querySelectorAll('#organs .subpage').forEach(p=>p.classList.toggle('active',p.id===b.dataset.sub));
+ const target=b.dataset.sub;
+ document.querySelectorAll('.subtab').forEach(x=>x.classList.toggle('active',x.dataset.sub===target));
+ document.querySelectorAll('#organs .subpage').forEach(p=>p.classList.toggle('active',p.id===target));
+ if(b.closest('.bottom-org-tabs')) window.scrollTo({top:document.querySelector('#organs .subtabs:not(.bottom-org-tabs)').offsetTop-90,behavior:'smooth'});
 }));
+
+function updateMAP(){
+ const s=parseFloat(val('sbp')), d=parseFloat(val('dbp'));
+ if(Number.isFinite(s)&&Number.isFinite(d)) $('map').value=Math.round((s+2*d)/3); else $('map').value='';
+}
+function updateIAP(){
+ const p=parseFloat(val('iap'));
+ if(Number.isFinite(p)&&p>12) $('iapFollow').value='4 saatte bir takip edilecek';
+ else if(Number.isFinite(p)) $('iapFollow').value='Rutin klinik izlem';
+ else $('iapFollow').value='';
+}
 
 function showRespSettings(){
  const s=val('respSupport');
@@ -390,6 +424,8 @@ function showRespSettings(){
  $('mvBlock').classList.toggle('hidden',s!=='İnvaziv mekanik ventilasyon');
 }
 $('respSupport').addEventListener('change',showRespSettings);
+['sbp','dbp'].forEach(id=>$(id)?.addEventListener('input',updateMAP));
+$('iap')?.addEventListener('input',updateIAP);
 
 function balanceText(){
  const sign=radio('balanceSign'), amount=val('balanceAmount');
@@ -416,6 +452,7 @@ function buildCare(){
  if(['Oligüri','Anüri'].includes(val('diuresis')))add('Oligüri/anüri nedenleri, perfüzyon ve volüm durumu açısından renal değerlendirmeyi gözden geçir.','alert');
  const bn=balanceNumber(); if(bn!==null&&bn>1000)add('Pozitif sıvı dengesinin klinik önemini ve günün sıvı hedefini yeniden değerlendir.','alert');
  if(['Hafif distandü','Belirgin distandü'].includes(val('abdAppearance'))||['Hipoaktif','Alınmıyor'].includes(val('bowel'))||checks('gi').some(x=>['Gaz çıkışı yok','Kusma','Gastrik retansiyon'].includes(x)))add('Gastrointestinal fonksiyon ve enteral beslenme toleransını yeniden değerlendir.','alert');
+ const iapVal=parseFloat(val('iap')); if(Number.isFinite(iapVal)&&iapVal>12)add('Karın içi basıncını 4 saatte bir takip et.','alert');
  if(val('nutrition')==='Enteral, tolerans sorunu var'||val('nutrition')==='Beslenme başlanmadı'||checks('problem').includes('Beslenme sorunu'))add('Günlük beslenme hedefini ve toleransı gözden geçir.');
  if(val('urineRoute')==='Foley kateter'||checks('device').includes('Foley kateter'))add('Foley kateter endikasyonunun devam edip etmediğini günlük olarak değerlendir.');
  if(checks('device').some(x=>['Santral venöz kateter','Arter kateteri','CRRT kateteri'].includes(x)))add('İntravasküler kateterlerin giriş yerlerini ve devam eden gereksinimini gözden geçir.');
@@ -442,6 +479,7 @@ function buildTodos(){
  if(val('siteIssue')&&val('siteIssue')!=='Yok')add('Kateter/dren giriş yeri sorununu değerlendir','Cihaz');
  if(checks('problem').includes('Enfeksiyon / sepsis'))add('Kültürleri ve antimikrobiyal tedavinin gününü/de-eskalasyonunu gözden geçir','Enfeksiyon');
  if(val('nutrition')==='Enteral, tolerans sorunu var'||val('nutrition')==='Beslenme başlanmadı')add('Beslenme hedefi ve toleransını yeniden değerlendir','Beslenme');
+ const iapTodo=parseFloat(val('iap')); if(Number.isFinite(iapTodo)&&iapTodo>12)add('Karın içi basıncını 4 saatte bir takip et','Batın');
  if(checks('skin').includes('Bası yarası mevcut'))add('Bası yarası bakım/pozisyon planını gözden geçir','Bakım');
  if(val('mobility')&&val('mobility')!=='Kontrendike')add(val('mobilityGoal')?`Mobilizasyon: ${val('mobilityGoal')}`:'Günlük mobilizasyon hedefini uygula','Mobilizasyon');
  return t;
@@ -456,8 +494,8 @@ function buildProgress(){
  if(val('respSupport')==='NIMV'){let a=[];if(val('nimvInterface'))a.push(val('nimvInterface'));if(val('nimvMode'))a.push(`mod ${val('nimvMode')}`);if(val('nimvFio2'))a.push(`FiO₂ %${val('nimvFio2')}`);if(val('nimvIpap'))a.push(`IPAP/Pinsp ${val('nimvIpap')} cmH₂O`);if(val('nimvEpap'))a.push(`EPAP/PEEP ${val('nimvEpap')} cmH₂O`);if(val('nimvRate'))a.push(`yedek SS ${val('nimvRate')}/dk`);if(a.length)x.push(`NIMV ayarları: ${a.join(', ')}`)}
  if(val('respSupport')==='İnvaziv mekanik ventilasyon'){let a=[];if(val('mvMode'))a.push(`mod ${val('mvMode')}`);if(val('fio2'))a.push(`FiO₂ %${val('fio2')}`);if(val('peep'))a.push(`PEEP ${val('peep')} cmH₂O`);if(val('mvVt'))a.push(`VT ${val('mvVt')} mL`);if(val('mvRate'))a.push(`SS ${val('mvRate')}/dk`);if(val('mvPressure'))a.push(`PS/Pinsp ${val('mvPressure')} cmH₂O`);if(val('mvPplat'))a.push(`Pplat ${val('mvPplat')} cmH₂O`);if(a.length)x.push(`invaziv ventilasyon ayarları: ${a.join(', ')}`)}
  if(x.length)lines.push('Solunum:',punct(x.join('; ')),'');
- x=[]; if(checks('monitor').length)x.push(`monitörizasyon: ${sentenceList(checks('monitor'))}`); if(val('rhythm'))x.push(`ritim ${lcFirst(val('rhythm'))}`); if(val('pulses'))x.push(`periferik nabızlar ${lcFirst(val('pulses'))}`); if(val('crt'))x.push(`kapiller dolum ${val('crt')}`); if(val('temp'))x.push(`ekstremite sıcaklığı ${lcFirst(val('temp'))}`); if(val('vaso'))x.push(`vazopressör/inotrop ${lcFirst(val('vaso'))}`); if(checks('hemo').length)x.push(sentenceList(checks('hemo').map(lcFirst))); if(x.length)lines.push('Kardiyovasküler / hemodinamik:',punct(x.join('; ')),'');
- x=[]; if(val('abdAppearance'))x.push(`batın ${lcFirst(val('abdAppearance'))}`); if(val('abdPalp'))x.push(`palpasyonda ${lcFirst(val('abdPalp'))}`); if(val('bowel'))x.push(`bağırsak sesleri ${lcFirst(val('bowel'))}`); if(val('organomegaly'))x.push(`organomegali ${lcFirst(val('organomegaly'))}`); if(val('nutrition'))x.push(`beslenme: ${lcFirst(val('nutrition'))}`); if(checks('gi').length)x.push(sentenceList(checks('gi').map(lcFirst))); if(x.length)lines.push('Batın / gastrointestinal:',punct(x.join('; ')),'');
+ x=[]; if(checks('monitor').length)x.push(`monitörizasyon: ${sentenceList(checks('monitor'))}`); if(val('heartRate'))x.push(`kalp hızı ${val('heartRate')}/dk`); if(val('sbp')&&val('dbp'))x.push(`kan basıncı ${val('sbp')}/${val('dbp')} mmHg${val('map')?`, OAB ${val('map')} mmHg`:''}`); if(val('rhythm'))x.push(`ritim ${lcFirst(val('rhythm'))}`); if(val('pulses'))x.push(`periferik nabızlar ${lcFirst(val('pulses'))}`); if(val('crt'))x.push(`kapiller dolum ${val('crt')}`); if(val('temp'))x.push(`ekstremite sıcaklığı ${lcFirst(val('temp'))}`); if(val('vaso'))x.push(`vazopressör/inotrop ${lcFirst(val('vaso'))}`); if(checks('hemo').length)x.push(sentenceList(checks('hemo').map(lcFirst))); if(x.length)lines.push('Kardiyovasküler / hemodinamik:',punct(x.join('; ')),'');
+ x=[]; if(val('abdAppearance'))x.push(`batın ${lcFirst(val('abdAppearance'))}`); if(val('iap')){x.push(`karın içi basıncı ${val('iap')} mmHg`); if(parseFloat(val('iap'))>12)x.push('karın içi basıncı 4 saatte bir takip edilecek')}; if(val('abdPalp'))x.push(`palpasyonda ${lcFirst(val('abdPalp'))}`); if(val('bowel'))x.push(`bağırsak sesleri ${lcFirst(val('bowel'))}`); if(val('organomegaly'))x.push(`organomegali ${lcFirst(val('organomegaly'))}`); if(val('nutrition'))x.push(`beslenme: ${lcFirst(val('nutrition'))}`); if(checks('gi').length)x.push(sentenceList(checks('gi').map(lcFirst))); if(x.length)lines.push('Batın / gastrointestinal:',punct(x.join('; ')),'');
  x=[]; if(val('urineRoute'))x.push(`idrar drenajı ${lcFirst(val('urineRoute'))}`); if(val('urineLook'))x.push(`idrar ${lcFirst(val('urineLook'))}`); if(val('urine24'))x.push(`24 saatlik idrar ${val('urine24')} mL`); if(val('diuresis'))x.push(`diürez ${lcFirst(val('diuresis'))}`); if(balanceText())x.push(`24 saatlik sıvı dengesi ${balanceText()}`); if(checks('renal').length)x.push(sentenceList(checks('renal'))); if(x.length)lines.push('Renal / sıvı:',punct(x.join('; ')),'');
  x=[]; if(checks('skin').length)x.push(sentenceList(checks('skin').map(lcFirst))); if(val('mobility'))x.push(`mobilizasyon ${lcFirst(val('mobility'))}`); if(val('mobilityGoal'))x.push(`hedef: ${val('mobilityGoal')}`); if(x.length)lines.push('Cilt / ekstremiteler / mobilizasyon:',punct(x.join('; ')),'');
  x=[]; if(checks('device').length)x.push(`mevcut: ${sentenceList(checks('device'))}`); if(val('deviceDetails'))x.push(val('deviceDetails')); if(val('siteIssue'))x.push(`giriş yeri: ${lcFirst(val('siteIssue'))}`); if(x.length)lines.push('Drenler / kateterler:',x.map(punct).join(' '),'');
@@ -500,7 +538,7 @@ function loadState(){
      else if(el.id&&s[el.id]!=null)el.value=s[el.id];
    });
  }catch(e){}
- showRespSettings();updateProgress();
+ showRespSettings();updateMAP();updateIAP();updateProgress();
 }
 $('saveBtn').addEventListener('click',()=>saveState(true));
 $('clearBtn').addEventListener('click',()=>{
@@ -515,7 +553,7 @@ function updateProgress(){
 }
 document.querySelectorAll('#roundForm input,#roundForm select,#roundForm textarea').forEach(el=>{
  el.addEventListener('change',()=>{if(el.id==='respSupport')showRespSettings();updateProgress();saveState(false)});
- if(el.tagName==='TEXTAREA'||['text','number'].includes(el.type))el.addEventListener('input',()=>{updateProgress();saveState(false)});
+ if(el.tagName==='TEXTAREA'||['text','number'].includes(el.type))el.addEventListener('input',()=>{if(el.id==='sbp'||el.id==='dbp')updateMAP();if(el.id==='iap')updateIAP();updateProgress();saveState(false)});
 });
 loadState();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}

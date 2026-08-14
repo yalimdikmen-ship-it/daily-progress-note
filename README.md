@@ -1,4 +1,4 @@
-# Yoğun Bakım Günlük Vizit ve Progres Sistemi — v2.3
+# Yoğun Bakım Günlük Vizit ve Progres Sistemi — v2.4
 
 ## GitHub Pages ile deneme
 
@@ -17,3 +17,9 @@
 8. Android Chrome'da menü > Ana ekrana ekle / Uygulamayı yükle seçeneğini kullanabilirsiniz.
 
 Not: Service worker nedeniyle yeni sürüm yükledikten sonra eski sürüm görünürse sayfayı birkaç kez yenileyin veya site verilerini temizleyin.
+
+
+## v2.4 yenilikleri
+- Organ Sistemleri alt tabları üstte ve altta tekrarlandı.
+- Kalp hızı ve sistolik/diyastolik KB alanları eklendi; OAB otomatik hesaplanır.
+- Karın İçi Basıncı alanı eklendi; >12 mmHg ise 4 saatte bir takip notu ve yapılacak işi otomatik oluşur.
