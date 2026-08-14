@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Yoğun Bakım Günlük Vizit v2.3</title>
+<style>
+:root{--bg:#f3f6fa;--card:#fff;--ink:#172033;--muted:#64748b;--line:#dbe3ee;--nav:#0f172a;--accent:#2563eb;--soft:#eff6ff;--warn:#b45309;--warnbg:#fff7ed;--danger:#b42318;--dangerbg:#fff1f0;--ok:#18794e;--shadow:0 5px 18px rgba(15,23,42,.07)}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+header{position:sticky;top:0;z-index:40;background:var(--nav);color:#fff;padding:12px 14px;border-bottom:1px solid #263449}
+.headerin{max-width:1180px;margin:auto;display:flex;gap:12px;align-items:center;justify-content:space-between}
+.brand h1{font-size:17px;margin:0}.brand div{font-size:11px;color:#cbd5e1;margin-top:2px}
+.actions{display:flex;gap:7px;flex-wrap:wrap}.btn{border:0;border-radius:10px;padding:9px 12px;font-weight:700;cursor:pointer;background:#e2e8f0;color:#0f172a}.btn.primary{background:#2563eb;color:white}.btn.ghost{background:#263449;color:white}.btn.danger{background:#7f1d1d;color:white}
+main{max-width:1180px;margin:14px auto 70px;padding:0 12px}
+.notice{background:#eef6ff;border:1px solid #bfdcff;border-radius:12px;padding:9px 11px;color:#244766;font-size:12px;margin-bottom:10px}
+.progressbar{height:6px;background:#dbe3ee;border-radius:999px;overflow:hidden;margin:8px 0 12px}.progressbar>div{height:100%;width:0;background:#2563eb;transition:.2s}
+.maintabs{display:flex;gap:6px;overflow-x:auto;padding:4px 0 10px;position:sticky;top:63px;z-index:30;background:var(--bg)}.bottomtabs{display:flex;gap:6px;overflow-x:auto;padding:12px 0 4px;margin-top:14px;border-top:1px solid var(--line)}
+.maintab{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:12px;padding:9px 12px;font-weight:800;color:#334155;cursor:pointer}
+.maintab.active{background:var(--nav);border-color:var(--nav);color:#fff}
+.page{display:none}.page.active{display:block}
+.subtabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:10px}.subtab{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 10px;font-weight:700;color:#475569;cursor:pointer}.subtab.active{background:var(--soft);border-color:#93c5fd;color:#0b4f8a}
+.subpage{display:none}.subpage.active{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:12px}
+.card h2{font-size:15px;margin:0;padding:12px 14px;border-bottom:1px solid var(--line);background:#fbfdff}.body{padding:13px 14px}
+.section{border-top:1px solid var(--line);padding-top:12px;margin-top:12px}.section:first-child{border-top:0;padding-top:0;margin-top:0}
+.fields{display:grid;grid-template-columns:1fr;gap:9px}@media(min-width:680px){.fields.two{grid-template-columns:1fr 1fr}.fields.three{grid-template-columns:repeat(3,1fr)}.fields.four{grid-template-columns:repeat(4,1fr)}}
+label.fieldlabel{display:block;font-size:12px;font-weight:800;color:#536176;margin-bottom:5px}
+select,input[type=text],input[type=number],textarea{width:100%;border:1px solid #cbd5e1;border-radius:10px;background:#fff;padding:10px 11px;font:inherit;color:var(--ink);outline:none}
+select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3px rgba(96,165,250,.16)} textarea{min-height:74px;resize:vertical}
+.chips{display:flex;flex-wrap:wrap;gap:7px}.chip input{display:none}.chip span{display:inline-block;border:1px solid #cbd5e1;border-radius:999px;padding:7px 10px;background:#fff;cursor:pointer;font-size:13px}
+.chip input:checked+span{background:var(--soft);border-color:#60a5fa;color:#0b4f8a;font-weight:800}.chip.warn input:checked+span{background:var(--warnbg);border-color:#fdba74;color:#92400e}
+.radioRow{display:flex;gap:7px;flex-wrap:wrap}.radioChip input{display:none}.radioChip span{display:inline-block;border:1px solid #cbd5e1;border-radius:10px;padding:8px 13px;background:white;cursor:pointer;font-weight:800}
+.radioChip input:checked+span{background:var(--nav);border-color:var(--nav);color:white}
+.hidden{display:none!important}.hint{font-size:12px;color:var(--muted);margin-top:4px}
+.outhead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}.smallbtn{padding:8px 10px;border-radius:8px;border:1px solid #cbd5e1;background:#fff;font-weight:800;cursor:pointer}
+.output{min-height:360px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.5;background:#fbfdff}
+.careitem{padding:9px 10px;border-left:4px solid #2563eb;background:#eff6ff;border-radius:8px;margin-bottom:8px}.careitem.routine{border-left-color:#94a3b8;background:#f8fafc}.careitem.alert{border-left-color:#d97706;background:#fff7ed}
+.todoitem{display:flex;gap:9px;align-items:flex-start;padding:10px 0;border-bottom:1px dashed var(--line)}.todoitem input{width:18px;height:18px;margin-top:2px}.tag{display:inline-block;margin-left:6px;padding:2px 6px;border-radius:999px;background:#eef2f7;color:#536176;font-size:11px;font-weight:800}
+.empty{color:var(--muted);font-size:13px}.statusline{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted);margin-bottom:8px}
+@media(max-width:640px){header{padding-top:max(10px,env(safe-area-inset-top))}.brand div{display:none}.actions .btn{padding:8px 9px;font-size:12px}.maintabs{top:61px}.card h2{font-size:14px}}
+</style>
+</head>
+<body>
+<header><div class="headerin">
+<div class="brand"><h1>Yoğun Bakım Günlük Vizit ve Progres Sistemi</h1><div>Muayene odaklı • Tab yapısı • Lokal PWA • v2.3</div></div>
+<div class="actions"><button class="btn ghost" type="button" id="saveBtn">Kaydet</button><button class="btn danger" type="button" id="clearBtn">Yeni gün</button><button class="btn primary" type="button" id="generateBtn">Çıktıları Oluştur</button></div>
+</div></header>
+<main>
+<div class="notice"><b>Klinik karar desteği:</b> Araç günlük yatak başı değerlendirmeyi standartlaştırır. Tedavi emri üretmez; öneriler değerlendirme/gözden geçirme düzeyindedir.</div>
+<div class="statusline"><span id="completionText">Tamamlanma: %0</span><span id="saveStatus">Lokal kayıt</span></div>
+<div class="progressbar"><div id="progress"></div></div>
+
+<nav class="maintabs" aria-label="Ana bölümler">
+<button class="maintab active" data-main="assessment">Değerlendirme</button>
+<button class="maintab" data-main="organs">Organ Sistemleri</button>
+<button class="maintab" data-main="devices">Cihazlar</button>
+<button class="maintab" data-main="plan">Plan</button>
+<button class="maintab" data-main="progressPage">Progres</button>
+</nav>
+
+<form id="roundForm" autocomplete="off">
+<section class="page active" id="assessment">
+<div class="card"><h2>Günlük klinik durum</h2><div class="body">
+<div class="fields three">
+<div><label class="fieldlabel">Yatak no</label><input id="bed" type="text" placeholder="örn. 7"></div>
+<div><label class="fieldlabel">Yoğun bakım günü</label><input id="icuDay" type="number" min="1" inputmode="numeric"></div>
+<div><label class="fieldlabel">Klinik değişim</label><select id="trend"><option value="">Seçiniz</option><option>Belirgin düzelme</option><option>Kısmi düzelme</option><option>Stabil</option><option>Kısmi kötüleşme</option><option>Belirgin kötüleşme</option><option>Yeni akut olay gelişti</option></select></div>
+</div>
+<div class="section"><label class="fieldlabel">Son 24 saatte önemli klinik olay / değişiklik</label><textarea id="events" placeholder="Yeni olay, girişim, gece gelişmesi..."></textarea></div>
+</div></div>
+
+<div class="card"><h2>Genel muayene</h2><div class="body">
+<div class="fields two">
+<div><label class="fieldlabel">Genel görünüm</label><select id="appearance"><option value="">Seçiniz</option><option>İyi</option><option>Orta</option><option>Kötü</option><option>Kritik</option></select></div>
+<div><label class="fieldlabel">Bilinç</label><select id="conscious"><option value="">Seçiniz</option><option>Açık, koopere, oryante</option><option>Uyanık, dezoryante</option><option>Somnolans</option><option>Stupor</option><option>Koma</option><option>Sedasyon altında</option><option>Değerlendirilemiyor</option></select></div>
+</div>
+<div class="section"><label class="fieldlabel">Periferik görünüm (çoklu seçim)</label><div class="chips">
+<label class="chip"><input type="checkbox" data-group="general" value="Ödem"><span>Ödem</span></label>
+<label class="chip"><input type="checkbox" data-group="general" value="İkter"><span>İkter</span></label>
+<label class="chip"><input type="checkbox" data-group="general" value="Siyanoz"><span>Siyanoz</span></label>
+</div></div>
+</div></div>
+
+<div class="card"><h2>Önemli laboratuvar değişiklikleri</h2><div class="body">
+<div class="fields two"><div><label class="fieldlabel">Önemli değişiklik</label><select id="labChange"><option value="">Seçiniz</option><option>Yok</option><option>Var</option></select></div>
+<div><label class="fieldlabel">Trend özeti</label><input id="labSummary" type="text" placeholder="örn. kreatinin ↑, Hb ↔, laktat ↓"></div></div>
+<div class="section"><label class="fieldlabel">Klinik olarak önemli laboratuvar notu</label><textarea id="labNote" placeholder="Gerekli değilse boş bırakın"></textarea></div>
+</div></div>
+</section>
+
+<section class="page" id="organs">
+<div class="subtabs">
+<button class="subtab active" type="button" data-sub="neuro">Nörolojik</button>
+<button class="subtab" type="button" data-sub="resp">Solunum</button>
+<button class="subtab" type="button" data-sub="hemo">Dolaşım</button>
+<button class="subtab" type="button" data-sub="abd">Batın / Beslenme</button>
+<button class="subtab" type="button" data-sub="renal">Renal / Sıvı</button>
+<button class="subtab" type="button" data-sub="skin">Cilt / Ekstremite</button>
+</div>
+
+<div class="subpage active" id="neuro">
+<div class="card"><h2>Nörolojik muayene</h2><div class="body">
+<div class="fields three">
+<div><label class="fieldlabel">RASS</label><select id="rass"><option value="">Seçiniz</option><option>+4</option><option>+3</option><option>+2</option><option>+1</option><option>0</option><option>-1</option><option>-2</option><option>-3</option><option>-4</option><option>-5</option><option>Değerlendirilemedi</option></select></div>
+<div><label class="fieldlabel">Sağ pupil çapı (mm)</label><input id="pupilRight" type="number" min="0" max="10" step="0.5" inputmode="decimal"></div>
+<div><label class="fieldlabel">Sol pupil çapı (mm)</label><input id="pupilLeft" type="number" min="0" max="10" step="0.5" inputmode="decimal"></div>
+</div>
+<div class="section fields two">
+<div><label class="fieldlabel">Sağ ışık refleksi</label><select id="lightRight"><option value="">Seçiniz</option><option>Var</option><option>Yok</option></select></div>
+<div><label class="fieldlabel">Sol ışık refleksi</label><select id="lightLeft"><option value="">Seçiniz</option><option>Var</option><option>Yok</option></select></div>
+</div>
+<div class="section"><label class="fieldlabel">Motor / nörolojik bulgular (çoklu seçim)</label><div class="chips">
+<label class="chip"><input type="checkbox" data-group="neuro" value="Dört ekstremitede spontan hareket"><span>Dört ekstremitede spontan hareket</span></label>
+<label class="chip"><input type="checkbox" data-group="neuro" value="Ağrıya lokalize ediyor"><span>Ağrıya lokalize ediyor</span></label>
+<label class="chip"><input type="checkbox" data-group="neuro" value="Ağrıdan çekiyor"><span>Ağrıdan çekiyor</span></label>
+<label class="chip"><input type="checkbox" data-group="neuro" value="Parezi"><span>Parezi</span></label>
+<label class="chip"><input type="checkbox" data-group="neuro" value="Pleji"><span>Pleji</span></label>
+<label class="chip"><input type="checkbox" data-group="neuro" value="Fokal defisit"><span>Fokal defisit</span></label>
+<label class="chip"><input type="checkbox" data-group="neuro" value="Nöbet gözlendi"><span>Nöbet gözlendi</span></label>
+</div></div>
+<div class="section fields two">
+<div><label class="fieldlabel">Deliryum değerlendirmesi</label><select id="delirium"><option value="">Seçiniz</option><option>Negatif</option><option>Pozitif</option><option>Şüpheli</option><option>Değerlendirilemedi</option><option>Yapılmadı</option></select></div>
+<div><label class="fieldlabel">Ağrı</label><select id="pain"><option value="">Seçiniz</option><option>Yok / kontrol altında</option><option>Hafif</option><option>Orta</option><option>Şiddetli</option><option>Değerlendirilemedi</option></select></div>
+</div>
+</div></div>
+</div>
+
+<div class="subpage" id="resp">
+<div class="card"><h2>Solunum sistemi</h2><div class="body">
+<div class="fields two">
+<div><label class="fieldlabel">Solunum şekli / desteği</label><select id="respSupport"><option value="">Seçiniz</option><option>Oda havası / spontan</option><option>Konvansiyonel oksijen</option><option>HFNO</option><option>NIMV</option><option>İnvaziv mekanik ventilasyon</option><option>Trakeostomi ile spontan</option></select></div>
+<div><label class="fieldlabel">Solunum paterni</label><select id="respPattern"><option value="">Seçiniz</option><option>Rahat / düzenli</option><option>Takipne</option><option>Bradipne</option><option>Yüzeyel</option><option>Derin</option><option>Düzensiz</option><option>Yardımcı kas kullanımı</option><option>Paradoks solunum</option><option>Ventilatör ile uyumlu</option><option>Ventilatör ile uyumsuz</option></select></div>
+</div>
+<div class="section fields two">
+<div><label class="fieldlabel">Toraks ekspansiyonu</label><select id="expansion"><option value="">Seçiniz</option><option>Simetrik</option><option>Sağda azalmış</option><option>Solda azalmış</option><option>Bilateral azalmış</option></select></div>
+<div><label class="fieldlabel">SpO₂ (%)</label><input id="spo2" type="number" min="0" max="100" inputmode="numeric"></div>
+</div>
+<div class="section"><label class="fieldlabel">Solunum sesleri (çoklu seçim)</label><div class="chips">
+<label class="chip"><input type="checkbox" data-group="lung" value="Normal veziküler"><span>Normal veziküler</span></label>
+<label class="chip"><input type="checkbox" data-group="lung" value="Genel azalmış"><span>Genel azalmış</span></label>
+<label class="chip"><input type="checkbox" data-group="lung" value="Sağ bazalde azalmış"><span>Sağ bazalde azalmış</span></label>
+<label class="chip"><input type="checkbox" data-group="lung" value="Sol bazalde azalmış"><span>Sol bazalde azalmış</span></label>
+<label class="chip"><input type="checkbox" data-group="lung" value="Bilateral bazallerde azalmış"><span>Bilateral bazallerde azalmış</span></label>
+<label class="chip"><input type="checkbox" data-group="lung" value="İnce raller"><span>İnce raller</span></label>
+<label class="chip"><input type="checkbox" data-group="lung" value="Kaba raller"><span>Kaba raller</span></label>
+<label class="chip"><input type="checkbox" data-group="lung" value="Ronküs"><span>Ronküs</span></label>
+<label class="chip"><input type="checkbox" data-group="lung" value="Wheezing"><span>Wheezing</span></label>
+<label class="chip"><input type="checkbox" data-group="lung" value="Bronşiyal solunum"><span>Bronşiyal solunum</span></label>
+<label class="chip"><input type="checkbox" data-group="lung" value="Sessiz akciğer"><span>Sessiz akciğer</span></label>
+</div></div>
+<div class="section fields two">
+<div><label class="fieldlabel">Sekresyon miktarı</label><select id="secretion"><option value="">Seçiniz</option><option>Yok</option><option>Az</option><option>Orta</option><option>Fazla</option></select></div>
+<div><label class="fieldlabel">Sekresyon karakteri</label><select id="secretionType"><option value="">Seçiniz</option><option>Seröz</option><option>Mukoid</option><option>Pürülan</option><option>Kanlı</option><option>Köpüklü</option></select></div>
+</div>
+
+<div class="section hidden" id="hfnoBlock"><h3>HFNO ayarları</h3><div class="fields two">
+<div><label class="fieldlabel">Akım (L/dk)</label><input id="hfnoFlow" type="number" min="0" inputmode="decimal"></div>
+<div><label class="fieldlabel">FiO₂ (%)</label><input id="hfnoFio2" type="number" min="21" max="100" inputmode="numeric"></div>
+</div></div>
+
+<div class="section hidden" id="nimvBlock"><h3>NIMV ayarları</h3><div class="fields three">
+<div><label class="fieldlabel">Arayüz</label><select id="nimvInterface"><option value="">Seçiniz</option><option>Oronazal maske</option><option>Full-face maske</option><option>Nazal maske</option><option>Helmet</option></select></div>
+<div><label class="fieldlabel">Mod</label><input id="nimvMode" type="text" placeholder="örn. PSV / BiPAP"></div>
+<div><label class="fieldlabel">FiO₂ (%)</label><input id="nimvFio2" type="number" min="21" max="100"></div>
+<div><label class="fieldlabel">IPAP / Pinsp (cmH₂O)</label><input id="nimvIpap" type="number" step="0.5"></div>
+<div><label class="fieldlabel">EPAP / PEEP (cmH₂O)</label><input id="nimvEpap" type="number" step="0.5"></div>
+<div><label class="fieldlabel">Yedek solunum sayısı (/dk)</label><input id="nimvRate" type="number"></div>
+</div></div>
+
+<div class="section hidden" id="mvBlock"><h3>İnvaziv ventilasyon ayarları</h3><div class="fields four">
+<div><label class="fieldlabel">Mod</label><input id="mvMode" type="text" placeholder="örn. PSV, PCV, VCV"></div>
+<div><label class="fieldlabel">FiO₂ (%)</label><input id="fio2" type="number" min="21" max="100"></div>
+<div><label class="fieldlabel">PEEP (cmH₂O)</label><input id="peep" type="number" step="0.5"></div>
+<div><label class="fieldlabel">VT (mL)</label><input id="mvVt" type="number"></div>
+<div><label class="fieldlabel">Solunum sayısı (/dk)</label><input id="mvRate" type="number"></div>
+<div><label class="fieldlabel">PS / Pinsp (cmH₂O)</label><input id="mvPressure" type="number" step="0.5"></div>
+<div><label class="fieldlabel">Pplat (cmH₂O)</label><input id="mvPplat" type="number" step="0.5"></div>
+<div><label class="fieldlabel">Weaning / SBT</label><select id="weaning"><option value="">Seçiniz</option><option>Uygun değil</option><option>Değerlendirilmeli</option><option>Uygun görünüyor</option><option>Bugün planlandı</option><option>Tamamlandı</option></select></div>
+</div>
+<div class="section"><label class="fieldlabel">Sedasyon</label><select id="sedation"><option value="">Seçiniz</option><option>Hayır</option><option>Evet</option></select></div>
+</div>
+</div></div>
+</div>
+
+<div class="subpage" id="hemo">
+<div class="card"><h2>Dolaşım sistemi</h2><div class="body">
+<label class="fieldlabel">Hemodinamik monitörizasyon (çoklu seçim)</label><div class="chips">
+<label class="chip"><input type="checkbox" data-group="monitor" value="Standart monitörizasyon"><span>Standart monitörizasyon</span></label>
+<label class="chip"><input type="checkbox" data-group="monitor" value="Arteriyel kateter"><span>Arteriyel kateter</span></label>
+<label class="chip"><input type="checkbox" data-group="monitor" value="CVP"><span>CVP</span></label>
+<label class="chip"><input type="checkbox" data-group="monitor" value="PiCCO"><span>PiCCO</span></label>
+<label class="chip"><input type="checkbox" data-group="monitor" value="Pulmoner arter kateteri"><span>Pulmoner arter kateteri</span></label>
+<label class="chip"><input type="checkbox" data-group="monitor" value="EKO temelli"><span>EKO temelli</span></label>
+</div>
+<div class="section fields three">
+<div><label class="fieldlabel">Ritim</label><select id="rhythm"><option value="">Seçiniz</option><option>Düzenli</option><option>Düzensiz</option><option>Atriyal fibrilasyon</option><option>Taşikardik</option><option>Bradikardik</option><option>Pacemaker ritmi</option><option>Diğer</option></select></div>
+<div><label class="fieldlabel">Kapiller dolum</label><select id="crt"><option value="">Seçiniz</option><option>&lt;3 sn</option><option>≥3 sn</option></select></div>
+<div><label class="fieldlabel">Ekstremite sıcaklığı</label><select id="temp"><option value="">Seçiniz</option><option>Sıcak</option><option>Soğuk</option><option>Distal soğukluk</option></select></div>
+</div>
+<div class="section fields two">
+<div><label class="fieldlabel">Periferik nabızlar</label><select id="pulses"><option value="">Seçiniz</option><option>Palpabl ve simetrik</option><option>Zayıf</option><option>Asimetrik</option><option>Alınamıyor</option></select></div>
+<div><label class="fieldlabel">Vazopressör / inotrop</label><select id="vaso"><option value="">Seçiniz</option><option>Yok</option><option>Var, stabil doz</option><option>Var, doz azalıyor</option><option>Var, doz artıyor</option></select></div>
+</div>
+<div class="section"><label class="fieldlabel">Ek dolaşım bulguları (çoklu seçim)</label><div class="chips">
+<label class="chip"><input type="checkbox" data-group="hemo" value="Mottling yok"><span>Mottling yok</span></label>
+<label class="chip"><input type="checkbox" data-group="hemo" value="Mottling var"><span>Mottling var</span></label>
+<label class="chip"><input type="checkbox" data-group="hemo" value="Periferik ödem"><span>Periferik ödem</span></label>
+<label class="chip"><input type="checkbox" data-group="hemo" value="Kalp sesleri doğal"><span>Kalp sesleri doğal</span></label>
+<label class="chip"><input type="checkbox" data-group="hemo" value="Üfürüm"><span>Üfürüm</span></label>
+<label class="chip"><input type="checkbox" data-group="hemo" value="Ek ses"><span>Ek ses</span></label>
+</div></div>
+</div></div>
+</div>
+
+<div class="subpage" id="abd">
+<div class="card"><h2>Batın / gastrointestinal / beslenme</h2><div class="body">
+<div class="fields three">
+<div><label class="fieldlabel">Batın görünümü</label><select id="abdAppearance"><option value="">Seçiniz</option><option>Normal</option><option>Hafif distandü</option><option>Belirgin distandü</option><option>Asimetrik</option><option>Postoperatif</option></select></div>
+<div><label class="fieldlabel">Palpasyon</label><select id="abdPalp"><option value="">Seçiniz</option><option>Yumuşak, hassasiyet yok</option><option>Lokal hassasiyet</option><option>Diffüz hassasiyet</option><option>Defans</option><option>Rijidite</option><option>Değerlendirilemiyor</option></select></div>
+<div><label class="fieldlabel">Bağırsak sesleri</label><select id="bowel"><option value="">Seçiniz</option><option>Normal</option><option>Hipoaktif</option><option>Hiperaktif</option><option>Alınmıyor</option><option>Değerlendirilemedi</option></select></div>
+</div>
+<div class="section fields two">
+<div><label class="fieldlabel">Organomegali</label><select id="organomegaly"><option value="">Seçiniz</option><option>Yok</option><option>Hepatomegali</option><option>Splenomegali</option><option>Hepatosplenomegali</option><option>Değerlendirilemedi</option></select></div>
+<div><label class="fieldlabel">Beslenme</label><select id="nutrition"><option value="">Seçiniz</option><option>Oral</option><option>Enteral, tolere ediyor</option><option>Enteral, tolerans sorunu var</option><option>Parenteral</option><option>Beslenme başlanmadı</option></select></div>
+</div>
+<div class="section"><label class="fieldlabel">Gastrointestinal bulgular (çoklu seçim)</label><div class="chips">
+<label class="chip"><input type="checkbox" data-group="gi" value="Gaz çıkışı var"><span>Gaz çıkışı var</span></label>
+<label class="chip"><input type="checkbox" data-group="gi" value="Gaz çıkışı yok"><span>Gaz çıkışı yok</span></label>
+<label class="chip"><input type="checkbox" data-group="gi" value="Defekasyon var"><span>Defekasyon var</span></label>
+<label class="chip"><input type="checkbox" data-group="gi" value="Defekasyon yok"><span>Defekasyon yok</span></label>
+<label class="chip"><input type="checkbox" data-group="gi" value="Kusma"><span>Kusma</span></label>
+<label class="chip"><input type="checkbox" data-group="gi" value="Gastrik retansiyon"><span>Gastrik retansiyon</span></label>
+<label class="chip"><input type="checkbox" data-group="gi" value="Diyare"><span>Diyare</span></label>
+<label class="chip"><input type="checkbox" data-group="gi" value="Melena/hematokezya"><span>Melena/hematokezya</span></label>
+<label class="chip"><input type="checkbox" data-group="gi" value="Asit şüphesi"><span>Asit şüphesi</span></label>
+<label class="chip"><input type="checkbox" data-group="gi" value="Stoma mevcut ve fonksiyone"><span>Stoma mevcut ve fonksiyone</span></label>
+<label class="chip"><input type="checkbox" data-group="gi" value="Stoma sorunu"><span>Stoma sorunu</span></label>
+</div></div>
+</div></div>
+</div>
+
+<div class="subpage" id="renal">
+<div class="card"><h2>Renal / genitoüriner / sıvı</h2><div class="body">
+<div class="fields three">
+<div><label class="fieldlabel">İdrar drenajı</label><select id="urineRoute"><option value="">Seçiniz</option><option>Spontan</option><option>Foley kateter</option><option>Nefrostomi</option><option>Anürik</option></select></div>
+<div><label class="fieldlabel">İdrar görünümü</label><select id="urineLook"><option value="">Seçiniz</option><option>Berrak</option><option>Koyu</option><option>Hematürik</option><option>Bulanık</option><option>Sedimentli</option></select></div>
+<div><label class="fieldlabel">24 saatlik idrar (mL)</label><input id="urine24" type="number" min="0" inputmode="numeric"></div>
+</div>
+<div class="section fields two">
+<div><label class="fieldlabel">Diürez durumu</label><select id="diuresis"><option value="">Seçiniz</option><option>Yeterli</option><option>Oligüri</option><option>Anüri</option><option>Değerlendirilemedi</option></select></div>
+<div>
+<label class="fieldlabel">24 saatlik sıvı dengesi</label>
+<div class="radioRow" id="balanceSign">
+<label class="radioChip"><input type="radio" name="balanceSign" value="+"><span>+</span></label>
+<label class="radioChip"><input type="radio" name="balanceSign" value="-"><span>−</span></label>
+<label class="radioChip"><input type="radio" name="balanceSign" value="0"><span>0</span></label>
+</div>
+<div style="margin-top:7px"><input id="balanceAmount" type="number" min="0" inputmode="numeric" placeholder="mL"></div>
+<div class="hint">İşareti kutudan seçin; miktara yalnızca sayıyı girin.</div>
+</div>
+</div>
+<div class="section"><label class="fieldlabel">Renal destek / diğer (çoklu seçim)</label><div class="chips">
+<label class="chip"><input type="checkbox" data-group="renal" value="RRT yok"><span>RRT yok</span></label>
+<label class="chip"><input type="checkbox" data-group="renal" value="CRRT"><span>CRRT</span></label>
+<label class="chip"><input type="checkbox" data-group="renal" value="İntermittan HD"><span>İntermittan HD</span></label>
+<label class="chip"><input type="checkbox" data-group="renal" value="SLED"><span>SLED</span></label>
+<label class="chip"><input type="checkbox" data-group="renal" value="Mesane distansiyonu"><span>Mesane distansiyonu</span></label>
+<label class="chip"><input type="checkbox" data-group="renal" value="Nefrostomi mevcut"><span>Nefrostomi mevcut</span></label>
+</div></div>
+</div></div>
+</div>
+
+<div class="subpage" id="skin">
+<div class="card"><h2>Cilt / ekstremite / mobilizasyon</h2><div class="body">
+<label class="fieldlabel">Bulgular (çoklu seçim)</label><div class="chips">
+<label class="chip"><input type="checkbox" data-group="skin" value="Cilt bütünlüğü korunmuş"><span>Cilt bütünlüğü korunmuş</span></label>
+<label class="chip"><input type="checkbox" data-group="skin" value="Bası yarası mevcut"><span>Bası yarası mevcut</span></label>
+<label class="chip"><input type="checkbox" data-group="skin" value="Cerrahi yara"><span>Cerrahi yara</span></label>
+<label class="chip"><input type="checkbox" data-group="skin" value="Açık yara"><span>Açık yara</span></label>
+<label class="chip"><input type="checkbox" data-group="skin" value="Ekimoz/hematom"><span>Ekimoz/hematom</span></label>
+<label class="chip"><input type="checkbox" data-group="skin" value="Döküntü"><span>Döküntü</span></label>
+<label class="chip"><input type="checkbox" data-group="skin" value="Kateter giriş yeri inflamasyonu"><span>Kateter giriş yeri inflamasyonu</span></label>
+<label class="chip"><input type="checkbox" data-group="skin" value="Alt ekstremite ödemi"><span>Alt ekstremite ödemi</span></label>
+<label class="chip"><input type="checkbox" data-group="skin" value="Üst ekstremite ödemi"><span>Üst ekstremite ödemi</span></label>
+<label class="chip"><input type="checkbox" data-group="skin" value="DVT düşündüren asimetri"><span>DVT düşündüren asimetri</span></label>
+</div>
+<div class="section fields two">
+<div><label class="fieldlabel">Mobilizasyon düzeyi</label><select id="mobility"><option value="">Seçiniz</option><option>Yatak istirahati</option><option>Yatak içi aktif/pasif egzersiz</option><option>Oturur pozisyon</option><option>Yatak kenarı</option><option>Ayakta</option><option>Yürüyor</option><option>Kontrendike</option></select></div>
+<div><label class="fieldlabel">Mobilizasyon hedefi</label><input id="mobilityGoal" type="text" placeholder="örn. yatak kenarına oturtma"></div>
+</div>
+</div></div>
+</div>
+</section>
+
+<section class="page" id="devices">
+<div class="card"><h2>Drenler, kateterler ve invaziv araçlar</h2><div class="body">
+<label class="fieldlabel">Mevcut cihazlar (çoklu seçim)</label><div class="chips">
+<label class="chip"><input type="checkbox" data-group="device" value="Santral venöz kateter"><span>Santral venöz kateter</span></label>
+<label class="chip"><input type="checkbox" data-group="device" value="Arter kateteri"><span>Arter kateteri</span></label>
+<label class="chip"><input type="checkbox" data-group="device" value="Foley kateter"><span>Foley kateter</span></label>
+<label class="chip"><input type="checkbox" data-group="device" value="NG/OG sonda"><span>NG/OG sonda</span></label>
+<label class="chip"><input type="checkbox" data-group="device" value="PEG"><span>PEG</span></label>
+<label class="chip"><input type="checkbox" data-group="device" value="Trakeostomi"><span>Trakeostomi</span></label>
+<label class="chip"><input type="checkbox" data-group="device" value="Toraks tüpü"><span>Toraks tüpü</span></label>
+<label class="chip"><input type="checkbox" data-group="device" value="Abdominal dren"><span>Abdominal dren</span></label>
+<label class="chip"><input type="checkbox" data-group="device" value="Cerrahi dren"><span>Cerrahi dren</span></label>
+<label class="chip"><input type="checkbox" data-group="device" value="Nefrostomi"><span>Nefrostomi</span></label>
+<label class="chip"><input type="checkbox" data-group="device" value="Biliyer dren"><span>Biliyer dren</span></label>
+<label class="chip"><input type="checkbox" data-group="device" value="VAC"><span>VAC</span></label>
+<label class="chip"><input type="checkbox" data-group="device" value="ECMO kanülü"><span>ECMO kanülü</span></label>
+<label class="chip"><input type="checkbox" data-group="device" value="CRRT kateteri"><span>CRRT kateteri</span></label>
+</div>
+<div class="section"><label class="fieldlabel">Dren / cihaz ayrıntısı</label><textarea id="deviceDetails" placeholder="Örn: Sağ toraks tüpü aktif, 24 saatte 120 mL seröz drenaj; giriş yeri doğal..."></textarea></div>
+<div class="section fields two">
+<div><label class="fieldlabel">Herhangi bir cihazın endikasyonu sona ermiş olabilir mi?</label><select id="deviceNeed"><option value="">Seçiniz</option><option>Hayır / tümü gerekli</option><option>Evet</option><option>Belirsiz, değerlendirilmesi gerekli</option></select></div>
+<div><label class="fieldlabel">Kateter / dren giriş yeri sorunu</label><select id="siteIssue"><option value="">Seçiniz</option><option>Yok</option><option>Kızarıklık</option><option>Akıntı</option><option>Kanama</option><option>Kaçak</option><option>Hassasiyet</option></select></div>
+</div>
+</div></div>
+</section>
+
+<section class="page" id="plan">
+<div class="card"><h2>Aktif sorunlar ve özel işler</h2><div class="body">
+<label class="fieldlabel">Aktif sorunlar (çoklu seçim)</label><div class="chips">
+<label class="chip"><input type="checkbox" data-group="problem" value="Mekanik ventilasyon gereksinimi"><span>Mekanik ventilasyon gereksinimi</span></label>
+<label class="chip"><input type="checkbox" data-group="problem" value="Solunum yetmezliği"><span>Solunum yetmezliği</span></label>
+<label class="chip"><input type="checkbox" data-group="problem" value="Hemodinamik instabilite"><span>Hemodinamik instabilite</span></label>
+<label class="chip"><input type="checkbox" data-group="problem" value="Vazopressör gereksinimi"><span>Vazopressör gereksinimi</span></label>
+<label class="chip"><input type="checkbox" data-group="problem" value="Enfeksiyon / sepsis"><span>Enfeksiyon / sepsis</span></label>
+<label class="chip"><input type="checkbox" data-group="problem" value="AKI"><span>AKI</span></label>
+<label class="chip"><input type="checkbox" data-group="problem" value="RRT gereksinimi"><span>RRT gereksinimi</span></label>
+<label class="chip"><input type="checkbox" data-group="problem" value="Sıvı yükü"><span>Sıvı yükü</span></label>
+<label class="chip"><input type="checkbox" data-group="problem" value="Beslenme sorunu"><span>Beslenme sorunu</span></label>
+<label class="chip"><input type="checkbox" data-group="problem" value="Deliryum"><span>Deliryum</span></label>
+<label class="chip"><input type="checkbox" data-group="problem" value="Sedasyon gereksinimi"><span>Sedasyon gereksinimi</span></label>
+<label class="chip"><input type="checkbox" data-group="problem" value="Mobilizasyon kısıtlılığı"><span>Mobilizasyon kısıtlılığı</span></label>
+<label class="chip"><input type="checkbox" data-group="problem" value="Gastrointestinal disfonksiyon"><span>Gastrointestinal disfonksiyon</span></label>
+<label class="chip"><input type="checkbox" data-group="problem" value="Bası yarası"><span>Bası yarası</span></label>
+<label class="chip"><input type="checkbox" data-group="problem" value="Postoperatif izlem"><span>Postoperatif izlem</span></label>
+</div>
+<div class="section"><label class="fieldlabel">Ek aktif sorun / değerlendirme</label><textarea id="customProblem"></textarea></div>
+<div class="section"><label class="fieldlabel">Bugün mutlaka yapılacak özel iş</label><input id="customTodo" type="text" placeholder="örn. toraks BT sonucunu değerlendir"></div>
+</div></div>
+
+<div class="card"><h2>Otomatik günlük bakım planı</h2><div class="body"><div class="outhead"><span class="empty">Klinik verilerden oluşturulur.</span><button class="smallbtn" type="button" id="copyCare">Metin olarak kopyala</button></div><div id="careList" class="empty">Henüz oluşturulmadı.</div></div></div>
+<div class="card"><h2>Bugünün yapılacakları</h2><div class="body"><div class="outhead"><span class="empty">Maddeler işaretlenebilir.</span><button class="smallbtn" type="button" id="copyTodo">Metin olarak kopyala</button></div><div id="todoList" class="empty">Henüz oluşturulmadı.</div></div></div>
+</section>
+
+<section class="page" id="progressPage">
+<div class="card"><h2>Günlük progres notu</h2><div class="body"><div class="outhead"><span class="empty">Düzenlenebilir düz metin.</span><button class="smallbtn" type="button" id="copyProgress">Panoya Kopyala</button></div><textarea class="output" id="progressText" placeholder="Çıktıları Oluştur düğmesine basın..."></textarea></div></div>
+</section>
+</form>
+
+<nav class="bottomtabs" aria-label="Alt ana bölümler">
+<button class="maintab active" data-main="assessment">Değerlendirme</button>
+<button class="maintab" data-main="organs">Organ Sistemleri</button>
+<button class="maintab" data-main="devices">Cihazlar</button>
+<button class="maintab" data-main="plan">Plan</button>
+<button class="maintab" data-main="progressPage">Progres</button>
+</nav>
+
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const val=id=>($(id)?.value||'').trim();
+const checks=group=>[...document.querySelectorAll(`input[data-group="${group}"]:checked`)].map(x=>x.value);
+const radio=name=>document.querySelector(`input[name="${name}"]:checked`)?.value||'';
+function lcFirst(s){return s?s.charAt(0).toLocaleLowerCase('tr-TR')+s.slice(1):s}
+function punct(s){if(!s)return '';return /[.!?]$/.test(s)?s:s+'.'}
+function sentenceList(a){if(!a.length)return '';if(a.length===1)return a[0];return a.slice(0,-1).join(', ')+' ve '+a[a.length-1]}
+
+function activateMain(id){
+ document.querySelectorAll('.maintab').forEach(b=>b.classList.toggle('active',b.dataset.main===id));
+ document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.maintab').forEach(b=>b.addEventListener('click',()=>activateMain(b.dataset.main)));
+document.querySelectorAll('.subtab').forEach(b=>b.addEventListener('click',()=>{
+ document.querySelectorAll('.subtab').forEach(x=>x.classList.toggle('active',x===b));
+ document.querySelectorAll('#organs .subpage').forEach(p=>p.classList.toggle('active',p.id===b.dataset.sub));
+}));
+
+function showRespSettings(){
+ const s=val('respSupport');
+ $('hfnoBlock').classList.toggle('hidden',s!=='HFNO');
+ $('nimvBlock').classList.toggle('hidden',s!=='NIMV');
+ $('mvBlock').classList.toggle('hidden',s!=='İnvaziv mekanik ventilasyon');
+}
+$('respSupport').addEventListener('change',showRespSettings);
+
+function balanceText(){
+ const sign=radio('balanceSign'), amount=val('balanceAmount');
+ if(!sign)return '';
+ if(sign==='0')return '0 mL';
+ if(!amount)return sign;
+ return `${sign}${amount} mL`;
+}
+function balanceNumber(){
+ const sign=radio('balanceSign'), amount=parseFloat(val('balanceAmount')||'0');
+ if(sign==='+')return amount;if(sign==='-')return -amount;if(sign==='0')return 0;return null;
+}
+
+function buildCare(){
+ let c=[]; const add=(text,type='patient')=>{if(!c.some(x=>x.text===text))c.push({text,type})};
+ if(val('pain') && val('pain')!=='Yok / kontrol altında')add('Ağrı düzeyini ve analjezi gereksinimini yeniden değerlendir.','alert');
+ if(val('sedation')==='Evet'||val('conscious')==='Sedasyon altında'||checks('problem').includes('Sedasyon gereksinimi'))add('Günlük sedasyon hedefini ve sedasyon azaltma/uyandırma uygunluğunu gözden geçir.');
+ if(['Pozitif','Şüpheli','Yapılmadı'].includes(val('delirium')))add('Deliryumu standart yöntemle değerlendir; geri döndürülebilir nedenleri ve nonfarmakolojik önlemleri gözden geçir.','alert');
+ if(['HFNO','NIMV','İnvaziv mekanik ventilasyon'].includes(val('respSupport')))add('Solunum desteği gereksinimini, toleransı ve güncel solunum hedeflerini gözden geçir.');
+ if(val('respSupport')==='İnvaziv mekanik ventilasyon'&&['Uygun görünüyor','Değerlendirilmeli','Bugün planlandı'].includes(val('weaning')))add('Spontan solunum denemesi / weaning uygunluğunu değerlendir.');
+ if(['Orta','Fazla'].includes(val('secretion'))||['Pürülan','Kanlı','Köpüklü'].includes(val('secretionType')))add('Hava yolu sekresyonlarını ve aspirasyon gereksinimini gözden geçir.','alert');
+ if(['Wheezing','Ronküs','Sessiz akciğer'].some(x=>checks('lung').includes(x)))add('Bronkospazm / hava yolu obstrüksiyonu açısından klinik değerlendirmeyi gözden geçir.','alert');
+ if(val('crt')==='≥3 sn'||['Soğuk','Distal soğukluk'].includes(val('temp'))||checks('hemo').includes('Mottling var')||val('vaso')==='Var, doz artıyor')add('Doku perfüzyonu ve hemodinamik durumu yeniden değerlendir.','alert');
+ if(['Oligüri','Anüri'].includes(val('diuresis')))add('Oligüri/anüri nedenleri, perfüzyon ve volüm durumu açısından renal değerlendirmeyi gözden geçir.','alert');
+ const bn=balanceNumber(); if(bn!==null&&bn>1000)add('Pozitif sıvı dengesinin klinik önemini ve günün sıvı hedefini yeniden değerlendir.','alert');
+ if(['Hafif distandü','Belirgin distandü'].includes(val('abdAppearance'))||['Hipoaktif','Alınmıyor'].includes(val('bowel'))||checks('gi').some(x=>['Gaz çıkışı yok','Kusma','Gastrik retansiyon'].includes(x)))add('Gastrointestinal fonksiyon ve enteral beslenme toleransını yeniden değerlendir.','alert');
+ if(val('nutrition')==='Enteral, tolerans sorunu var'||val('nutrition')==='Beslenme başlanmadı'||checks('problem').includes('Beslenme sorunu'))add('Günlük beslenme hedefini ve toleransı gözden geçir.');
+ if(val('urineRoute')==='Foley kateter'||checks('device').includes('Foley kateter'))add('Foley kateter endikasyonunun devam edip etmediğini günlük olarak değerlendir.');
+ if(checks('device').some(x=>['Santral venöz kateter','Arter kateteri','CRRT kateteri'].includes(x)))add('İntravasküler kateterlerin giriş yerlerini ve devam eden gereksinimini gözden geçir.');
+ if(val('deviceNeed')==='Evet'||val('deviceNeed').startsWith('Belirsiz'))add('Endikasyonu sona ermiş olabilecek dren/kateterlerin çıkarılabilirliğini değerlendir.','alert');
+ if(val('siteIssue')&&val('siteIssue')!=='Yok')add('Kateter/dren giriş yerindeki sorunu enfeksiyon, kanama veya kaçak açısından değerlendir.','alert');
+ if(checks('skin').includes('Bası yarası mevcut'))add('Basınç yarası bakım planını, pozisyon değişimini ve basınç azaltıcı önlemleri gözden geçir.','alert');
+ else add('Cilt bütünlüğü ve basınç yarası riskine uygun koruyucu bakımı sürdür.','routine');
+ if(val('mobility')&&val('mobility')!=='Kontrendike')add(`Günlük mobilizasyon hedefini uygula${val('mobilityGoal')?': '+val('mobilityGoal'):''}.`,'routine');
+ else if(!val('mobility'))add('Mobilizasyon için uygunluk ve günlük mobilizasyon hedefini belirle.','routine');
+ if(checks('problem').includes('Enfeksiyon / sepsis'))add('Antimikrobiyal tedavinin endikasyonunu, tedavi gününü, kültür sonuçlarını ve de-eskalasyon olanağını gözden geçir.');
+ add('VTE profilaksisinin gereklilik ve kontrendikasyonlarını günlük olarak gözden geçir.','routine');
+ add('Glikoz kontrolü, bağırsak fonksiyonu ve günlük sıvı/beslenme hedeflerini vizitte gözden geçir.','routine');
+ return c;
+}
+function buildTodos(){
+ let t=[]; const add=(text,tag='Klinik')=>{if(!t.some(x=>x.text===text))t.push({text,tag})};
+ if(val('customTodo'))add(val('customTodo'),'Özel');
+ if(val('respSupport')==='İnvaziv mekanik ventilasyon'&&['Uygun görünüyor','Değerlendirilmeli','Bugün planlandı'].includes(val('weaning')))add('Weaning / SBT uygunluğunu değerlendir','Solunum');
+ if(val('sedation')==='Evet'||val('conscious')==='Sedasyon altında')add('Sedasyon hedefini ve azaltma uygunluğunu değerlendir','Nöro');
+ if(['Pozitif','Şüpheli','Yapılmadı'].includes(val('delirium')))add('Deliryum değerlendirmesini tamamla / nedenleri gözden geçir','Nöro');
+ if(['Oligüri','Anüri'].includes(val('diuresis')))add('Oligüri/anüri değerlendirmesini tamamla','Renal');
+ if(val('deviceNeed')==='Evet'||val('deviceNeed').startsWith('Belirsiz'))add('Gereksiz olabilecek kateter/drenleri tek tek gözden geçir','Cihaz');
+ if(val('urineRoute')==='Foley kateter'||checks('device').includes('Foley kateter'))add('Foley gereksinimini değerlendir','Cihaz');
+ if(val('siteIssue')&&val('siteIssue')!=='Yok')add('Kateter/dren giriş yeri sorununu değerlendir','Cihaz');
+ if(checks('problem').includes('Enfeksiyon / sepsis'))add('Kültürleri ve antimikrobiyal tedavinin gününü/de-eskalasyonunu gözden geçir','Enfeksiyon');
+ if(val('nutrition')==='Enteral, tolerans sorunu var'||val('nutrition')==='Beslenme başlanmadı')add('Beslenme hedefi ve toleransını yeniden değerlendir','Beslenme');
+ if(checks('skin').includes('Bası yarası mevcut'))add('Bası yarası bakım/pozisyon planını gözden geçir','Bakım');
+ if(val('mobility')&&val('mobility')!=='Kontrendike')add(val('mobilityGoal')?`Mobilizasyon: ${val('mobilityGoal')}`:'Günlük mobilizasyon hedefini uygula','Mobilizasyon');
+ return t;
+}
+function buildProgress(){
+ let lines=[]; let title='YOĞUN BAKIM GÜNLÜK PROGRES NOTU'; if(val('bed'))title+=` – Yatak ${val('bed')}`; if(val('icuDay'))title+=` – YB günü ${val('icuDay')}`; lines.push(title,'');
+ let x=[]; if(val('trend'))x.push(`Klinik durum önceki güne göre ${lcFirst(val('trend'))}`); if(val('events'))x.push(val('events')); if(x.length)lines.push('Klinik seyir:',x.map(punct).join(' '),'');
+ x=[]; if(val('appearance'))x.push(`genel görünümü ${lcFirst(val('appearance'))}`); if(val('conscious'))x.push(`bilinci ${lcFirst(val('conscious'))}`); if(checks('general').length)x.push(sentenceList(checks('general').map(lcFirst))); if(x.length)lines.push('Genel muayene:',punct(x.join('; ')),'');
+ x=[]; if(val('rass'))x.push(`RASS ${val('rass')}`); if(val('pupilRight'))x.push(`sağ pupil ${val('pupilRight')} mm`); if(val('pupilLeft'))x.push(`sol pupil ${val('pupilLeft')} mm`); if(val('lightRight')||val('lightLeft')){let r=[];if(val('lightRight'))r.push(`sağda ${lcFirst(val('lightRight'))}`);if(val('lightLeft'))r.push(`solda ${lcFirst(val('lightLeft'))}`);x.push(`ışık refleksi ${r.join(', ')}`)} if(checks('neuro').length)x.push(sentenceList(checks('neuro').map(lcFirst))); if(val('delirium'))x.push(`deliryum değerlendirmesi ${lcFirst(val('delirium'))}`); if(val('pain'))x.push(`ağrı ${lcFirst(val('pain'))}`); if(x.length)lines.push('Nörolojik:',punct(x.join('; ')),'');
+ x=[]; if(val('respSupport'))x.push(val('respSupport')); if(val('respPattern'))x.push(`solunum paterni ${lcFirst(val('respPattern'))}`); if(val('expansion'))x.push(`toraks ekspansiyonu ${lcFirst(val('expansion'))}`); if(checks('lung').length)x.push(`oskültasyonda ${sentenceList(checks('lung').map(lcFirst))}`); if(val('secretion'))x.push(`sekresyon ${lcFirst(val('secretion'))}${val('secretionType')?', '+lcFirst(val('secretionType'))+' karakterde':''}`); if(val('spo2'))x.push(`SpO₂ %${val('spo2')}`);
+ if(val('respSupport')==='HFNO'){let a=[];if(val('hfnoFlow'))a.push(`akım ${val('hfnoFlow')} L/dk`);if(val('hfnoFio2'))a.push(`FiO₂ %${val('hfnoFio2')}`);if(a.length)x.push(`HFNO ayarları: ${a.join(', ')}`)}
+ if(val('respSupport')==='NIMV'){let a=[];if(val('nimvInterface'))a.push(val('nimvInterface'));if(val('nimvMode'))a.push(`mod ${val('nimvMode')}`);if(val('nimvFio2'))a.push(`FiO₂ %${val('nimvFio2')}`);if(val('nimvIpap'))a.push(`IPAP/Pinsp ${val('nimvIpap')} cmH₂O`);if(val('nimvEpap'))a.push(`EPAP/PEEP ${val('nimvEpap')} cmH₂O`);if(val('nimvRate'))a.push(`yedek SS ${val('nimvRate')}/dk`);if(a.length)x.push(`NIMV ayarları: ${a.join(', ')}`)}
+ if(val('respSupport')==='İnvaziv mekanik ventilasyon'){let a=[];if(val('mvMode'))a.push(`mod ${val('mvMode')}`);if(val('fio2'))a.push(`FiO₂ %${val('fio2')}`);if(val('peep'))a.push(`PEEP ${val('peep')} cmH₂O`);if(val('mvVt'))a.push(`VT ${val('mvVt')} mL`);if(val('mvRate'))a.push(`SS ${val('mvRate')}/dk`);if(val('mvPressure'))a.push(`PS/Pinsp ${val('mvPressure')} cmH₂O`);if(val('mvPplat'))a.push(`Pplat ${val('mvPplat')} cmH₂O`);if(a.length)x.push(`invaziv ventilasyon ayarları: ${a.join(', ')}`)}
+ if(x.length)lines.push('Solunum:',punct(x.join('; ')),'');
+ x=[]; if(checks('monitor').length)x.push(`monitörizasyon: ${sentenceList(checks('monitor'))}`); if(val('rhythm'))x.push(`ritim ${lcFirst(val('rhythm'))}`); if(val('pulses'))x.push(`periferik nabızlar ${lcFirst(val('pulses'))}`); if(val('crt'))x.push(`kapiller dolum ${val('crt')}`); if(val('temp'))x.push(`ekstremite sıcaklığı ${lcFirst(val('temp'))}`); if(val('vaso'))x.push(`vazopressör/inotrop ${lcFirst(val('vaso'))}`); if(checks('hemo').length)x.push(sentenceList(checks('hemo').map(lcFirst))); if(x.length)lines.push('Kardiyovasküler / hemodinamik:',punct(x.join('; ')),'');
+ x=[]; if(val('abdAppearance'))x.push(`batın ${lcFirst(val('abdAppearance'))}`); if(val('abdPalp'))x.push(`palpasyonda ${lcFirst(val('abdPalp'))}`); if(val('bowel'))x.push(`bağırsak sesleri ${lcFirst(val('bowel'))}`); if(val('organomegaly'))x.push(`organomegali ${lcFirst(val('organomegaly'))}`); if(val('nutrition'))x.push(`beslenme: ${lcFirst(val('nutrition'))}`); if(checks('gi').length)x.push(sentenceList(checks('gi').map(lcFirst))); if(x.length)lines.push('Batın / gastrointestinal:',punct(x.join('; ')),'');
+ x=[]; if(val('urineRoute'))x.push(`idrar drenajı ${lcFirst(val('urineRoute'))}`); if(val('urineLook'))x.push(`idrar ${lcFirst(val('urineLook'))}`); if(val('urine24'))x.push(`24 saatlik idrar ${val('urine24')} mL`); if(val('diuresis'))x.push(`diürez ${lcFirst(val('diuresis'))}`); if(balanceText())x.push(`24 saatlik sıvı dengesi ${balanceText()}`); if(checks('renal').length)x.push(sentenceList(checks('renal'))); if(x.length)lines.push('Renal / sıvı:',punct(x.join('; ')),'');
+ x=[]; if(checks('skin').length)x.push(sentenceList(checks('skin').map(lcFirst))); if(val('mobility'))x.push(`mobilizasyon ${lcFirst(val('mobility'))}`); if(val('mobilityGoal'))x.push(`hedef: ${val('mobilityGoal')}`); if(x.length)lines.push('Cilt / ekstremiteler / mobilizasyon:',punct(x.join('; ')),'');
+ x=[]; if(checks('device').length)x.push(`mevcut: ${sentenceList(checks('device'))}`); if(val('deviceDetails'))x.push(val('deviceDetails')); if(val('siteIssue'))x.push(`giriş yeri: ${lcFirst(val('siteIssue'))}`); if(x.length)lines.push('Drenler / kateterler:',x.map(punct).join(' '),'');
+ if(val('labChange')||val('labSummary')||val('labNote')){x=[];if(val('labChange'))x.push(`önemli laboratuvar değişikliği ${lcFirst(val('labChange'))}`);if(val('labSummary'))x.push(val('labSummary'));if(val('labNote'))x.push(val('labNote'));lines.push('Önemli laboratuvar:',x.map(punct).join(' '),'')}
+ let probs=[...checks('problem')]; if(val('customProblem'))probs.push(val('customProblem')); if(probs.length){lines.push('Aktif sorunlar:');probs.forEach(p=>lines.push('- '+p));lines.push('')}
+ const care=buildCare(); if(care.length){lines.push('Günlük plan:');care.slice(0,8).forEach(c=>lines.push('- '+c.text))}
+ return lines.join('\n').replace(/\n{3,}/g,'\n\n').trim();
+}
+function renderOutputs(){
+ $('progressText').value=buildProgress();
+ const care=buildCare(); $('careList').innerHTML=care.length?care.map(x=>`<div class="careitem ${x.type}">${x.text}</div>`).join(''):'<div class="empty">Hastaya özgü bakım önerisi oluşturulmadı.</div>';
+ const todos=buildTodos(); $('todoList').innerHTML=todos.length?todos.map((x,i)=>`<label class="todoitem"><input type="checkbox" data-todo="${i}"><span>${x.text}<span class="tag">${x.tag}</span></span></label>`).join(''):'<div class="empty">Özel yapılacak iş oluşturulmadı.</div>';
+ saveState(false);
+}
+function copyText(text,btn){const done=()=>{const old=btn.textContent;btn.textContent='Kopyalandı ✓';setTimeout(()=>btn.textContent=old,1100)};if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(done).catch(()=>fallback())}else fallback();function fallback(){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();done()}}
+$('generateBtn').addEventListener('click',()=>{renderOutputs();activateMain('plan')});
+$('copyProgress').addEventListener('click',()=>copyText($('progressText').value,$('copyProgress')));
+$('copyCare').addEventListener('click',()=>copyText(buildCare().map(x=>'• '+x.text).join('\n'),$('copyCare')));
+$('copyTodo').addEventListener('click',()=>copyText(buildTodos().map(x=>'☐ '+x.text).join('\n'),$('copyTodo')));
+
+function getState(){
+ const s={};
+ document.querySelectorAll('#roundForm input,#roundForm select,#roundForm textarea').forEach(el=>{
+   if(el.type==='checkbox')s[`check|${el.dataset.group}|${el.value}`]=el.checked;
+   else if(el.type==='radio')s[`radio|${el.name}`]=el.checked?el.value:(s[`radio|${el.name}`]||'');
+   else if(el.id)s[el.id]=el.value;
+ });
+ return s;
+}
+function saveState(feedback=true){
+ localStorage.setItem('icuRoundV22',JSON.stringify(getState()));
+ if(feedback){$('saveStatus').textContent='Kaydedildi ✓';setTimeout(()=>$('saveStatus').textContent='Lokal kayıt',1000)}
+}
+function loadState(){
+ try{
+   const s=JSON.parse(localStorage.getItem('icuRoundV22')||'{}');
+   document.querySelectorAll('#roundForm input,#roundForm select,#roundForm textarea').forEach(el=>{
+     if(el.type==='checkbox')el.checked=!!s[`check|${el.dataset.group}|${el.value}`];
+     else if(el.type==='radio')el.checked=s[`radio|${el.name}`]===el.value;
+     else if(el.id&&s[el.id]!=null)el.value=s[el.id];
+   });
+ }catch(e){}
+ showRespSettings();updateProgress();
+}
+$('saveBtn').addEventListener('click',()=>saveState(true));
+$('clearBtn').addEventListener('click',()=>{
+ if(confirm('Yeni gün için tüm alanlar temizlensin mi?')){
+  localStorage.removeItem('icuRoundV22');$('roundForm').reset();$('progressText').value='';$('careList').innerHTML='<div class="empty">Henüz oluşturulmadı.</div>';$('todoList').innerHTML='<div class="empty">Henüz oluşturulmadı.</div>';showRespSettings();updateProgress();activateMain('assessment');
+ }
+});
+function updateProgress(){
+ const required=['trend','appearance','conscious','respSupport','respPattern','rhythm','abdAppearance','abdPalp','bowel','diuresis','mobility'];
+ const done=required.filter(id=>val(id)).length,pct=Math.round(done/required.length*100);
+ $('progress').style.width=pct+'%';$('completionText').textContent=`Tamamlanma: %${pct}`;
+}
+document.querySelectorAll('#roundForm input,#roundForm select,#roundForm textarea').forEach(el=>{
+ el.addEventListener('change',()=>{if(el.id==='respSupport')showRespSettings();updateProgress();saveState(false)});
+ if(el.tagName==='TEXTAREA'||['text','number'].includes(el.type))el.addEventListener('input',()=>{updateProgress();saveState(false)});
+});
+loadState();
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
+</script>
+</body></html>
