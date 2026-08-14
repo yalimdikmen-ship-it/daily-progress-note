@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0f172a">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Yoğun Bakım Günlük Vizit v2.4</title>
+<title>Yoğun Bakım Günlük Vizit v2.6</title>
 <style>
 :root{--bg:#f3f6fa;--card:#fff;--ink:#172033;--muted:#64748b;--line:#dbe3ee;--nav:#0f172a;--accent:#2563eb;--soft:#eff6ff;--warn:#b45309;--warnbg:#fff7ed;--danger:#b42318;--dangerbg:#fff1f0;--ok:#18794e;--shadow:0 5px 18px rgba(15,23,42,.07)}
 *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
@@ -45,7 +45,7 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 </head>
 <body>
 <header><div class="headerin">
-<div class="brand"><h1>Yoğun Bakım Günlük Vizit ve Progres Sistemi</h1><div>Muayene odaklı • Tab yapısı • Lokal PWA • v2.4</div></div>
+<div class="brand"><h1>Yoğun Bakım Günlük Vizit ve Progres Sistemi</h1><div>Muayene odaklı • Tab yapısı • Lokal PWA • v2.6</div></div>
 <div class="actions"><button class="btn ghost" type="button" id="saveBtn">Kaydet</button><button class="btn danger" type="button" id="clearBtn">Yeni gün</button><button class="btn primary" type="button" id="generateBtn">Çıktıları Oluştur</button></div>
 </div></header>
 <main>
@@ -103,6 +103,60 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 
 <div class="subpage active" id="neuro">
 <div class="card"><h2>Nörolojik muayene</h2><div class="body">
+
+<div class="section">
+<label class="fieldlabel">Glasgow Koma Skoru</label>
+<div class="fields three">
+<div>
+<label class="fieldlabel">Göz yanıtı</label>
+<select id="gcsEye">
+<option value="">Seçiniz</option>
+<option value="spontan">Spontan açıyor</option>
+<option value="ses">Sese açıyor</option>
+<option value="agri">Ağrıya açıyor</option>
+<option value="yok">Yanıt yok</option>
+</select>
+<div class="hint">Puan: <b id="gcsEyeScore">—</b></div>
+</div>
+<div>
+<label class="fieldlabel">Verbal yanıt</label>
+<select id="gcsVerbal">
+<option value="">Seçiniz</option>
+<option value="oryante">Oryante</option>
+<option value="konfuze">Konfüze</option>
+<option value="uygunsuz_kelime">Uygunsuz kelimeler</option>
+<option value="anlasilmaz_ses">Anlaşılmaz sesler</option>
+<option value="yok">Yanıt yok</option>
+<option value="T">Entübe/trakeostomili – değerlendirilemez</option>
+</select>
+<div class="hint">Puan: <b id="gcsVerbalScore">—</b></div>
+</div>
+<div>
+<label class="fieldlabel">Motor yanıt</label>
+<select id="gcsMotor">
+<option value="">Seçiniz</option>
+<option value="emre_uyar">Emirlere uyar</option>
+<option value="lokalize">Ağrıyı lokalize eder</option>
+<option value="ceker">Ağrıdan çeker</option>
+<option value="fleksiyon">Anormal fleksiyon</option>
+<option value="ekstansiyon">Ekstansiyon</option>
+<option value="yok">Yanıt yok</option>
+</select>
+<div class="hint">Puan: <b id="gcsMotorScore">—</b></div>
+</div>
+</div>
+<div class="section fields two">
+<div>
+<label class="fieldlabel">Toplam GKS</label>
+<input id="gcsTotal" type="text" readonly placeholder="Otomatik">
+</div>
+<div>
+<label class="fieldlabel">Komponentler</label>
+<input id="gcsComponents" type="text" readonly placeholder="E– V– M–">
+</div>
+</div>
+</div>
+
 <div class="fields three">
 <div><label class="fieldlabel">RASS</label><select id="rass"><option value="">Seçiniz</option><option>+4</option><option>+3</option><option>+2</option><option>+1</option><option>0</option><option>-1</option><option>-2</option><option>-3</option><option>-4</option><option>-5</option><option>Değerlendirilemedi</option></select></div>
 <div><label class="fieldlabel">Sağ pupil çapı (mm)</label><input id="pupilRight" type="number" min="0" max="10" step="0.5" inputmode="decimal"></div>
@@ -417,6 +471,51 @@ function updateIAP(){
  else $('iapFollow').value='';
 }
 
+function updateGCS(){
+ const eyeMap={
+   'spontan':{score:4,label:'Spontan'},
+   'ses':{score:3,label:'Sese'},
+   'agri':{score:2,label:'Ağrıya'},
+   'yok':{score:1,label:'Yanıt yok'}
+ };
+ const verbalMap={
+   'oryante':{score:5,label:'Oryante'},
+   'konfuze':{score:4,label:'Konfüze'},
+   'uygunsuz_kelime':{score:3,label:'Uygunsuz kelimeler'},
+   'anlasilmaz_ses':{score:2,label:'Anlaşılmaz sesler'},
+   'yok':{score:1,label:'Yanıt yok'}
+ };
+ const motorMap={
+   'emre_uyar':{score:6,label:'Emirlere uyar'},
+   'lokalize':{score:5,label:'Ağrıyı lokalize eder'},
+   'ceker':{score:4,label:'Ağrıdan çeker'},
+   'fleksiyon':{score:3,label:'Anormal fleksiyon'},
+   'ekstansiyon':{score:2,label:'Ekstansiyon'},
+   'yok':{score:1,label:'Yanıt yok'}
+ };
+
+ const eVal=val('gcsEye'), vVal=val('gcsVerbal'), mVal=val('gcsMotor');
+ const e=eyeMap[eVal], v=verbalMap[vVal], m=motorMap[mVal];
+
+ if($('gcsEyeScore')) $('gcsEyeScore').textContent=e?e.score:'—';
+ if($('gcsVerbalScore')) $('gcsVerbalScore').textContent=vVal==='T'?'T':(v?v.score:'—');
+ if($('gcsMotorScore')) $('gcsMotorScore').textContent=m?m.score:'—';
+
+ const comp=`E${e?e.score:'?'} V${vVal==='T'?'T':(v?v.score:'?')} M${m?m.score:'?'}`;
+ if($('gcsComponents')) $('gcsComponents').value=comp;
+
+ if(e && m && v){
+   $('gcsTotal').value=`${e.score+v.score+m.score}/15`;
+ } else if(e && m && vVal==='T'){
+   $('gcsTotal').value='Toplamlanamaz (VT)';
+ } else if(eVal || vVal || mVal){
+   $('gcsTotal').value='Eksik';
+ } else {
+   $('gcsTotal').value='';
+   if($('gcsComponents')) $('gcsComponents').value='';
+ }
+}
+
 function showRespSettings(){
  const s=val('respSupport');
  $('hfnoBlock').classList.toggle('hidden',s!=='HFNO');
@@ -424,6 +523,7 @@ function showRespSettings(){
  $('mvBlock').classList.toggle('hidden',s!=='İnvaziv mekanik ventilasyon');
 }
 $('respSupport').addEventListener('change',showRespSettings);
+['gcsEye','gcsVerbal','gcsMotor'].forEach(id=>$(id)?.addEventListener('change',updateGCS));
 ['sbp','dbp'].forEach(id=>$(id)?.addEventListener('input',updateMAP));
 $('iap')?.addEventListener('input',updateIAP);
 
@@ -488,40 +588,18 @@ function buildProgress(){
  let lines=[]; let title='YOĞUN BAKIM GÜNLÜK PROGRES NOTU'; if(val('bed'))title+=` – Yatak ${val('bed')}`; if(val('icuDay'))title+=` – YB günü ${val('icuDay')}`; lines.push(title,'');
  let x=[]; if(val('trend'))x.push(`Klinik durum önceki güne göre ${lcFirst(val('trend'))}`); if(val('events'))x.push(val('events')); if(x.length)lines.push('Klinik seyir:',x.map(punct).join(' '),'');
  x=[]; if(val('appearance'))x.push(`genel görünümü ${lcFirst(val('appearance'))}`); if(val('conscious'))x.push(`bilinci ${lcFirst(val('conscious'))}`); if(checks('general').length)x.push(sentenceList(checks('general').map(lcFirst))); if(x.length)lines.push('Genel muayene:',punct(x.join('; ')),'');
- x=[]; if(val('rass'))x.push(`RASS ${val('rass')}`); if(val('pupilRight'))x.push(`sağ pupil ${val('pupilRight')} mm`); if(val('pupilLeft'))x.push(`sol pupil ${val('pupilLeft')} mm`); if(val('lightRight')||val('lightLeft')){let r=[];if(val('lightRight'))r.push(`sağda ${lcFirst(val('lightRight'))}`);if(val('lightLeft'))r.push(`solda ${lcFirst(val('lightLeft'))}`);x.push(`ışık refleksi ${r.join(', ')}`)} if(checks('neuro').length)x.push(sentenceList(checks('neuro').map(lcFirst))); if(val('delirium'))x.push(`deliryum değerlendirmesi ${lcFirst(val('delirium'))}`); if(val('pain'))x.push(`ağrı ${lcFirst(val('pain'))}`); if(x.length)lines.push('Nörolojik:',punct(x.join('; ')),'');
- x=[]; if(val('respSupport'))x.push(val('respSupport')); if(val('respPattern'))x.push(`solunum paterni ${lcFirst(val('respPattern'))}`); if(val('expansion'))x.push(`toraks ekspansiyonu ${lcFirst(val('expansion'))}`); if(checks('lung').length)x.push(`oskültasyonda ${sentenceList(checks('lung').map(lcFirst))}`); if(val('secretion'))x.push(`sekresyon ${lcFirst(val('secretion'))}${val('secretionType')?', '+lcFirst(val('secretionType'))+' karakterde':''}`); if(val('spo2'))x.push(`SpO₂ %${val('spo2')}`);
- if(val('respSupport')==='HFNO'){let a=[];if(val('hfnoFlow'))a.push(`akım ${val('hfnoFlow')} L/dk`);if(val('hfnoFio2'))a.push(`FiO₂ %${val('hfnoFio2')}`);if(a.length)x.push(`HFNO ayarları: ${a.join(', ')}`)}
- if(val('respSupport')==='NIMV'){let a=[];if(val('nimvInterface'))a.push(val('nimvInterface'));if(val('nimvMode'))a.push(`mod ${val('nimvMode')}`);if(val('nimvFio2'))a.push(`FiO₂ %${val('nimvFio2')}`);if(val('nimvIpap'))a.push(`IPAP/Pinsp ${val('nimvIpap')} cmH₂O`);if(val('nimvEpap'))a.push(`EPAP/PEEP ${val('nimvEpap')} cmH₂O`);if(val('nimvRate'))a.push(`yedek SS ${val('nimvRate')}/dk`);if(a.length)x.push(`NIMV ayarları: ${a.join(', ')}`)}
- if(val('respSupport')==='İnvaziv mekanik ventilasyon'){let a=[];if(val('mvMode'))a.push(`mod ${val('mvMode')}`);if(val('fio2'))a.push(`FiO₂ %${val('fio2')}`);if(val('peep'))a.push(`PEEP ${val('peep')} cmH₂O`);if(val('mvVt'))a.push(`VT ${val('mvVt')} mL`);if(val('mvRate'))a.push(`SS ${val('mvRate')}/dk`);if(val('mvPressure'))a.push(`PS/Pinsp ${val('mvPressure')} cmH₂O`);if(val('mvPplat'))a.push(`Pplat ${val('mvPplat')} cmH₂O`);if(a.length)x.push(`invaziv ventilasyon ayarları: ${a.join(', ')}`)}
- if(x.length)lines.push('Solunum:',punct(x.join('; ')),'');
- x=[]; if(checks('monitor').length)x.push(`monitörizasyon: ${sentenceList(checks('monitor'))}`); if(val('heartRate'))x.push(`kalp hızı ${val('heartRate')}/dk`); if(val('sbp')&&val('dbp'))x.push(`kan basıncı ${val('sbp')}/${val('dbp')} mmHg${val('map')?`, OAB ${val('map')} mmHg`:''}`); if(val('rhythm'))x.push(`ritim ${lcFirst(val('rhythm'))}`); if(val('pulses'))x.push(`periferik nabızlar ${lcFirst(val('pulses'))}`); if(val('crt'))x.push(`kapiller dolum ${val('crt')}`); if(val('temp'))x.push(`ekstremite sıcaklığı ${lcFirst(val('temp'))}`); if(val('vaso'))x.push(`vazopressör/inotrop ${lcFirst(val('vaso'))}`); if(checks('hemo').length)x.push(sentenceList(checks('hemo').map(lcFirst))); if(x.length)lines.push('Kardiyovasküler / hemodinamik:',punct(x.join('; ')),'');
- x=[]; if(val('abdAppearance'))x.push(`batın ${lcFirst(val('abdAppearance'))}`); if(val('iap')){x.push(`karın içi basıncı ${val('iap')} mmHg`); if(parseFloat(val('iap'))>12)x.push('karın içi basıncı 4 saatte bir takip edilecek')}; if(val('abdPalp'))x.push(`palpasyonda ${lcFirst(val('abdPalp'))}`); if(val('bowel'))x.push(`bağırsak sesleri ${lcFirst(val('bowel'))}`); if(val('organomegaly'))x.push(`organomegali ${lcFirst(val('organomegaly'))}`); if(val('nutrition'))x.push(`beslenme: ${lcFirst(val('nutrition'))}`); if(checks('gi').length)x.push(sentenceList(checks('gi').map(lcFirst))); if(x.length)lines.push('Batın / gastrointestinal:',punct(x.join('; ')),'');
- x=[]; if(val('urineRoute'))x.push(`idrar drenajı ${lcFirst(val('urineRoute'))}`); if(val('urineLook'))x.push(`idrar ${lcFirst(val('urineLook'))}`); if(val('urine24'))x.push(`24 saatlik idrar ${val('urine24')} mL`); if(val('diuresis'))x.push(`diürez ${lcFirst(val('diuresis'))}`); if(balanceText())x.push(`24 saatlik sıvı dengesi ${balanceText()}`); if(checks('renal').length)x.push(sentenceList(checks('renal'))); if(x.length)lines.push('Renal / sıvı:',punct(x.join('; ')),'');
- x=[]; if(checks('skin').length)x.push(sentenceList(checks('skin').map(lcFirst))); if(val('mobility'))x.push(`mobilizasyon ${lcFirst(val('mobility'))}`); if(val('mobilityGoal'))x.push(`hedef: ${val('mobilityGoal')}`); if(x.length)lines.push('Cilt / ekstremiteler / mobilizasyon:',punct(x.join('; ')),'');
- x=[]; if(checks('device').length)x.push(`mevcut: ${sentenceList(checks('device'))}`); if(val('deviceDetails'))x.push(val('deviceDetails')); if(val('siteIssue'))x.push(`giriş yeri: ${lcFirst(val('siteIssue'))}`); if(x.length)lines.push('Drenler / kateterler:',x.map(punct).join(' '),'');
- if(val('labChange')||val('labSummary')||val('labNote')){x=[];if(val('labChange'))x.push(`önemli laboratuvar değişikliği ${lcFirst(val('labChange'))}`);if(val('labSummary'))x.push(val('labSummary'));if(val('labNote'))x.push(val('labNote'));lines.push('Önemli laboratuvar:',x.map(punct).join(' '),'')}
- let probs=[...checks('problem')]; if(val('customProblem'))probs.push(val('customProblem')); if(probs.length){lines.push('Aktif sorunlar:');probs.forEach(p=>lines.push('- '+p));lines.push('')}
- const care=buildCare(); if(care.length){lines.push('Günlük plan:');care.slice(0,8).forEach(c=>lines.push('- '+c.text))}
- return lines.join('\n').replace(/\n{3,}/g,'\n\n').trim();
-}
-function renderOutputs(){
- $('progressText').value=buildProgress();
- const care=buildCare(); $('careList').innerHTML=care.length?care.map(x=>`<div class="careitem ${x.type}">${x.text}</div>`).join(''):'<div class="empty">Hastaya özgü bakım önerisi oluşturulmadı.</div>';
- const todos=buildTodos(); $('todoList').innerHTML=todos.length?todos.map((x,i)=>`<label class="todoitem"><input type="checkbox" data-todo="${i}"><span>${x.text}<span class="tag">${x.tag}</span></span></label>`).join(''):'<div class="empty">Özel yapılacak iş oluşturulmadı.</div>';
- saveState(false);
-}
-function copyText(text,btn){const done=()=>{const old=btn.textContent;btn.textContent='Kopyalandı ✓';setTimeout(()=>btn.textContent=old,1100)};if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(done).catch(()=>fallback())}else fallback();function fallback(){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();done()}}
-$('generateBtn').addEventListener('click',()=>{renderOutputs();activateMain('plan')});
-$('copyProgress').addEventListener('click',()=>copyText($('progressText').value,$('copyProgress')));
-$('copyCare').addEventListener('click',()=>copyText(buildCare().map(x=>'• '+x.text).join('\n'),$('copyCare')));
-$('copyTodo').addEventListener('click',()=>copyText(buildTodos().map(x=>'☐ '+x.text).join('\n'),$('copyTodo')));
-
-function getState(){
- const s={};
- document.querySelectorAll('#roundForm input,#roundForm select,#roundForm textarea').forEach(el=>{
-   if(el.type==='checkbox')s[`check|${el.dataset.group}|${el.value}`]=el.checked;
-   else if(el.type==='radio')s[`radio|${el.name}`]=el.checked?el.value:(s[`radio|${el.name}`]||'');
-   else if(el.id)s[el.id]=el.value;
+ x=[]; if(val('gcsEye')||val('gcsVerbal')||val('gcsMotor')){
+   const eyeScores={'spontan':4,'ses':3,'agri':2,'yok':1};
+   const verbalScores={'oryante':5,'konfuze':4,'uygunsuz_kelime':3,'anlasilmaz_ses':2,'yok':1};
+   const motorScores={'emre_uyar':6,'lokalize':5,'ceker':4,'fleksiyon':3,'ekstansiyon':2,'yok':1};
+   const e=eyeScores[val('gcsEye')], v=verbalScores[val('gcsVerbal')], m=motorScores[val('gcsMotor')];
+   if(e&&v&&m){
+     x.push(`GKS E${e} V${v} M${m} = ${e+v+m}/15`);
+   }else if(e&&m&&val('gcsVerbal')==='T'){
+     x.push(`GKS E${e} VT M${m} (verbal yanıt entübasyon/trakeostomi nedeniyle değerlendirilemedi)`);
+   }else{
+     x.push(`GKS E${e||'?'} V${val('gcsVerbal')==='T'?'T':(v||'?')} M${m||'?'}`);
+   }
  });
  return s;
 }
@@ -538,7 +616,7 @@ function loadState(){
      else if(el.id&&s[el.id]!=null)el.value=s[el.id];
    });
  }catch(e){}
- showRespSettings();updateMAP();updateIAP();updateProgress();
+ showRespSettings();updateMAP();updateIAP();updateGCS();updateProgress();
 }
 $('saveBtn').addEventListener('click',()=>saveState(true));
 $('clearBtn').addEventListener('click',()=>{
@@ -552,7 +630,7 @@ function updateProgress(){
  $('progress').style.width=pct+'%';$('completionText').textContent=`Tamamlanma: %${pct}`;
 }
 document.querySelectorAll('#roundForm input,#roundForm select,#roundForm textarea').forEach(el=>{
- el.addEventListener('change',()=>{if(el.id==='respSupport')showRespSettings();updateProgress();saveState(false)});
+ el.addEventListener('change',()=>{if(el.id==='respSupport')showRespSettings();if(['gcsEye','gcsVerbal','gcsMotor'].includes(el.id))updateGCS();updateProgress();saveState(false)});
  if(el.tagName==='TEXTAREA'||['text','number'].includes(el.type))el.addEventListener('input',()=>{if(el.id==='sbp'||el.id==='dbp')updateMAP();if(el.id==='iap')updateIAP();updateProgress();saveState(false)});
 });
 loadState();
