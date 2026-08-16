@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0f172a">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Yoğun Bakım Günlük Vizit v2.8.1</title>
+<title>Yoğun Bakım Günlük Vizit v2.8.2</title>
 <style>
 :root{--bg:#f3f6fa;--card:#fff;--ink:#172033;--muted:#64748b;--line:#dbe3ee;--nav:#0f172a;--accent:#2563eb;--soft:#eff6ff;--warn:#b45309;--warnbg:#fff7ed;--danger:#b42318;--dangerbg:#fff1f0;--ok:#18794e;--shadow:0 5px 18px rgba(15,23,42,.07)}
 *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
@@ -45,7 +45,7 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 </head>
 <body>
 <header><div class="headerin">
-<div class="brand"><h1>Yoğun Bakım Günlük Vizit ve Progres Sistemi</h1><div>Muayene odaklı • Tab yapısı • Lokal PWA • v2.8.1</div></div>
+<div class="brand"><h1>Yoğun Bakım Günlük Vizit ve Progres Sistemi</h1><div>Muayene odaklı • Tab yapısı • Lokal PWA • v2.8.2</div></div>
 <div class="actions"><button class="btn ghost" type="button" id="saveBtn">Kaydet</button><button class="btn danger" type="button" id="clearBtn">Yeni hasta</button><button class="btn primary" type="button" id="generateBtn">Çıktıları Oluştur</button></div>
 </div></header>
 <main>
@@ -83,6 +83,7 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 <input id="bodyTemp" type="number" min="30" max="45" step="0.1" inputmode="decimal" placeholder="örn. 37.2">
 </div>
 </div>
+
 <div class="section"><label class="fieldlabel">Periferik görünüm (çoklu seçim)</label><div class="chips">
 <label class="chip"><input type="checkbox" data-group="general" value="Ödem"><span>Ödem</span></label>
 <label class="chip"><input type="checkbox" data-group="general" value="İkter"><span>İkter</span></label>
