@@ -1,7 +1,7 @@
-# YB Günlük Vizit v2.8
+# YB Günlük Vizit v2.8.1
 
-Yeni:
-- PiCCO seçildiğinde ölçüm alanları açılır.
-- Pulmoner arter kateteri seçildiğinde ilgili ölçüm alanları açılır.
-- CRRT seçildiğinde CRRT ayar alanları açılır.
-- Girilen değerler progres notuna otomatik aktarılır.
+Düzeltmeler:
+- PiCCO seçimi artık doğrudan checkbox ID/checked durumuna göre alanları açar.
+- Pulmoner arter kateteri mantığı korunmuştur.
+- Genel değerlendirmeye Vücut sıcaklığı (°C) alanı eklenmiştir.
+- Vücut sıcaklığı progres notuna otomatik aktarılır.
