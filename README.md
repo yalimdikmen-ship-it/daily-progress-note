@@ -1,2 +1,7 @@
-# YB Günlük Vizit v2.6.1
-Düzeltilmiş sürüm. GKS klinik seçimleri komponent puanlarını otomatik üretir. Manifest ve service worker dahildir.
+# YB Günlük Vizit v2.8
+
+Yeni:
+- PiCCO seçildiğinde ölçüm alanları açılır.
+- Pulmoner arter kateteri seçildiğinde ilgili ölçüm alanları açılır.
+- CRRT seçildiğinde CRRT ayar alanları açılır.
+- Girilen değerler progres notuna otomatik aktarılır.

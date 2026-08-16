@@ -1,7 +1,7 @@
 {
   "name": "Yoğun Bakım Günlük Vizit ve Progres Sistemi",
   "short_name": "YB Vizit",
-  "description": "Erişkin yoğun bakım günlük klinik değerlendirme, bakım planı ve progres notu sistemi.",
+  "description": "Erişkin yoğun bakım günlük vizit sistemi; PiCCO, PA kateteri ve CRRT koşullu modülleri içerir.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

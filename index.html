@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0f172a">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Yoğun Bakım Günlük Vizit v2.6.1</title>
+<title>Yoğun Bakım Günlük Vizit v2.8</title>
 <style>
 :root{--bg:#f3f6fa;--card:#fff;--ink:#172033;--muted:#64748b;--line:#dbe3ee;--nav:#0f172a;--accent:#2563eb;--soft:#eff6ff;--warn:#b45309;--warnbg:#fff7ed;--danger:#b42318;--dangerbg:#fff1f0;--ok:#18794e;--shadow:0 5px 18px rgba(15,23,42,.07)}
 *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
@@ -45,12 +45,12 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 </head>
 <body>
 <header><div class="headerin">
-<div class="brand"><h1>Yoğun Bakım Günlük Vizit ve Progres Sistemi</h1><div>Muayene odaklı • Tab yapısı • Lokal PWA • v2.6.1</div></div>
-<div class="actions"><button class="btn ghost" type="button" id="saveBtn">Kaydet</button><button class="btn danger" type="button" id="clearBtn">Yeni gün</button><button class="btn primary" type="button" id="generateBtn">Çıktıları Oluştur</button></div>
+<div class="brand"><h1>Yoğun Bakım Günlük Vizit ve Progres Sistemi</h1><div>Muayene odaklı • Tab yapısı • Lokal PWA • v2.8</div></div>
+<div class="actions"><button class="btn ghost" type="button" id="saveBtn">Kaydet</button><button class="btn danger" type="button" id="clearBtn">Yeni hasta</button><button class="btn primary" type="button" id="generateBtn">Çıktıları Oluştur</button></div>
 </div></header>
 <main>
 <div class="notice"><b>Klinik karar desteği:</b> Araç günlük yatak başı değerlendirmeyi standartlaştırır. Tedavi emri üretmez; öneriler değerlendirme/gözden geçirme düzeyindedir.</div>
-<div class="statusline"><span id="completionText">Tamamlanma: %0</span><span id="saveStatus">Lokal kayıt</span></div>
+<div class="statusline"><span id="completionText">Tamamlanma: %0</span><span id="patientCount">Kayıtlı hasta: 0</span><span id="saveStatus">Lokal kayıt</span></div>
 <div class="progressbar"><div id="progress"></div></div>
 
 <nav class="maintabs" aria-label="Ana bölümler">
@@ -249,6 +249,35 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 <div><label class="fieldlabel">Ortalama KB / OAB (mmHg)</label><input id="map" type="number" readonly placeholder="Otomatik"></div>
 </div>
 <div class="hint">OAB = (Sistolik KB + 2 × Diyastolik KB) / 3</div>
+
+<div class="section hidden" id="piccoBlock">
+<h3>PiCCO ölçümleri</h3>
+<div class="fields four">
+<div><label class="fieldlabel">CI (L/dk/m²)</label><input id="piccoCI" type="number" step="0.1" min="0"></div>
+<div><label class="fieldlabel">SVRI (dyn·s·cm⁻⁵·m²)</label><input id="piccoSVRI" type="number" step="1" min="0"></div>
+<div><label class="fieldlabel">GEDVI (mL/m²)</label><input id="piccoGEDVI" type="number" step="1" min="0"></div>
+<div><label class="fieldlabel">EVLWI (mL/kg)</label><input id="piccoEVLWI" type="number" step="0.1" min="0"></div>
+<div><label class="fieldlabel">SVV (%)</label><input id="piccoSVV" type="number" step="1" min="0" max="100"></div>
+<div><label class="fieldlabel">PPV (%)</label><input id="piccoPPV" type="number" step="1" min="0" max="100"></div>
+<div><label class="fieldlabel">CFI (/dk)</label><input id="piccoCFI" type="number" step="0.1" min="0"></div>
+<div><label class="fieldlabel">GEF (%)</label><input id="piccoGEF" type="number" step="1" min="0" max="100"></div>
+</div>
+</div>
+
+<div class="section hidden" id="pacBlock">
+<h3>Pulmoner arter kateteri ölçümleri</h3>
+<div class="fields four">
+<div><label class="fieldlabel">PAP sistolik (mmHg)</label><input id="pacPAPs" type="number" step="1"></div>
+<div><label class="fieldlabel">PAP diyastolik (mmHg)</label><input id="pacPAPd" type="number" step="1"></div>
+<div><label class="fieldlabel">mPAP (mmHg)</label><input id="pacMPAP" type="number" step="1"></div>
+<div><label class="fieldlabel">PAOP / PCWP (mmHg)</label><input id="pacPAOP" type="number" step="1"></div>
+<div><label class="fieldlabel">CO (L/dk)</label><input id="pacCO" type="number" step="0.1" min="0"></div>
+<div><label class="fieldlabel">CI (L/dk/m²)</label><input id="pacCI" type="number" step="0.1" min="0"></div>
+<div><label class="fieldlabel">SvO₂ (%)</label><input id="pacSvO2" type="number" step="1" min="0" max="100"></div>
+<div><label class="fieldlabel">PVR (WU)</label><input id="pacPVR" type="number" step="0.1" min="0"></div>
+</div>
+</div>
+
 <div class="section fields three">
 <div><label class="fieldlabel">Ritim</label><select id="rhythm"><option value="">Seçiniz</option><option>Düzenli</option><option>Düzensiz</option><option>Atriyal fibrilasyon</option><option>Taşikardik</option><option>Bradikardik</option><option>Pacemaker ritmi</option><option>Diğer</option></select></div>
 <div><label class="fieldlabel">Kapiller dolum</label><select id="crt"><option value="">Seçiniz</option><option>&lt;3 sn</option><option>≥3 sn</option></select></div>
@@ -329,6 +358,26 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 <label class="chip"><input type="checkbox" data-group="renal" value="Nefrostomi mevcut"><span>Nefrostomi mevcut</span></label>
 </div></div>
 </div></div>
+
+<div class="section hidden" id="crrtBlock">
+<h3>CRRT ayarları</h3>
+<div class="fields four">
+<div><label class="fieldlabel">CRRT modu</label>
+<select id="crrtMode">
+<option value="">Seçiniz</option>
+<option>CVVHD</option><option>CVVH</option><option>CVVHDF</option><option>SCUF</option>
+</select></div>
+<div><label class="fieldlabel">Kan akımı Qb (mL/dk)</label><input id="crrtQb" type="number" min="0" step="10"></div>
+<div><label class="fieldlabel">Diyalizat (mL/saat)</label><input id="crrtDialysate" type="number" min="0" step="50"></div>
+<div><label class="fieldlabel">Replasman (mL/saat)</label><input id="crrtReplacement" type="number" min="0" step="50"></div>
+<div><label class="fieldlabel">Net ultrafiltrasyon (mL/saat)</label><input id="crrtNetUF" type="number" step="10"></div>
+<div><label class="fieldlabel">Toplam eflüent (mL/saat)</label><input id="crrtEffluent" type="number" min="0" step="50"></div>
+<div><label class="fieldlabel">Antikoagülasyon</label>
+<select id="crrtAnticoag"><option value="">Seçiniz</option><option>Yok</option><option>Sitrat</option><option>Heparin</option><option>Diğer</option></select></div>
+<div><label class="fieldlabel">Filtre / set notu</label><input id="crrtNote" type="text" placeholder="İsteğe bağlı"></div>
+</div>
+</div>
+
 </div>
 
 <div class="subpage" id="skin">
@@ -484,6 +533,18 @@ function updateGCS(){
  else { $('gcsTotal').value=''; if($('gcsHint')) $('gcsHint').value=''; }
 }
 
+
+function hasChecked(group,value){
+ return [...document.querySelectorAll(`input[data-group="${group}"]:checked`)].some(x=>x.value===value);
+}
+function showHemodynamicSettings(){
+ if($('piccoBlock')) $('piccoBlock').classList.toggle('hidden', !hasChecked('monitor','PiCCO'));
+ if($('pacBlock')) $('pacBlock').classList.toggle('hidden', !hasChecked('monitor','Pulmoner arter kateteri'));
+}
+function showCRRTSettings(){
+ if($('crrtBlock')) $('crrtBlock').classList.toggle('hidden', !hasChecked('renal','CRRT'));
+}
+
 function showRespSettings(){
  const s=val('respSupport');
  $('hfnoBlock').classList.toggle('hidden',s!=='HFNO');
@@ -570,9 +631,20 @@ function buildProgress(){
  if(val('respSupport')==='NIMV'){let a=[];if(val('nimvInterface'))a.push(val('nimvInterface'));if(val('nimvMode'))a.push(`mod ${val('nimvMode')}`);if(val('nimvFio2'))a.push(`FiO₂ %${val('nimvFio2')}`);if(val('nimvIpap'))a.push(`IPAP/Pinsp ${val('nimvIpap')} cmH₂O`);if(val('nimvEpap'))a.push(`EPAP/PEEP ${val('nimvEpap')} cmH₂O`);if(val('nimvRate'))a.push(`yedek SS ${val('nimvRate')}/dk`);if(a.length)x.push(`NIMV ayarları: ${a.join(', ')}`)}
  if(val('respSupport')==='İnvaziv mekanik ventilasyon'){let a=[];if(val('mvMode'))a.push(`mod ${val('mvMode')}`);if(val('fio2'))a.push(`FiO₂ %${val('fio2')}`);if(val('peep'))a.push(`PEEP ${val('peep')} cmH₂O`);if(val('mvVt'))a.push(`VT ${val('mvVt')} mL`);if(val('mvRate'))a.push(`SS ${val('mvRate')}/dk`);if(val('mvPressure'))a.push(`PS/Pinsp ${val('mvPressure')} cmH₂O`);if(val('mvPplat'))a.push(`Pplat ${val('mvPplat')} cmH₂O`);if(a.length)x.push(`invaziv ventilasyon ayarları: ${a.join(', ')}`)}
  if(x.length)lines.push('Solunum:',punct(x.join('; ')),'');
- x=[]; if(checks('monitor').length)x.push(`monitörizasyon: ${sentenceList(checks('monitor'))}`); if(val('heartRate'))x.push(`kalp hızı ${val('heartRate')}/dk`); if(val('sbp')&&val('dbp'))x.push(`kan basıncı ${val('sbp')}/${val('dbp')} mmHg${val('map')?`, OAB ${val('map')} mmHg`:''}`); if(val('rhythm'))x.push(`ritim ${lcFirst(val('rhythm'))}`); if(val('pulses'))x.push(`periferik nabızlar ${lcFirst(val('pulses'))}`); if(val('crt'))x.push(`kapiller dolum ${val('crt')}`); if(val('temp'))x.push(`ekstremite sıcaklığı ${lcFirst(val('temp'))}`); if(val('vaso'))x.push(`vazopressör/inotrop ${lcFirst(val('vaso'))}`); if(checks('hemo').length)x.push(sentenceList(checks('hemo').map(lcFirst))); if(x.length)lines.push('Kardiyovasküler / hemodinamik:',punct(x.join('; ')),'');
+ x=[]; if(checks('monitor').length)x.push(`monitörizasyon: ${sentenceList(checks('monitor'))}`); if(val('heartRate'))x.push(`kalp hızı ${val('heartRate')}/dk`); if(val('sbp')&&val('dbp'))x.push(`kan basıncı ${val('sbp')}/${val('dbp')} mmHg${val('map')?`, OAB ${val('map')} mmHg`:''}`); if(val('rhythm'))x.push(`ritim ${lcFirst(val('rhythm'))}`); if(val('pulses'))x.push(`periferik nabızlar ${lcFirst(val('pulses'))}`); if(val('crt'))x.push(`kapiller dolum ${val('crt')}`); if(val('temp'))x.push(`ekstremite sıcaklığı ${lcFirst(val('temp'))}`); if(val('vaso'))x.push(`vazopressör/inotrop ${lcFirst(val('vaso'))}`); if(checks('hemo').length)x.push(sentenceList(checks('hemo').map(lcFirst)));
+ if(hasChecked('monitor','PiCCO')){
+   let p=[]; if(val('piccoCI'))p.push(`CI ${val('piccoCI')} L/dk/m²`); if(val('piccoSVRI'))p.push(`SVRI ${val('piccoSVRI')}`); if(val('piccoGEDVI'))p.push(`GEDVI ${val('piccoGEDVI')} mL/m²`); if(val('piccoEVLWI'))p.push(`EVLWI ${val('piccoEVLWI')} mL/kg`); if(val('piccoSVV'))p.push(`SVV %${val('piccoSVV')}`); if(val('piccoPPV'))p.push(`PPV %${val('piccoPPV')}`); if(val('piccoCFI'))p.push(`CFI ${val('piccoCFI')}/dk`); if(val('piccoGEF'))p.push(`GEF %${val('piccoGEF')}`); if(p.length)x.push(`PiCCO: ${p.join(', ')}`);
+ }
+ if(hasChecked('monitor','Pulmoner arter kateteri')){
+   let p=[]; if(val('pacPAPs')||val('pacPAPd'))p.push(`PAP ${val('pacPAPs')||'?'} / ${val('pacPAPd')||'?'} mmHg`); if(val('pacMPAP'))p.push(`mPAP ${val('pacMPAP')} mmHg`); if(val('pacPAOP'))p.push(`PAOP ${val('pacPAOP')} mmHg`); if(val('pacCO'))p.push(`CO ${val('pacCO')} L/dk`); if(val('pacCI'))p.push(`CI ${val('pacCI')} L/dk/m²`); if(val('pacSvO2'))p.push(`SvO₂ %${val('pacSvO2')}`); if(val('pacPVR'))p.push(`PVR ${val('pacPVR')} WU`); if(p.length)x.push(`PA kateteri: ${p.join(', ')}`);
+ }
+ if(x.length)lines.push('Kardiyovasküler / hemodinamik:',punct(x.join('; ')),'');
  x=[]; if(val('abdAppearance'))x.push(`batın ${lcFirst(val('abdAppearance'))}`); if(val('iap')){x.push(`karın içi basıncı ${val('iap')} mmHg`); if(parseFloat(val('iap'))>12)x.push('karın içi basıncı 4 saatte bir takip edilecek')}; if(val('abdPalp'))x.push(`palpasyonda ${lcFirst(val('abdPalp'))}`); if(val('bowel'))x.push(`bağırsak sesleri ${lcFirst(val('bowel'))}`); if(val('organomegaly'))x.push(`organomegali ${lcFirst(val('organomegaly'))}`); if(val('nutrition'))x.push(`beslenme: ${lcFirst(val('nutrition'))}`); if(checks('gi').length)x.push(sentenceList(checks('gi').map(lcFirst))); if(x.length)lines.push('Batın / gastrointestinal:',punct(x.join('; ')),'');
- x=[]; if(val('urineRoute'))x.push(`idrar drenajı ${lcFirst(val('urineRoute'))}`); if(val('urineLook'))x.push(`idrar ${lcFirst(val('urineLook'))}`); if(val('urine24'))x.push(`24 saatlik idrar ${val('urine24')} mL`); if(val('diuresis'))x.push(`diürez ${lcFirst(val('diuresis'))}`); if(balanceText())x.push(`24 saatlik sıvı dengesi ${balanceText()}`); if(checks('renal').length)x.push(sentenceList(checks('renal'))); if(x.length)lines.push('Renal / sıvı:',punct(x.join('; ')),'');
+ x=[]; if(val('urineRoute'))x.push(`idrar drenajı ${lcFirst(val('urineRoute'))}`); if(val('urineLook'))x.push(`idrar ${lcFirst(val('urineLook'))}`); if(val('urine24'))x.push(`24 saatlik idrar ${val('urine24')} mL`); if(val('diuresis'))x.push(`diürez ${lcFirst(val('diuresis'))}`); if(balanceText())x.push(`24 saatlik sıvı dengesi ${balanceText()}`); if(checks('renal').length)x.push(sentenceList(checks('renal')));
+ if(hasChecked('renal','CRRT')){
+   let c=[]; if(val('crrtMode'))c.push(val('crrtMode')); if(val('crrtQb'))c.push(`Qb ${val('crrtQb')} mL/dk`); if(val('crrtDialysate'))c.push(`diyalizat ${val('crrtDialysate')} mL/saat`); if(val('crrtReplacement'))c.push(`replasman ${val('crrtReplacement')} mL/saat`); if(val('crrtNetUF'))c.push(`net UF ${val('crrtNetUF')} mL/saat`); if(val('crrtEffluent'))c.push(`eflüent ${val('crrtEffluent')} mL/saat`); if(val('crrtAnticoag'))c.push(`antikoagülasyon ${lcFirst(val('crrtAnticoag'))}`); if(val('crrtNote'))c.push(val('crrtNote')); if(c.length)x.push(`CRRT ayarları: ${c.join(', ')}`);
+ }
+ if(x.length)lines.push('Renal / sıvı:',punct(x.join('; ')),'');
  x=[]; if(checks('skin').length)x.push(sentenceList(checks('skin').map(lcFirst))); if(val('mobility'))x.push(`mobilizasyon ${lcFirst(val('mobility'))}`); if(val('mobilityGoal'))x.push(`hedef: ${val('mobilityGoal')}`); if(x.length)lines.push('Cilt / ekstremiteler / mobilizasyon:',punct(x.join('; ')),'');
  x=[]; if(checks('device').length)x.push(`mevcut: ${sentenceList(checks('device'))}`); if(val('deviceDetails'))x.push(val('deviceDetails')); if(val('siteIssue'))x.push(`giriş yeri: ${lcFirst(val('siteIssue'))}`); if(x.length)lines.push('Drenler / kateterler:',x.map(punct).join(' '),'');
  if(val('labChange')||val('labSummary')||val('labNote')){x=[];if(val('labChange'))x.push(`önemli laboratuvar değişikliği ${lcFirst(val('labChange'))}`);if(val('labSummary'))x.push(val('labSummary'));if(val('labNote'))x.push(val('labNote'));lines.push('Önemli laboratuvar:',x.map(punct).join(' '),'')}
@@ -580,47 +652,172 @@ function buildProgress(){
  const care=buildCare(); if(care.length){lines.push('Günlük plan:');care.slice(0,8).forEach(c=>lines.push('- '+c.text))}
  return lines.join('\n').replace(/\n{3,}/g,'\n\n').trim();
 }
-function renderOutputs(){
+function renderOutputsCore(){
  $('progressText').value=buildProgress();
  const care=buildCare(); $('careList').innerHTML=care.length?care.map(x=>`<div class="careitem ${x.type}">${x.text}</div>`).join(''):'<div class="empty">Hastaya özgü bakım önerisi oluşturulmadı.</div>';
  const todos=buildTodos(); $('todoList').innerHTML=todos.length?todos.map((x,i)=>`<label class="todoitem"><input type="checkbox" data-todo="${i}"><span>${x.text}<span class="tag">${x.tag}</span></span></label>`).join(''):'<div class="empty">Özel yapılacak iş oluşturulmadı.</div>';
- saveState(false);
+}
+function renderOutputs(){
+ renderOutputsCore();
+ saveDraft(false);
 }
 function copyText(text,btn){const done=()=>{const old=btn.textContent;btn.textContent='Kopyalandı ✓';setTimeout(()=>btn.textContent=old,1100)};if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(done).catch(()=>fallback())}else fallback();function fallback(){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();done()}}
-$('generateBtn').addEventListener('click',()=>{renderOutputs();activateMain('plan')});
+$('generateBtn').addEventListener('click',()=>{renderOutputsCore();downloadAllPatientsTxt();});
 $('copyProgress').addEventListener('click',()=>copyText($('progressText').value,$('copyProgress')));
 $('copyCare').addEventListener('click',()=>copyText(buildCare().map(x=>'• '+x.text).join('\n'),$('copyCare')));
 $('copyTodo').addEventListener('click',()=>copyText(buildTodos().map(x=>'☐ '+x.text).join('\n'),$('copyTodo')));
 
+
+const MULTI_PATIENTS_KEY='icuRoundPatientsV27';
+const MULTI_DRAFT_KEY='icuRoundDraftV27';
+const MULTI_CURRENT_ID_KEY='icuRoundCurrentPatientIdV27';
+let currentPatientId=localStorage.getItem(MULTI_CURRENT_ID_KEY)||'';
+
+function makePatientId(){
+ return 'p_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,8);
+}
+function loadPatients(){
+ try{
+   const x=JSON.parse(localStorage.getItem(MULTI_PATIENTS_KEY)||'[]');
+   return Array.isArray(x)?x:[];
+ }catch(e){ return []; }
+}
+function storePatients(arr){
+ localStorage.setItem(MULTI_PATIENTS_KEY,JSON.stringify(arr));
+ updatePatientCount();
+}
+function updatePatientCount(){
+ const n=loadPatients().length;
+ if($('patientCount')) $('patientCount').textContent=`Kayıtlı hasta: ${n}`;
+}
+function hasMeaningfulPatientData(){
+ const ids=['bed','icuDay','trend','events','appearance','conscious','rass','respSupport','rhythm','abdAppearance','diuresis','mobility','customProblem','customTodo'];
+ if(ids.some(id=>val(id))) return true;
+ return document.querySelectorAll('#roundForm input[type="checkbox"]:checked,#roundForm input[type="radio"]:checked').length>0;
+}
+function saveCurrentPatient(feedback=true){
+ if(!hasMeaningfulPatientData()) return false;
+ renderOutputsCore();
+ const state=getState();
+ const progress=buildProgress();
+ const care=buildCare().map(x=>x.text);
+ const todos=buildTodos().map(x=>x.text);
+
+ if(!currentPatientId){
+   currentPatientId=makePatientId();
+   localStorage.setItem(MULTI_CURRENT_ID_KEY,currentPatientId);
+ }
+ const patients=loadPatients();
+ const rec={
+   id:currentPatientId,
+   bed:val('bed')||'—',
+   icuDay:val('icuDay')||'',
+   savedAt:new Date().toISOString(),
+   state,
+   progress,
+   care,
+   todos
+ };
+ const idx=patients.findIndex(p=>p.id===currentPatientId);
+ if(idx>=0) patients[idx]=rec; else patients.push(rec);
+ storePatients(patients);
+ localStorage.setItem(MULTI_DRAFT_KEY,JSON.stringify(state));
+ if(feedback){
+   $('saveStatus').textContent='Hasta kaydedildi ✓';
+   setTimeout(()=>$('saveStatus').textContent='Lokal kayıt',1200);
+ }
+ return true;
+}
+function resetForNewPatient(){
+ currentPatientId='';
+ localStorage.removeItem(MULTI_CURRENT_ID_KEY);
+ localStorage.removeItem(MULTI_DRAFT_KEY);
+ $('roundForm').reset();
+ $('progressText').value='';
+ $('careList').innerHTML='<div class="empty">Henüz oluşturulmadı.</div>';
+ $('todoList').innerHTML='<div class="empty">Henüz oluşturulmadı.</div>';
+ showRespSettings();showHemodynamicSettings();showCRRTSettings();updateMAP();updateIAP();updateGCS();updateProgress();
+ activateMain('assessment');
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function composeAllPatientsText(){
+ const patients=loadPatients();
+ if(!patients.length) return '';
+ const stamp=new Date().toLocaleString('tr-TR');
+ let out=[];
+ out.push('YOĞUN BAKIM GÜNLÜK PROGRESLERİ');
+ out.push(`Oluşturulma: ${stamp}`);
+ out.push(`Hasta sayısı: ${patients.length}`);
+ out.push('');
+ patients.forEach((p,i)=>{
+   out.push('='.repeat(64));
+   out.push(`HASTA ${i+1}${p.bed&&p.bed!=='—' ? ' – Yatak '+p.bed : ''}${p.icuDay ? ' – YB günü '+p.icuDay : ''}`);
+   out.push('='.repeat(64));
+   out.push(p.progress||'Progres notu oluşturulamadı.');
+   out.push('');
+ });
+ return out.join('\n');
+}
+function downloadAllPatientsTxt(){
+ saveCurrentPatient(false);
+ const text=composeAllPatientsText();
+ if(!text){
+   alert('Çıktı oluşturmak için en az bir hasta değerlendirmesi giriniz.');
+   return;
+ }
+ const now=new Date();
+ const pad=n=>String(n).padStart(2,'0');
+ const fn=`YB_progresleri_${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}.txt`;
+ const blob=new Blob([text],{type:'text/plain;charset=utf-8'});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement('a');
+ a.href=url;a.download=fn;
+ document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),1500);
+ $('saveStatus').textContent=`${loadPatients().length} hasta için TXT oluşturuldu ✓`;
+ setTimeout(()=>$('saveStatus').textContent='Lokal kayıt',1800);
+}
+
 function getState(){
  const s={};
- document.querySelectorAll('#roundForm input,#roundForm select,#roundForm textarea').forEach(el=>{
+ 
+document.querySelectorAll('input[data-group="monitor"]').forEach(el=>el.addEventListener('change',showHemodynamicSettings));
+document.querySelectorAll('input[data-group="renal"]').forEach(el=>el.addEventListener('change',showCRRTSettings));
+
+document.querySelectorAll('#roundForm input,#roundForm select,#roundForm textarea').forEach(el=>{
    if(el.type==='checkbox')s[`check|${el.dataset.group}|${el.value}`]=el.checked;
    else if(el.type==='radio')s[`radio|${el.name}`]=el.checked?el.value:(s[`radio|${el.name}`]||'');
    else if(el.id)s[el.id]=el.value;
  });
  return s;
 }
-function saveState(feedback=true){
- localStorage.setItem('icuRoundV261',JSON.stringify(getState()));
- if(feedback){$('saveStatus').textContent='Kaydedildi ✓';setTimeout(()=>$('saveStatus').textContent='Lokal kayıt',1000)}
+function applyState(s){
+ document.querySelectorAll('#roundForm input,#roundForm select,#roundForm textarea').forEach(el=>{
+   if(el.type==='checkbox')el.checked=!!s[`check|${el.dataset.group}|${el.value}`];
+   else if(el.type==='radio')el.checked=s[`radio|${el.name}`]===el.value;
+   else if(el.id&&s[el.id]!=null)el.value=s[el.id];
+ });
 }
+function saveDraft(feedback=true){
+ localStorage.setItem(MULTI_DRAFT_KEY,JSON.stringify(getState()));
+ if(feedback){$('saveStatus').textContent='Taslak kaydedildi ✓';setTimeout(()=>$('saveStatus').textContent='Lokal kayıt',1000)}
+}
+function saveState(feedback=true){ saveDraft(feedback); }
 function loadState(){
  try{
-   const s=JSON.parse(localStorage.getItem('icuRoundV261')||'{}');
-   document.querySelectorAll('#roundForm input,#roundForm select,#roundForm textarea').forEach(el=>{
-     if(el.type==='checkbox')el.checked=!!s[`check|${el.dataset.group}|${el.value}`];
-     else if(el.type==='radio')el.checked=s[`radio|${el.name}`]===el.value;
-     else if(el.id&&s[el.id]!=null)el.value=s[el.id];
-   });
+   const s=JSON.parse(localStorage.getItem(MULTI_DRAFT_KEY)||'{}');
+   applyState(s);
  }catch(e){}
- showRespSettings();updateMAP();updateIAP();updateGCS();updateProgress();
+ showRespSettings();showHemodynamicSettings();showCRRTSettings();updateMAP();updateIAP();updateGCS();updateProgress();updatePatientCount();
 }
-$('saveBtn').addEventListener('click',()=>saveState(true));
+$('saveBtn').addEventListener('click',()=>{saveCurrentPatient(true);});
 $('clearBtn').addEventListener('click',()=>{
- if(confirm('Yeni gün için tüm alanlar temizlensin mi?')){
-  localStorage.removeItem('icuRoundV261');$('roundForm').reset();$('progressText').value='';$('careList').innerHTML='<div class="empty">Henüz oluşturulmadı.</div>';$('todoList').innerHTML='<div class="empty">Henüz oluşturulmadı.</div>';showRespSettings();updateProgress();activateMain('assessment');
+ if(hasMeaningfulPatientData()){
+   saveCurrentPatient(false);
  }
+ resetForNewPatient();
+ $('saveStatus').textContent='Yeni hasta formu hazır';
+ setTimeout(()=>$('saveStatus').textContent='Lokal kayıt',1100);
 });
 function updateProgress(){
  const required=['trend','appearance','conscious','respSupport','respPattern','rhythm','abdAppearance','abdPalp','bowel','diuresis','mobility'];
@@ -628,8 +825,8 @@ function updateProgress(){
  $('progress').style.width=pct+'%';$('completionText').textContent=`Tamamlanma: %${pct}`;
 }
 document.querySelectorAll('#roundForm input,#roundForm select,#roundForm textarea').forEach(el=>{
- el.addEventListener('change',()=>{if(el.id==='respSupport')showRespSettings();if(['gcsEye','gcsVerbal','gcsMotor'].includes(el.id))updateGCS();updateProgress();saveState(false)});
- if(el.tagName==='TEXTAREA'||['text','number'].includes(el.type))el.addEventListener('input',()=>{if(el.id==='sbp'||el.id==='dbp')updateMAP();if(el.id==='iap')updateIAP();updateProgress();saveState(false)});
+ el.addEventListener('change',()=>{if(el.id==='respSupport')showRespSettings();if(['gcsEye','gcsVerbal','gcsMotor'].includes(el.id))updateGCS();updateProgress();saveDraft(false)});
+ if(el.tagName==='TEXTAREA'||['text','number'].includes(el.type))el.addEventListener('input',()=>{if(el.id==='sbp'||el.id==='dbp')updateMAP();if(el.id==='iap')updateIAP();updateProgress();saveDraft(false)});
 });
 loadState();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
