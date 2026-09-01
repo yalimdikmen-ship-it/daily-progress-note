@@ -1,7 +1,7 @@
-# YB Günlük Vizit v2.8.1
-
-Düzeltmeler:
-- PiCCO seçimi artık doğrudan checkbox ID/checked durumuna göre alanları açar.
-- Pulmoner arter kateteri mantığı korunmuştur.
-- Genel değerlendirmeye Vücut sıcaklığı (°C) alanı eklenmiştir.
-- Vücut sıcaklığı progres notuna otomatik aktarılır.
+# YB Günlük Vizit v2.9
+- Dolaşımda birden çok vazopressör/inotrop ilaç ve doz satırı eklenebilir.
+- Noradrenalin, vazopresin, dopamin, adrenalin, dobutamin ve diğer seçenekleri bulunur.
+- Vazopresin Ü/dk, diğer ajanlar varsayılan µg/kg/dk ile açılır.
+- Nörolojik bölümde birden çok sedatif ve opioid ilaç/doz satırı eklenebilir.
+- Sedatif ve opioidlerde doz birimi satır bazında seçilir.
+- Tüm ilaçlar hasta kaydına ve progres notuna aktarılır.

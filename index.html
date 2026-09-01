@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0f172a">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Yoğun Bakım Günlük Vizit v2.8.2</title>
+<title>Yoğun Bakım Günlük Vizit v2.9</title>
 <style>
 :root{--bg:#f3f6fa;--card:#fff;--ink:#172033;--muted:#64748b;--line:#dbe3ee;--nav:#0f172a;--accent:#2563eb;--soft:#eff6ff;--warn:#b45309;--warnbg:#fff7ed;--danger:#b42318;--dangerbg:#fff1f0;--ok:#18794e;--shadow:0 5px 18px rgba(15,23,42,.07)}
 *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
@@ -34,6 +34,11 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 .chip input:checked+span{background:var(--soft);border-color:#60a5fa;color:#0b4f8a;font-weight:800}.chip.warn input:checked+span{background:var(--warnbg);border-color:#fdba74;color:#92400e}
 .radioRow{display:flex;gap:7px;flex-wrap:wrap}.radioChip input{display:none}.radioChip span{display:inline-block;border:1px solid #cbd5e1;border-radius:10px;padding:8px 13px;background:white;cursor:pointer;font-weight:800}
 .radioChip input:checked+span{background:var(--nav);border-color:var(--nav);color:white}
+.drugtable{display:flex;flex-direction:column;gap:8px}
+.drugrow{display:grid;grid-template-columns:1.4fr .8fr .9fr auto;gap:7px;align-items:end}
+.drugrow .removeDrug{border:1px solid #fecaca;background:#fff1f2;color:#991b1b;border-radius:9px;padding:10px 11px;font-weight:800;cursor:pointer}
+.addDrug{margin-top:8px;border:1px dashed #93c5fd;background:#eff6ff;color:#0b4f8a;border-radius:9px;padding:9px 11px;font-weight:800;cursor:pointer}
+@media(max-width:680px){.drugrow{grid-template-columns:1fr 1fr}.drugrow .removeDrug{grid-column:2;justify-self:end}}
 .hidden{display:none!important}.hint{font-size:12px;color:var(--muted);margin-top:4px}
 .outhead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}.smallbtn{padding:8px 10px;border-radius:8px;border:1px solid #cbd5e1;background:#fff;font-weight:800;cursor:pointer}
 .output{min-height:360px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.5;background:#fbfdff}
@@ -45,7 +50,7 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 </head>
 <body>
 <header><div class="headerin">
-<div class="brand"><h1>Yoğun Bakım Günlük Vizit ve Progres Sistemi</h1><div>Muayene odaklı • Tab yapısı • Lokal PWA • v2.8.2</div></div>
+<div class="brand"><h1>Yoğun Bakım Günlük Vizit ve Progres Sistemi</h1><div>Muayene odaklı • Tab yapısı • Lokal PWA • v2.9</div></div>
 <div class="actions"><button class="btn ghost" type="button" id="saveBtn">Kaydet</button><button class="btn danger" type="button" id="clearBtn">Yeni hasta</button><button class="btn primary" type="button" id="generateBtn">Çıktıları Oluştur</button></div>
 </div></header>
 <main>
@@ -175,6 +180,18 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 <label class="chip"><input type="checkbox" data-group="neuro" value="Fokal defisit"><span>Fokal defisit</span></label>
 <label class="chip"><input type="checkbox" data-group="neuro" value="Nöbet gözlendi"><span>Nöbet gözlendi</span></label>
 </div></div>
+<div class="section">
+<label class="fieldlabel">Sedatif tedavi</label>
+<div class="hint">Birden fazla sedatif eklenebilir.</div>
+<div id="sedativeRows" class="drugtable"></div>
+<button id="addSedativeBtn" class="addDrug" type="button">+ Sedatif ekle</button>
+</div>
+<div class="section">
+<label class="fieldlabel">Opioid tedavi</label>
+<div class="hint">Birden fazla opioid eklenebilir.</div>
+<div id="opioidRows" class="drugtable"></div>
+<button id="addOpioidBtn" class="addDrug" type="button">+ Opioid ekle</button>
+</div>
 <div class="section fields two">
 <div><label class="fieldlabel">Deliryum değerlendirmesi</label><select id="delirium"><option value="">Seçiniz</option><option>Negatif</option><option>Pozitif</option><option>Şüpheli</option><option>Değerlendirilemedi</option><option>Yapılmadı</option></select></div>
 <div><label class="fieldlabel">Ağrı</label><select id="pain"><option value="">Seçiniz</option><option>Yok / kontrol altında</option><option>Hafif</option><option>Orta</option><option>Şiddetli</option><option>Değerlendirilemedi</option></select></div>
@@ -292,7 +309,12 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 </div>
 <div class="section fields two">
 <div><label class="fieldlabel">Periferik nabızlar</label><select id="pulses"><option value="">Seçiniz</option><option>Palpabl ve simetrik</option><option>Zayıf</option><option>Asimetrik</option><option>Alınamıyor</option></select></div>
-<div><label class="fieldlabel">Vazopressör / inotrop</label><select id="vaso"><option value="">Seçiniz</option><option>Yok</option><option>Var, stabil doz</option><option>Var, doz azalıyor</option><option>Var, doz artıyor</option></select></div>
+</div>
+<div class="section">
+<label class="fieldlabel">Vazopressör / inotrop tedavisi</label>
+<div class="hint">Birden fazla ilaç eklenebilir. Vazopresin Ü/dk; diğer ajanlar varsayılan olarak µg/kg/dk ile açılır.</div>
+<div id="vasoRows" class="drugtable"></div>
+<button id="addVasoBtn" class="addDrug" type="button">+ İlaç ekle</button>
 </div>
 <div class="section"><label class="fieldlabel">Ek dolaşım bulguları (çoklu seçim)</label><div class="chips">
 <label class="chip"><input type="checkbox" data-group="hemo" value="Mottling yok"><span>Mottling yok</span></label>
@@ -554,6 +576,52 @@ function showCRRTSettings(){
  if($('crrtBlock')) $('crrtBlock').classList.toggle('hidden', !hasChecked('renal','CRRT'));
 }
 
+
+const VASO_OPTIONS=['Noradrenalin','Vazopresin','Dopamin','Adrenalin','Dobutamin','Diğer'];
+const SEDATIVE_OPTIONS=['Propofol','Midazolam','Deksmedetomidin','Ketamin','Diğer'];
+const OPIOID_OPTIONS=['Fentanil','Remifentanil','Morfin','Hidromorfon','Diğer'];
+const SED_UNITS=['mg/kg/saat','µg/kg/dk','µg/kg/saat','mg/saat','µg/saat','mg/dk','µg/dk'];
+const OPIOID_UNITS=['µg/kg/dk','µg/kg/saat','µg/saat','µg/dk','mg/saat','mg/dk'];
+
+function addDrugRow(kind,data={}){
+ const container=$(kind==='vaso'?'vasoRows':kind==='sedative'?'sedativeRows':'opioidRows');
+ if(!container) return;
+ const row=document.createElement('div'); row.className='drugrow';
+ const opts=kind==='vaso'?VASO_OPTIONS:kind==='sedative'?SEDATIVE_OPTIONS:OPIOID_OPTIONS;
+ const units=kind==='vaso'?['µg/kg/dk','Ü/dk']:(kind==='sedative'?SED_UNITS:OPIOID_UNITS);
+
+ row.innerHTML=`
+ <div><label class="fieldlabel">İlaç</label><select class="drugName"><option value="">Seçiniz</option>${opts.map(o=>`<option>${o}</option>`).join('')}</select></div>
+ <div><label class="fieldlabel">Doz</label><input class="drugDose" type="number" step="any" min="0" inputmode="decimal"></div>
+ <div><label class="fieldlabel">Birim</label><select class="drugUnit"><option value="">Birim</option>${units.map(u=>`<option>${u}</option>`).join('')}</select></div>
+ <button type="button" class="removeDrug">Sil</button>`;
+ const drug=row.querySelector('.drugName'), dose=row.querySelector('.drugDose'), unit=row.querySelector('.drugUnit');
+ drug.value=data.drug||''; dose.value=data.dose||''; unit.value=data.unit||'';
+ if(kind==='vaso' && drug.value && !unit.value) unit.value=drug.value==='Vazopresin'?'Ü/dk':'µg/kg/dk';
+ drug.addEventListener('change',()=>{if(kind==='vaso'){unit.value=drug.value==='Vazopresin'?'Ü/dk':(drug.value?'µg/kg/dk':'')} saveDraft(false)});
+ dose.addEventListener('input',()=>saveDraft(false)); unit.addEventListener('change',()=>saveDraft(false));
+ row.querySelector('.removeDrug').addEventListener('click',()=>{row.remove();saveDraft(false)});
+ container.appendChild(row);
+}
+function getDrugRows(kind){
+ const container=$(kind==='vaso'?'vasoRows':kind==='sedative'?'sedativeRows':'opioidRows');
+ if(!container) return [];
+ return [...container.querySelectorAll('.drugrow')].map(r=>({
+   drug:r.querySelector('.drugName')?.value||'',
+   dose:r.querySelector('.drugDose')?.value||'',
+   unit:r.querySelector('.drugUnit')?.value||''
+ })).filter(x=>x.drug||x.dose||x.unit);
+}
+function loadDrugRows(kind,rows){
+ const container=$(kind==='vaso'?'vasoRows':kind==='sedative'?'sedativeRows':'opioidRows');
+ if(!container) return;
+ container.innerHTML='';
+ (Array.isArray(rows)?rows:[]).forEach(x=>addDrugRow(kind,x));
+}
+function drugRowsText(kind){
+ return getDrugRows(kind).filter(x=>x.drug).map(x=>`${x.drug}${x.dose?' '+x.dose:''}${x.unit?' '+x.unit:''}`);
+}
+
 function showRespSettings(){
  const s=val('respSupport');
  $('hfnoBlock').classList.toggle('hidden',s!=='HFNO');
@@ -561,6 +629,9 @@ function showRespSettings(){
  $('mvBlock').classList.toggle('hidden',s!=='İnvaziv mekanik ventilasyon');
 }
 $('respSupport').addEventListener('change',showRespSettings);
+$('addVasoBtn')?.addEventListener('click',()=>addDrugRow('vaso'));
+$('addSedativeBtn')?.addEventListener('click',()=>addDrugRow('sedative'));
+$('addOpioidBtn')?.addEventListener('click',()=>addDrugRow('opioid'));
 ['gcsEye','gcsVerbal','gcsMotor'].forEach(id=>$(id)?.addEventListener('change',updateGCS));
 ['sbp','dbp'].forEach(id=>$(id)?.addEventListener('input',updateMAP));
 $('iap')?.addEventListener('input',updateIAP);
@@ -586,7 +657,7 @@ function buildCare(){
  if(val('respSupport')==='İnvaziv mekanik ventilasyon'&&['Uygun görünüyor','Değerlendirilmeli','Bugün planlandı'].includes(val('weaning')))add('Spontan solunum denemesi / weaning uygunluğunu değerlendir.');
  if(['Orta','Fazla'].includes(val('secretion'))||['Pürülan','Kanlı','Köpüklü'].includes(val('secretionType')))add('Hava yolu sekresyonlarını ve aspirasyon gereksinimini gözden geçir.','alert');
  if(['Wheezing','Ronküs','Sessiz akciğer'].some(x=>checks('lung').includes(x)))add('Bronkospazm / hava yolu obstrüksiyonu açısından klinik değerlendirmeyi gözden geçir.','alert');
- if(val('crt')==='≥3 sn'||['Soğuk','Distal soğukluk'].includes(val('temp'))||checks('hemo').includes('Mottling var')||val('vaso')==='Var, doz artıyor')add('Doku perfüzyonu ve hemodinamik durumu yeniden değerlendir.','alert');
+ if(val('crt')==='≥3 sn'||['Soğuk','Distal soğukluk'].includes(val('temp'))||checks('hemo').includes('Mottling var')||getDrugRows('vaso').length>0)add('Doku perfüzyonu ve hemodinamik durumu yeniden değerlendir.','alert');
  if(['Oligüri','Anüri'].includes(val('diuresis')))add('Oligüri/anüri nedenleri, perfüzyon ve volüm durumu açısından renal değerlendirmeyi gözden geçir.','alert');
  const bn=balanceNumber(); if(bn!==null&&bn>1000)add('Pozitif sıvı dengesinin klinik önemini ve günün sıvı hedefini yeniden değerlendir.','alert');
  if(['Hafif distandü','Belirgin distandü'].includes(val('abdAppearance'))||['Hipoaktif','Alınmıyor'].includes(val('bowel'))||checks('gi').some(x=>['Gaz çıkışı yok','Kusma','Gastrik retansiyon'].includes(x)))add('Gastrointestinal fonksiyon ve enteral beslenme toleransını yeniden değerlendir.','alert');
@@ -634,13 +705,16 @@ function buildProgress(){
    if(e&&v&&m)x.push(`GKS: E${e} V${v} M${m} = ${e+v+m}/15`);
    else if(e&&m&&val('gcsVerbal')==='T')x.push(`GKS: E${e} VT M${m} (verbal yanıt entübasyon/trakeostomi nedeniyle değerlendirilemedi)`);
    else x.push(`GKS: E${e||'?'} V${val('gcsVerbal')==='T'?'T':(v||'?')} M${m||'?'}`);
- } if(val('rass'))x.push(`RASS ${val('rass')}`); if(val('pupilRight'))x.push(`sağ pupil ${val('pupilRight')} mm`); if(val('pupilLeft'))x.push(`sol pupil ${val('pupilLeft')} mm`); if(val('lightRight')||val('lightLeft')){let r=[];if(val('lightRight'))r.push(`sağda ${lcFirst(val('lightRight'))}`);if(val('lightLeft'))r.push(`solda ${lcFirst(val('lightLeft'))}`);x.push(`ışık refleksi ${r.join(', ')}`)} if(checks('neuro').length)x.push(sentenceList(checks('neuro').map(lcFirst))); if(val('delirium'))x.push(`deliryum değerlendirmesi ${lcFirst(val('delirium'))}`); if(val('pain'))x.push(`ağrı ${lcFirst(val('pain'))}`); if(x.length)lines.push('Nörolojik:',punct(x.join('; ')),'');
+ } if(val('rass'))x.push(`RASS ${val('rass')}`); if(val('pupilRight'))x.push(`sağ pupil ${val('pupilRight')} mm`); if(val('pupilLeft'))x.push(`sol pupil ${val('pupilLeft')} mm`); if(val('lightRight')||val('lightLeft')){let r=[];if(val('lightRight'))r.push(`sağda ${lcFirst(val('lightRight'))}`);if(val('lightLeft'))r.push(`solda ${lcFirst(val('lightLeft'))}`);x.push(`ışık refleksi ${r.join(', ')}`)} if(checks('neuro').length)x.push(sentenceList(checks('neuro').map(lcFirst))); if(val('delirium'))x.push(`deliryum değerlendirmesi ${lcFirst(val('delirium'))}`); if(val('pain'))x.push(`ağrı ${lcFirst(val('pain'))}`);
+ const sedTxt=drugRowsText('sedative'); if(sedTxt.length)x.push(`sedatif: ${sedTxt.join(', ')}`);
+ const opTxt=drugRowsText('opioid'); if(opTxt.length)x.push(`opioid: ${opTxt.join(', ')}`);
+ if(x.length)lines.push('Nörolojik:',punct(x.join('; ')),'');
  x=[]; if(val('respSupport'))x.push(val('respSupport')); if(val('respPattern'))x.push(`solunum paterni ${lcFirst(val('respPattern'))}`); if(val('expansion'))x.push(`toraks ekspansiyonu ${lcFirst(val('expansion'))}`); if(checks('lung').length)x.push(`oskültasyonda ${sentenceList(checks('lung').map(lcFirst))}`); if(val('secretion'))x.push(`sekresyon ${lcFirst(val('secretion'))}${val('secretionType')?', '+lcFirst(val('secretionType'))+' karakterde':''}`); if(val('spo2'))x.push(`SpO₂ %${val('spo2')}`);
  if(val('respSupport')==='HFNO'){let a=[];if(val('hfnoFlow'))a.push(`akım ${val('hfnoFlow')} L/dk`);if(val('hfnoFio2'))a.push(`FiO₂ %${val('hfnoFio2')}`);if(a.length)x.push(`HFNO ayarları: ${a.join(', ')}`)}
  if(val('respSupport')==='NIMV'){let a=[];if(val('nimvInterface'))a.push(val('nimvInterface'));if(val('nimvMode'))a.push(`mod ${val('nimvMode')}`);if(val('nimvFio2'))a.push(`FiO₂ %${val('nimvFio2')}`);if(val('nimvIpap'))a.push(`IPAP/Pinsp ${val('nimvIpap')} cmH₂O`);if(val('nimvEpap'))a.push(`EPAP/PEEP ${val('nimvEpap')} cmH₂O`);if(val('nimvRate'))a.push(`yedek SS ${val('nimvRate')}/dk`);if(a.length)x.push(`NIMV ayarları: ${a.join(', ')}`)}
  if(val('respSupport')==='İnvaziv mekanik ventilasyon'){let a=[];if(val('mvMode'))a.push(`mod ${val('mvMode')}`);if(val('fio2'))a.push(`FiO₂ %${val('fio2')}`);if(val('peep'))a.push(`PEEP ${val('peep')} cmH₂O`);if(val('mvVt'))a.push(`VT ${val('mvVt')} mL`);if(val('mvRate'))a.push(`SS ${val('mvRate')}/dk`);if(val('mvPressure'))a.push(`PS/Pinsp ${val('mvPressure')} cmH₂O`);if(val('mvPplat'))a.push(`Pplat ${val('mvPplat')} cmH₂O`);if(a.length)x.push(`invaziv ventilasyon ayarları: ${a.join(', ')}`)}
  if(x.length)lines.push('Solunum:',punct(x.join('; ')),'');
- x=[]; if(checks('monitor').length)x.push(`monitörizasyon: ${sentenceList(checks('monitor'))}`); if(val('heartRate'))x.push(`kalp hızı ${val('heartRate')}/dk`); if(val('sbp')&&val('dbp'))x.push(`kan basıncı ${val('sbp')}/${val('dbp')} mmHg${val('map')?`, OAB ${val('map')} mmHg`:''}`); if(val('rhythm'))x.push(`ritim ${lcFirst(val('rhythm'))}`); if(val('pulses'))x.push(`periferik nabızlar ${lcFirst(val('pulses'))}`); if(val('crt'))x.push(`kapiller dolum ${val('crt')}`); if(val('temp'))x.push(`ekstremite sıcaklığı ${lcFirst(val('temp'))}`); if(val('vaso'))x.push(`vazopressör/inotrop ${lcFirst(val('vaso'))}`); if(checks('hemo').length)x.push(sentenceList(checks('hemo').map(lcFirst)));
+ x=[]; if(checks('monitor').length)x.push(`monitörizasyon: ${sentenceList(checks('monitor'))}`); if(val('heartRate'))x.push(`kalp hızı ${val('heartRate')}/dk`); if(val('sbp')&&val('dbp'))x.push(`kan basıncı ${val('sbp')}/${val('dbp')} mmHg${val('map')?`, OAB ${val('map')} mmHg`:''}`); if(val('rhythm'))x.push(`ritim ${lcFirst(val('rhythm'))}`); if(val('pulses'))x.push(`periferik nabızlar ${lcFirst(val('pulses'))}`); if(val('crt'))x.push(`kapiller dolum ${val('crt')}`); if(val('temp'))x.push(`ekstremite sıcaklığı ${lcFirst(val('temp'))}`); const vasoTxt=drugRowsText('vaso'); if(vasoTxt.length)x.push(`vazopressör/inotrop: ${vasoTxt.join(', ')}`); if(checks('hemo').length)x.push(sentenceList(checks('hemo').map(lcFirst)));
  if(($('monitorPiCCO')&&$('monitorPiCCO').checked)||hasChecked('monitor','PiCCO')){
    let p=[]; if(val('piccoCI'))p.push(`CI ${val('piccoCI')} L/dk/m²`); if(val('piccoSVRI'))p.push(`SVRI ${val('piccoSVRI')}`); if(val('piccoGEDVI'))p.push(`GEDVI ${val('piccoGEDVI')} mL/m²`); if(val('piccoEVLWI'))p.push(`EVLWI ${val('piccoEVLWI')} mL/kg`); if(val('piccoSVV'))p.push(`SVV %${val('piccoSVV')}`); if(val('piccoPPV'))p.push(`PPV %${val('piccoPPV')}`); if(val('piccoCFI'))p.push(`CFI ${val('piccoCFI')}/dk`); if(val('piccoGEF'))p.push(`GEF %${val('piccoGEF')}`); if(p.length)x.push(`PiCCO: ${p.join(', ')}`);
  }
@@ -702,6 +776,7 @@ function updatePatientCount(){
 function hasMeaningfulPatientData(){
  const ids=['bed','icuDay','trend','events','appearance','conscious','rass','respSupport','rhythm','abdAppearance','diuresis','mobility','customProblem','customTodo'];
  if(ids.some(id=>val(id))) return true;
+ if(getDrugRows('vaso').length||getDrugRows('sedative').length||getDrugRows('opioid').length) return true;
  return document.querySelectorAll('#roundForm input[type="checkbox"]:checked,#roundForm input[type="radio"]:checked').length>0;
 }
 function saveCurrentPatient(feedback=true){
@@ -742,6 +817,9 @@ function resetForNewPatient(){
  localStorage.removeItem(MULTI_CURRENT_ID_KEY);
  localStorage.removeItem(MULTI_DRAFT_KEY);
  $('roundForm').reset();
+ if($('vasoRows')) $('vasoRows').innerHTML='';
+ if($('sedativeRows')) $('sedativeRows').innerHTML='';
+ if($('opioidRows')) $('opioidRows').innerHTML='';
  $('progressText').value='';
  $('careList').innerHTML='<div class="empty">Henüz oluşturulmadı.</div>';
  $('todoList').innerHTML='<div class="empty">Henüz oluşturulmadı.</div>';
@@ -798,6 +876,9 @@ document.querySelectorAll('#roundForm input,#roundForm select,#roundForm textare
    else if(el.type==='radio')s[`radio|${el.name}`]=el.checked?el.value:(s[`radio|${el.name}`]||'');
    else if(el.id)s[el.id]=el.value;
  });
+ s.__vasoDrugs=getDrugRows('vaso');
+ s.__sedativeDrugs=getDrugRows('sedative');
+ s.__opioidDrugs=getDrugRows('opioid');
  return s;
 }
 function applyState(s){
@@ -806,6 +887,9 @@ function applyState(s){
    else if(el.type==='radio')el.checked=s[`radio|${el.name}`]===el.value;
    else if(el.id&&s[el.id]!=null)el.value=s[el.id];
  });
+ loadDrugRows('vaso',s.__vasoDrugs||[]);
+ loadDrugRows('sedative',s.__sedativeDrugs||[]);
+ loadDrugRows('opioid',s.__opioidDrugs||[]);
 }
 function saveDraft(feedback=true){
  localStorage.setItem(MULTI_DRAFT_KEY,JSON.stringify(getState()));
@@ -841,9 +925,3 @@ loadState();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
 </script>
 </body></html>
-<footer>
-  <p>
-    © 2026 Prof. Dr. Yalım Dikmen.
-    Licensed under GNU GPL v3.0.
-  </p>
-</footer>
