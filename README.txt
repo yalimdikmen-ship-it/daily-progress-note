@@ -1,4 +1,4 @@
-YOĞUN BAKIM GÜNLÜK VİZİT + DAILY GOALS / AKŞAM DEVİR - v2.13 PROTOTİP
+YOĞUN BAKIM GÜNLÜK VİZİT + DAILY GOALS / AKŞAM DEVİR - v2.15 PROTOTİP
 
 Bu prototip v2.11 günlük vizit yapısını korur. Mevcut Değerlendirme, Organ Sistemleri,
 Cihazlar, Plan ve Progres bölümleri ile TXT progres çıktısı değiştirilmemiştir.
@@ -28,3 +28,6 @@ telefon/tablet paylaşımı henüz eklenmemiştir; önce klinik iş akışı ve 
 
 
 v2.14: Üst menüye Kullanım Kılavuzu düğmesi ve uygulama içi kullanım açıklamaları eklendi. Günlük vizit/progres yapısı değiştirilmedi.
+
+
+v2.15: Günlük Hedefler ve Akşam Devir çıktı ekranlarına “Uygulamaya Dön / Kapat” ve “PDF / Yazdır” düğmeleri eklendi. PWA/standalone modunda çıktıdan uygulamaya dönüş sorunu giderildi.
