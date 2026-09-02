@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0f172a">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Yoğun Bakım Günlük Vizit v2.11</title>
+<title>Yoğun Bakım Günlük Vizit v2.14 - Daily Goals & Devir</title>
 <style>
 :root{--bg:#f3f6fa;--card:#fff;--ink:#172033;--muted:#64748b;--line:#dbe3ee;--nav:#0f172a;--accent:#2563eb;--soft:#eff6ff;--warn:#b45309;--warnbg:#fff7ed;--danger:#b42318;--dangerbg:#fff1f0;--ok:#18794e;--shadow:0 5px 18px rgba(15,23,42,.07)}
 *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
@@ -46,13 +46,71 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 .todoitem{display:flex;gap:9px;align-items:flex-start;padding:10px 0;border-bottom:1px dashed var(--line)}.todoitem input{width:18px;height:18px;margin-top:2px}.tag{display:inline-block;margin-left:6px;padding:2px 6px;border-radius:999px;background:#eef2f7;color:#536176;font-size:11px;font-weight:800}
 .empty{color:var(--muted);font-size:13px}.statusline{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted);margin-bottom:8px}
 @media(max-width:640px){header{padding-top:max(10px,env(safe-area-inset-top))}.brand div{display:none}.actions .btn{padding:8px 9px;font-size:12px}.maintabs{top:61px}.card h2{font-size:14px}}
+
+/* v2.14 - Kullanım Kılavuzu eklendi. Mevcut vizit alanlarına dokunmaz. */
+.goalgrid{display:grid;grid-template-columns:1fr;gap:10px}.goalgrid.two{grid-template-columns:1fr}@media(min-width:760px){.goalgrid.two{grid-template-columns:1fr 1fr}}
+.goalbox{border:1px solid var(--line);border-radius:13px;padding:11px;background:#fbfdff}.goalbox h3{margin:0 0 9px;font-size:13px;color:#24324a}
+.autosummary{border:1px dashed #94a3b8;border-radius:12px;background:#f8fafc;padding:10px 12px;font-size:12px;color:#334155;white-space:pre-wrap}
+.inlinecheck{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.inlinecheck label{font-size:13px;font-weight:700;color:#475569}
+.outputactions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.smallnote{font-size:11px;color:var(--muted);margin-top:5px}
+.patientpanel{display:flex;flex-direction:column;gap:7px}.patientrow{display:grid;grid-template-columns:minmax(55px,.6fr) 1.4fr auto;gap:8px;align-items:center;border:1px solid var(--line);border-radius:11px;padding:8px 10px;background:#fff}.patientrow .pmeta{font-size:12px;color:var(--muted)}.patientrow .pactions{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.iconbadge{display:inline-flex;align-items:center;gap:5px;border:1px solid #cbd5e1;border-radius:999px;padding:3px 7px;background:white;font-size:11px;font-weight:800;color:#334155}
+.readonlyline{padding:9px 10px;border:1px solid #dbe3ee;border-radius:9px;background:#f8fafc;font-size:13px;color:#334155;min-height:38px}
+@media(max-width:640px){.patientrow{grid-template-columns:55px 1fr}.patientrow .pactions{grid-column:1/-1;justify-content:flex-start}.outputactions .btn{flex:1 1 auto}}
+.familyinfo{min-height:120px}
+
+/* Kullanım kılavuzu */
+.guideOverlay{position:fixed;inset:0;z-index:100;background:rgba(15,23,42,.62);display:none;align-items:flex-start;justify-content:center;padding:18px;overflow:auto}
+.guideOverlay.open{display:flex}.guideModal{width:min(920px,100%);background:#fff;border-radius:18px;box-shadow:0 24px 80px rgba(15,23,42,.3);overflow:hidden;margin:auto}
+.guideHead{position:sticky;top:0;z-index:2;background:#0f172a;color:#fff;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}.guideHead h2{margin:0;font-size:18px}.guideClose{border:1px solid #64748b;background:#263449;color:#fff;border-radius:9px;padding:8px 11px;font-weight:800;cursor:pointer}
+.guideBody{padding:16px}.guideIntro{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:11px 12px;margin-bottom:14px}.guideSection{border-top:1px solid #e2e8f0;padding:14px 0}.guideSection:first-of-type{border-top:0}.guideSection h3{font-size:15px;margin:0 0 7px;color:#172033}.guideSection p{margin:5px 0}.guideSteps{margin:7px 0 0;padding-left:21px}.guideSteps li{margin:6px 0}.guideKey{display:grid;grid-template-columns:155px 1fr;gap:6px 12px;margin-top:8px}.guideKey b{color:#334155}.guideTip{border-left:4px solid #64748b;background:#f8fafc;padding:8px 10px;margin-top:8px;border-radius:0 8px 8px 0}.guideFooter{font-size:12px;color:#64748b;border-top:1px solid #e2e8f0;padding-top:12px;margin-top:8px}
+@media(max-width:640px){.guideOverlay{padding:0}.guideModal{min-height:100%;border-radius:0}.guideBody{padding:13px}.guideKey{grid-template-columns:1fr}.guideKey b{margin-top:5px}}
+
 </style>
 </head>
 <body>
 <header><div class="headerin">
-<div class="brand"><h1>Yoğun Bakım Günlük Vizit ve Progres Sistemi</h1><div>Muayene odaklı • Tab yapısı • Lokal PWA • v2.11</div></div>
-<div class="actions"><button class="btn ghost" type="button" id="saveBtn">Kaydet</button><button class="btn danger" type="button" id="clearBtn">Yeni hasta</button><button class="btn primary" type="button" id="generateBtn">Çıktıları Oluştur</button></div>
+<div class="brand"><h1>Yoğun Bakım Günlük Vizit ve Progres Sistemi</h1><div>Muayene odaklı • Tab yapısı • Lokal PWA • v2.14</div></div>
+<div class="actions"><button class="btn ghost" type="button" id="guideBtn">Kullanım Kılavuzu</button><button class="btn ghost" type="button" id="saveBtn">Kaydet</button><button class="btn danger" type="button" id="clearBtn">Yeni hasta</button><button class="btn primary" type="button" id="generateBtn">Çıktıları Oluştur</button></div>
 </div></header>
+
+<div class="guideOverlay" id="guideOverlay" role="dialog" aria-modal="true" aria-labelledby="guideTitle">
+  <div class="guideModal">
+    <div class="guideHead"><h2 id="guideTitle">Kullanım Kılavuzu</h2><button class="guideClose" type="button" id="guideCloseBtn">Kapat</button></div>
+    <div class="guideBody">
+      <div class="guideIntro"><b>Temel ilke:</b> Günlük vizit yapısı değişmez. Hasta klinik verileri vizit sırasında bir kez girilir; Progres, Günlük Hedefler ve Akşam Devir çıktıları aynı kayıttan üretilir.</div>
+
+      <div class="guideSection"><h3>1. Günlük vizit</h3><ol class="guideSteps">
+        <li><b>Değerlendirme</b>, <b>Organ Sistemleri</b>, <b>Cihazlar</b> ve <b>Plan</b> sekmelerini mevcut çalışma düzeninizde olduğu gibi doldurun.</li>
+        <li>Hasta için <b>Yatak no</b> girin. Aynı hastayı daha sonra yeniden açabilmek için <b>Kaydet</b> düğmesini kullanın.</li>
+        <li><b>Progres</b> sekmesinden metin çıktısını oluşturun. Progres TXT işleyişi önceki sürümle aynıdır.</li>
+      </ol></div>
+
+      <div class="guideSection"><h3>2. Günlük Hedefler</h3><p>Vizitte girilmiş klinik bilgiler bu ekranda özetlenir; aynı verileri yeniden yazmanız gerekmez. Yalnız o güne ait karar ve hedefleri tamamlayın.</p>
+        <div class="guideKey"><b>Ana hedef</b><span>Hastada bugün ulaşılması istenen en önemli klinik hedef.</span><b>Solunum</b><span>Destek azaltma, spontan solunum testi, ekstübasyon, pronasyon veya diğer hedefler.</span><b>Hemodinami / sıvı</b><span>MAP, vazopresör ve günlük sıvı dengesi hedefleri.</span><b>Sedasyon / mobilizasyon</b><span>RASS, sedasyon azaltma/kesme ve mobilizasyon hedefleri.</span><b>Enfeksiyon / tedavi</b><span>Antibiyotik yeniden değerlendirmesi, de-eskalasyon ve kaynak kontrolü.</span><b>Günlük güvenlik</b><span>Kesilebilecek ilaç, VTE profilaksisi, stres ülser profilaksisi ve gereksiz kateter/dren/tüp değerlendirmesi.</span><b>Tetkikler</b><span>Beklenen sonuçlar, yapılacak işlem/konsültasyon ve sabah tetkik planı.</span><b>Aile bilgisi</b><span>Ailenin bilgilendirilip bilgilendirilmediği ve kısaca hangi bilginin verildiği.</span></div>
+        <div class="guideTip"><b>PDF:</b> “Günlük Hedefler PDF / Yazdır” ile seçili hasta için tek A4 sayfa; “Tüm kayıtlı hastalar” ile her hasta ayrı A4 sayfa olarak oluşturulur.</div>
+      </div>
+
+      <div class="guideSection"><h3>3. Sabah tetkikleri</h3><div class="guideKey"><b>Yok</b><span>Rutin sabah tetkiki planlanmıyor.</span><b>Kısa</b><span>Kan sayımı + CRP + Prokalsitonin.</span><b>Uzun</b><span>Kısa paket + geniş biyokimya + Ferritin.</span><b>Özel</b><span>Kısa veya Uzun pakete eklenebilir; ör. proBNP, troponin, fibrinojen. Yalnız özel tetkik de girilebilir.</span></div><p class="smallnote">Kan gazı ve laktat bu paketlerin parçası değildir; klinik gerekliliğe göre istenir.</p></div>
+
+      <div class="guideSection"><h3>4. Akşam devir</h3><p>Akşam hastayı tekrar açtığınızda gündüz bilgileri korunur. Yalnız nöbet için gerekli değişiklikleri tamamlayın:</p><ol class="guideSteps">
+        <li><b>Gün içindeki önemli değişiklik</b></li><li><b>Beklenen sonuç</b> veya gündüzden sonra eklenen sonuç</li><li><b>Gece yapılacak</b> iş veya takip</li><li><b>Sabah tetkiki</b> — gündüz planı aynen kullanılabilir veya değiştirilebilir</li><li><b>Risk / Dikkat</b> ve kısa açıklaması</li><li><b>Haber verme kriteri</b></li>
+      </ol><p><b>Devre Hazır</b> ile hastanın devir bilgilerini kaydedin.</p></div>
+
+      <div class="guideSection"><h3>5. Risk ve dikkat sembolleri</h3><div class="guideKey"><b>⚠ Risk</b><span>Gece kötüleşme riski yüksek veya yakın klinik takip gerektiren durum.</span><b>! Dikkat</b><span>Özel izlem veya belirli bir konuya dikkat gerektiren durum.</span><b>✓ Stabil</b><span>Belirgin özel gece riski tanımlanmamış hasta.</span></div><p class="smallnote">Semboller renk kullanılmadan da anlamını koruyacak şekilde seçilmiştir; siyah-beyaz baskıda kullanılabilir.</p></div>
+
+      <div class="guideSection"><h3>6. Nöbetçi tablosu</h3><p>Kayıtlı tüm hastalar tek tabloda birleştirilir. Tablo şu bilgileri içerir: <b>Yatak, ana sorun, gün içi değişiklik, beklenen sonuç, gece yapılacak, sabah tetkiki, risk/dikkat ve haber verme kriteri.</b></p><div class="guideTip">Nöbet tablosu kısa ve operasyonel tutulur; aile bilgisi, profilaksi ve diğer gündüz hedefleri Daily Goals PDF'de kalır.</div></div>
+
+      <div class="guideSection"><h3>7. Yeni hasta ve kayıt mantığı</h3><ul class="guideSteps"><li><b>Kaydet:</b> mevcut hastanın vizit, hedef ve devir verilerini cihazda saklar.</li><li><b>Yeni hasta:</b> yeni hasta formu açar; önceki kayıtlı hastaları silmez.</li><li>Kayıtlı hastalar Günlük Hedefler / Akşam Devir ekranından yeniden açılabilir.</li></ul></div>
+
+      <div class="guideSection"><h3>8. Çıktılar</h3><div class="guideKey"><b>Progres</b><span>TXT — mevcut hasta/progres iş akışı.</span><b>Günlük Hedefler</b><span>Hasta başına 1 A4 PDF / yazdırılabilir sayfa.</span><b>Akşam Devir</b><span>Tüm hastaları içeren yatay, yazdırılabilir nöbet tablosu.</span></div></div>
+
+      <div class="guideSection"><h3>9. Kullanım önerisi</h3><p><b>Sabah:</b> vizit → Progres → Günlük Hedefler. <b>Akşam:</b> aynı hastayı aç → yalnız değişiklik, gece işi ve risk alanlarını tamamla → Devre Hazır. <b>Nöbet:</b> tüm hastaların ortak devir tablosunu kullan.</p></div>
+
+      <div class="guideFooter">Bu sistem sağlık profesyonellerine yönelik klinik iş akışını ve vardiya devrini standartlaştırmak amacıyla hazırlanmıştır. Üretilen özetler klinik değerlendirme, tıbbi kayıt veya tedavi kararının yerine geçmez.</div>
+    </div>
+  </div>
+</div>
 <main>
 <div class="notice"><b>Klinik karar desteği:</b> Araç günlük yatak başı değerlendirmeyi standartlaştırır. Tedavi emri üretmez; öneriler değerlendirme/gözden geçirme düzeyindedir.</div>
 <div class="statusline"><span id="completionText">Tamamlanma: %0</span><span id="patientCount">Kayıtlı hasta: 0</span><span id="saveStatus">Lokal kayıt</span></div>
@@ -64,6 +122,8 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 <button class="maintab" data-main="devices">Cihazlar</button>
 <button class="maintab" data-main="plan">Plan</button>
 <button class="maintab" data-main="progressPage">Progres</button>
+<button class="maintab" data-main="dailyGoalsPage">Günlük Hedefler</button>
+<button class="maintab" data-main="handoffPage">Akşam Devir</button>
 </nav>
 
 <form id="roundForm" autocomplete="off">
@@ -507,6 +567,97 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 <section class="page" id="progressPage">
 <div class="card"><h2>Günlük progres notu</h2><div class="body"><div class="outhead"><span class="empty">Düzenlenebilir düz metin.</span><button class="smallbtn" type="button" id="copyProgress">Panoya Kopyala</button></div><textarea class="output" id="progressText" placeholder="Çıktıları Oluştur düğmesine basın..."></textarea></div></div>
 </section>
+
+<section class="page" id="dailyGoalsPage">
+<div class="notice"><b>Günlük vizit korunmuştur.</b> Bu bölüm vizitte zaten girilmiş klinik verileri yalnızca özetler; hedef ve güvenlik kararları ayrıca kaydedilir.</div>
+
+<div class="card"><h2>Günlük Hedefler - Hasta Özeti</h2><div class="body">
+<div class="fields two">
+<div><label class="fieldlabel">Sorumlu / devreden hekim</label><input id="dgDoctor" type="text" placeholder="Ad soyad"></div>
+<div><label class="fieldlabel">Ana sorun için kısa ifade (isteğe bağlı)</label><input id="dgMainProblem" type="text" placeholder="Boş bırakılırsa aktif sorunlardan otomatik oluşturulur"></div>
+</div>
+<div class="section"><label class="fieldlabel">Vizitten otomatik klinik özet</label><div id="dgClinicalSummary" class="autosummary">Vizit verileri girildikçe burada özetlenir.</div></div>
+<div class="section"><label class="fieldlabel">Bugünün ana hedefi</label><textarea id="dgMainGoal" placeholder="Örn. FiO₂ azaltılması, negatif sıvı dengesi ve vazopresörün kesilmesinin değerlendirilmesi"></textarea></div>
+</div></div>
+
+<div class="goalgrid two">
+<div class="goalbox"><h3>Solunum hedefi</h3>
+<div class="chips">
+<label class="chip"><input type="checkbox" data-group="dgResp" value="Aynı destek"><span>Aynı destek</span></label>
+<label class="chip"><input type="checkbox" data-group="dgResp" value="Desteği azalt"><span>Desteği azalt</span></label>
+<label class="chip"><input type="checkbox" data-group="dgResp" value="Spontan solunum testi"><span>Spontan solunum testi</span></label>
+<label class="chip"><input type="checkbox" data-group="dgResp" value="Ekstübasyonu değerlendir"><span>Ekstübasyonu değerlendir</span></label>
+<label class="chip"><input type="checkbox" data-group="dgResp" value="Pronasyon"><span>Pronasyon</span></label>
+</div>
+<div style="margin-top:8px"><input id="dgRespOther" type="text" placeholder="Diğer solunum hedefi"></div>
+</div>
+
+<div class="goalbox"><h3>Hemodinami / sıvı hedefi</h3>
+<div class="fields two"><div><label class="fieldlabel">MAP hedefi (mmHg)</label><input id="dgMapGoal" type="text" inputmode="decimal" placeholder="örn. ≥65"></div>
+<div><label class="fieldlabel">Vazopresör hedefi</label><select id="dgVasoGoal"><option value="">Seçiniz</option><option>Aynı devam</option><option>Azalt</option><option>Kes</option><option>Yeniden değerlendir</option><option>Vazopresör yok</option></select></div></div>
+<div style="margin-top:8px"><label class="fieldlabel">24 saatlik sıvı dengesi hedefi</label><input id="dgFluidGoal" type="text" placeholder="örn. -500 ila -1000 mL"></div>
+</div>
+
+<div class="goalbox"><h3>Sedasyon / analjezi / mobilizasyon</h3>
+<div class="fields two"><div><label class="fieldlabel">RASS hedefi</label><select id="dgRassGoal"><option value="">Seçiniz</option><option>0</option><option>-1</option><option>-2</option><option>-3</option><option>-4</option><option>-5</option><option>+1</option><option>+2</option><option>+3</option><option>+4</option><option>Değerlendirilemedi</option></select></div>
+<div><label class="fieldlabel">Sedasyon / analjezi planı</label><select id="dgSedationPlan"><option value="">Seçiniz</option><option>Aynı devam</option><option>Sedasyonu azalt</option><option>Sedasyonu kes / uyandırmayı değerlendir</option><option>Analjeziyi yeniden değerlendir</option><option>Yeniden değerlendir</option></select></div></div>
+<div style="margin-top:8px"><label class="fieldlabel">Mobilizasyon hedefi</label><input id="dgMobilityGoal" type="text" placeholder="örn. yatak kenarı / oturur pozisyon"></div>
+</div>
+
+<div class="goalbox"><h3>Enfeksiyon / tedavi</h3>
+<div class="fields two"><div><label class="fieldlabel">Antibiyotik planı</label><select id="dgAbxPlan"><option value="">Seçiniz</option><option>Devam</option><option>Yeniden değerlendir</option><option>De-eskalasyonu değerlendir</option><option>Kesilmesini değerlendir</option><option>Antibiyotik yok</option></select></div>
+<div><label class="fieldlabel">Kaynak kontrolü</label><select id="dgSourceControl"><option value="">Seçiniz</option><option>Gerekmiyor</option><option>Planlandı</option><option>Bekleniyor</option><option>Yeniden değerlendir</option></select></div></div>
+</div>
+</div>
+
+<div class="card"><h2>Günlük güvenlik kontrolü</h2><div class="body">
+<div class="goalgrid two">
+<div class="goalbox"><h3>İlaç gözden geçirme</h3><label class="fieldlabel">Kesilmesi / azaltılması düşünülen ilaç var mı?</label><select id="dgStopDrugDecision"><option value="">Seçiniz</option><option>Hayır</option><option>Evet - kesilmesi düşünülen</option><option>Evet - doz azaltılması düşünülen</option><option>Yeniden değerlendir</option></select><div style="margin-top:8px"><input id="dgStopDrug" type="text" placeholder="İlaç adı / kısa not"></div></div>
+<div class="goalbox"><h3>VTE / DVT profilaksisi</h3><select id="dgVte"><option value="">Seçiniz</option><option>Farmakolojik</option><option>Mekanik</option><option>Farmakolojik + mekanik</option><option>Terapötik antikoagülasyon alıyor</option><option>Kontrendike</option><option>Yeniden değerlendir</option></select></div>
+<div class="goalbox"><h3>Stres ülser profilaksisi</h3><select id="dgSup"><option value="">Seçiniz</option><option>Endikasyon var - devam</option><option>Endikasyon var - başlanmalı</option><option>Endikasyon yok</option><option>Kesilmesi değerlendirilmeli</option><option>Kontrendike</option><option>Yeniden değerlendir</option></select></div>
+<div class="goalbox"><h3>Kateter / dren / tüp</h3><label class="fieldlabel">Çıkarılabilecek veya yeniden değerlendirilecek invaziv araç</label><input id="dgDeviceReview" type="text" placeholder="Yoksa boş bırakılabilir"></div>
+</div>
+</div></div>
+
+<div class="card"><h2>Tetkik, işlem ve sabah planı</h2><div class="body">
+<div class="fields two"><div><label class="fieldlabel">Bugün yapılacak işlem / konsültasyon</label><textarea id="dgProcedure" placeholder="Kısa yazınız"></textarea></div>
+<div><label class="fieldlabel">Beklenen tetkik / görüntüleme sonucu</label><textarea id="dgExpectedResult" placeholder="Örn. kan kültürü, toraks BT raporu"></textarea></div></div>
+<div class="section"><label class="fieldlabel">Sonuç geldiğinde yapılacak / dikkat edilecek</label><input id="dgResultAction" type="text" placeholder="İsteğe bağlı"></div>
+<div class="section"><label class="fieldlabel">Sabah istenecek tetkikler</label><div class="radioRow">
+<label class="radioChip"><input type="radio" name="dgMorningLabs" value="Yok"><span>Yok</span></label>
+<label class="radioChip"><input type="radio" name="dgMorningLabs" value="Kısa"><span>Kısa</span></label>
+<label class="radioChip"><input type="radio" name="dgMorningLabs" value="Uzun"><span>Uzun</span></label>
+</div><div style="margin-top:8px"><label class="fieldlabel">+ Özel tetkik</label><input id="dgSpecialLabs" type="text" placeholder="örn. proBNP, troponin, fibrinojen"></div>
+<div class="smallnote"><b>Kısa:</b> Kan sayımı, CRP, Prokalsitonin. <b>Uzun:</b> Kısa + Glukoz, Üre, Kreatinin, Na, K, Cl, Ca, Mg, P, AST, ALT, ALP, GGT, Total/Direkt bilirubin, Albumin, Total protein, LDH, Ferritin. Kan gazı ve laktat klinik gerekliliğe göre ayrıca değerlendirilir.</div></div>
+</div></div>
+
+<div class="card"><h2>Aile bilgilendirmesi</h2><div class="body">
+<div class="radioRow"><label class="radioChip"><input type="radio" name="dgFamily" value="Bilgilendirildi"><span>Bilgilendirildi</span></label><label class="radioChip"><input type="radio" name="dgFamily" value="Bilgilendirilmedi"><span>Bilgilendirilmedi</span></label></div>
+<div class="section"><label class="fieldlabel">Kısaca ne bilgi verildi?</label><textarea id="dgFamilyInfo" class="familyinfo" placeholder="Aileye verilen klinik bilgilendirmeyi kısaca yazınız"></textarea></div>
+<div class="outputactions"><button class="btn primary" type="button" id="printDailyGoalsBtn">Günlük Hedefler PDF / Yazdır</button><button class="btn" type="button" id="printAllDailyGoalsBtn">Tüm kayıtlı hastalar - ayrı A4 sayfalar</button></div>
+</div></div>
+</section>
+
+<section class="page" id="handoffPage">
+<div class="notice"><b>Akşam devri:</b> Vizit ve Günlük Hedefler verileri yeniden yazdırılmaz. Yalnızca gün içi değişiklik, gece işi, risk/dikkat ve haber verme kriteri tamamlanır.</div>
+<div class="card"><h2>Kayıtlı hastalar</h2><div class="body"><div id="savedPatientsHandoff" class="patientpanel"><div class="empty">Henüz kayıtlı hasta yok.</div></div></div></div>
+
+<div class="card"><h2>Seçili hasta - Akşam Devir</h2><div class="body">
+<div id="handoffPatientSummary" class="autosummary">Bir hasta seçin veya mevcut hastanın vizitini tamamlayın.</div>
+<div class="section"><label class="fieldlabel">Gün içinde önemli değişiklik</label><textarea id="handoffChange" placeholder="Örn. noradrenalin kesildi, FiO₂ %60'tan %40'a geriledi"></textarea></div>
+<div class="section fields two"><div><label class="fieldlabel">Günlük Hedeflerden beklenen sonuç</label><div id="handoffExpectedInherited" class="readonlyline">-</div></div><div><label class="fieldlabel">Ek / değişen beklenen sonuç</label><input id="handoffExpectedExtra" type="text" placeholder="Varsa ekleyin"></div></div>
+<div class="section"><label class="fieldlabel">🌙 Gece yapılacak</label><textarea id="handoffNightTasks" placeholder="Saat gerekiyorsa metnin başına yazın: 00:00 Hb kontrolü"></textarea></div>
+<div class="section fields two"><div><label class="fieldlabel">Sabah tetkiki - Günlük Hedeflerden</label><div id="handoffLabsInherited" class="readonlyline">-</div></div><div><label class="fieldlabel">Akşam değişikliği</label><select id="handoffLabsOverride"><option value="">Gündüz planını kullan</option><option>Yok</option><option>Kısa</option><option>Uzun</option></select><input id="handoffSpecialLabsExtra" type="text" style="margin-top:7px" placeholder="Ek özel tetkik"></div></div>
+<div class="section"><label class="fieldlabel">Risk / dikkat düzeyi</label><div class="radioRow">
+<label class="radioChip"><input type="radio" name="handoffRisk" value="stable"><span>✓ Stabil</span></label>
+<label class="radioChip"><input type="radio" name="handoffRisk" value="attention"><span>! Dikkat</span></label>
+<label class="radioChip"><input type="radio" name="handoffRisk" value="risk"><span>⚠ Risk</span></label>
+</div><div style="margin-top:8px"><input id="handoffRiskDetail" type="text" placeholder="Örn. hipoksemi / hipotansiyon / oligüri"></div></div>
+<div class="section"><label class="fieldlabel">📞 Haber verme kriteri</label><textarea id="handoffCallCriteria" placeholder="Örn. FiO₂ ≥0,60 veya MAP <65 mmHg"></textarea></div>
+<div class="section inlinecheck"><label><input id="handoffReady" type="checkbox" data-group="handoff" value="Devre hazır"> Devre hazır</label></div>
+<div class="outputactions"><button class="btn primary" type="button" id="handoffReadyBtn">Kaydet ve Devre Hazır</button><button class="btn" type="button" id="printHandoffBtn">Tüm Hastalar - Nöbet Tablosu</button></div>
+</div></div>
+</section>
 </form>
 
 <nav class="bottomtabs" aria-label="Alt ana bölümler">
@@ -515,6 +666,8 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 <button class="maintab" data-main="devices">Cihazlar</button>
 <button class="maintab" data-main="plan">Plan</button>
 <button class="maintab" data-main="progressPage">Progres</button>
+<button class="maintab" data-main="dailyGoalsPage">Günlük Hedefler</button>
+<button class="maintab" data-main="handoffPage">Akşam Devir</button>
 </nav>
 
 </main>
@@ -813,6 +966,7 @@ function storePatients(arr){
 function updatePatientCount(){
  const n=loadPatients().length;
  if($('patientCount')) $('patientCount').textContent=`Kayıtlı hasta: ${n}`;
+ if(typeof updateSavedPatientsPanel==='function') updateSavedPatientsPanel();
 }
 function hasMeaningfulPatientData(){
  const ids=['bed','icuDay','trend','events','appearance','conscious','rass','respSupport','rhythm','abdAppearance','diuresis','mobility','customProblem','customTodo'];
@@ -866,6 +1020,8 @@ function resetForNewPatient(){
  $('careList').innerHTML='<div class="empty">Henüz oluşturulmadı.</div>';
  $('todoList').innerHTML='<div class="empty">Henüz oluşturulmadı.</div>';
  showRespSettings();showHemodynamicSettings();showCRRTSettings();updateMAP();updateIAP();updateGCS();updateProgress();
+ if(typeof updateGoalSummary==='function') updateGoalSummary();
+ if(typeof updateSavedPatientsPanel==='function') updateSavedPatientsPanel();
  activateMain('assessment');
  window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -965,7 +1121,164 @@ document.querySelectorAll('#roundForm input,#roundForm select,#roundForm textare
  el.addEventListener('change',()=>{if(el.id==='respSupport')showRespSettings();if(['gcsEye','gcsVerbal','gcsMotor'].includes(el.id))updateGCS();updateProgress();saveDraft(false)});
  if(el.tagName==='TEXTAREA'||['text','number'].includes(el.type))el.addEventListener('input',()=>{if(el.id==='sbp'||el.id==='dbp')updateMAP();if(el.id==='iap')updateIAP();updateProgress();saveDraft(false)});
 });
+
+// ---------- v2.12 Daily Goals / Akşam Devir ----------
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function stateVal(st,id){return String((st&&st[id])??'').trim()}
+function stateRadio(st,name){return String((st&&st[`radio|${name}`])??'').trim()}
+function stateChecks(st,group){
+ if(!st)return [];
+ const prefix=`check|${group}|`;
+ return Object.keys(st).filter(k=>k.startsWith(prefix)&&st[k]).map(k=>k.slice(prefix.length));
+}
+function problemSummaryFromState(st){
+ const manual=stateVal(st,'dgMainProblem'); if(manual)return manual;
+ const probs=stateChecks(st,'problem');
+ const custom=stateVal(st,'customProblem'); if(custom)probs.push(custom);
+ return probs.length?probs.slice(0,3).join(', '):'Ana sorun belirtilmedi';
+}
+function drugRowsFromState(st,key){return Array.isArray(st?.[key])?st[key]:[]}
+function vasoSummaryFromState(st){
+ return drugRowsFromState(st,'__vasoDrugs').filter(x=>x.drug).map(x=>`${x.drug}${x.dose?' '+x.dose:''}${x.unit?' '+x.unit:''}`).join(', ');
+}
+function antibioticSummaryFromState(st){
+ return drugRowsFromState(st,'__antibioticDrugs').filter(x=>x.drug).map(x=>`${x.drug}${x.dose?' '+x.dose:''}${x.day?' (gün '+x.day+')':''}`).join(', ');
+}
+function clinicalSummaryFromState(st){
+ const lines=[];
+ const resp=stateVal(st,'respSupport');
+ if(resp){
+   let x=resp;
+   if(resp==='İnvaziv mekanik ventilasyon'){
+     const a=[]; if(stateVal(st,'mvMode'))a.push(stateVal(st,'mvMode')); if(stateVal(st,'fio2'))a.push('FiO₂ %'+stateVal(st,'fio2')); if(stateVal(st,'peep'))a.push('PEEP '+stateVal(st,'peep'));
+     if(a.length)x+=' - '+a.join(', ');
+   }else if(resp==='HFNO'){
+     const a=[]; if(stateVal(st,'hfnoFlow'))a.push(stateVal(st,'hfnoFlow')+' L/dk'); if(stateVal(st,'hfnoFio2'))a.push('FiO₂ %'+stateVal(st,'hfnoFio2')); if(a.length)x+=' - '+a.join(', ');
+   }else if(resp==='NIMV'){
+     const a=[]; if(stateVal(st,'nimvMode'))a.push(stateVal(st,'nimvMode')); if(stateVal(st,'nimvFio2'))a.push('FiO₂ %'+stateVal(st,'nimvFio2')); if(stateVal(st,'nimvEpap'))a.push('PEEP/EPAP '+stateVal(st,'nimvEpap')); if(a.length)x+=' - '+a.join(', ');
+   }
+   if(stateVal(st,'spo2'))x+=` | SpO₂ %${stateVal(st,'spo2')}`;
+   lines.push('Solunum: '+x);
+ }
+ const hemo=[]; if(stateVal(st,'map'))hemo.push('MAP '+stateVal(st,'map')+' mmHg'); if(stateVal(st,'rhythm'))hemo.push(stateVal(st,'rhythm')); const v=vasoSummaryFromState(st); if(v)hemo.push(v); if(hemo.length)lines.push('Hemodinami: '+hemo.join(', '));
+ const renal=[]; if(stateVal(st,'diuresis'))renal.push(stateVal(st,'diuresis')); const sign=stateRadio(st,'balanceSign'); if(stateVal(st,'balanceAmount'))renal.push(`24s denge ${sign||''}${stateVal(st,'balanceAmount')} mL`); if(renal.length)lines.push('Renal / sıvı: '+renal.join(', '));
+ const neuro=[]; if(stateVal(st,'rass'))neuro.push('RASS '+stateVal(st,'rass')); if(stateVal(st,'mobility'))neuro.push('Mobilizasyon: '+stateVal(st,'mobility')); if(neuro.length)lines.push('Nörolojik / mobilizasyon: '+neuro.join(', '));
+ const abx=antibioticSummaryFromState(st); if(abx)lines.push('Antibiyotik: '+abx);
+ return lines.length?lines.join('\n'):'Vizit verileri henüz yeterli değil.';
+}
+function currentStateWithGoals(){return getState()}
+function updateGoalSummary(){
+ if($('dgClinicalSummary'))$('dgClinicalSummary').textContent=clinicalSummaryFromState(currentStateWithGoals());
+ if($('handoffPatientSummary')){
+   const st=currentStateWithGoals();
+   $('handoffPatientSummary').textContent=`Yatak ${stateVal(st,'bed')||'—'} | ${problemSummaryFromState(st)}${stateVal(st,'dgMainGoal')?'\nBugünün hedefi: '+stateVal(st,'dgMainGoal'):''}`;
+ }
+ if($('handoffExpectedInherited'))$('handoffExpectedInherited').textContent=val('dgExpectedResult')||'-';
+ if($('handoffLabsInherited')){
+   const pack=radio('dgMorningLabs')||'Belirtilmedi'; const sp=val('dgSpecialLabs');
+   $('handoffLabsInherited').textContent=pack+(sp?' + '+sp:'');
+ }
+}
+function updateSavedPatientsPanel(){
+ const box=$('savedPatientsHandoff'); if(!box)return;
+ const pts=loadPatients().slice().sort((a,b)=>String(a.bed||'').localeCompare(String(b.bed||''),'tr',{numeric:true}));
+ if(!pts.length){box.innerHTML='<div class="empty">Henüz kayıtlı hasta yok.</div>';return}
+ box.innerHTML=pts.map(p=>{
+   const st=p.state||{}; const risk=stateRadio(st,'handoffRisk');
+   const riskText=risk==='risk'?'⚠ Risk':risk==='attention'?'! Dikkat':risk==='stable'?'✓ Stabil':'Risk belirtilmedi';
+   const ready=!!st['check|handoff|Devre hazır'];
+   return `<div class="patientrow"><b>Yatak ${esc(p.bed||'—')}</b><div><div>${esc(problemSummaryFromState(st))}</div><div class="pmeta">${esc(riskText)} • ${ready?'Devre hazır':'Devir eksik'}</div></div><div class="pactions"><button type="button" class="smallbtn" onclick="loadPatientById('${esc(p.id)}','dailyGoalsPage')">Hedefler</button><button type="button" class="smallbtn" onclick="loadPatientById('${esc(p.id)}','handoffPage')">Devir</button></div></div>`;
+ }).join('');
+}
+function loadPatientById(id,target='handoffPage'){
+ const p=loadPatients().find(x=>x.id===id); if(!p)return;
+ currentPatientId=id; localStorage.setItem(MULTI_CURRENT_ID_KEY,id);
+ $('roundForm').reset();
+ applyState(p.state||{});
+ localStorage.setItem(MULTI_DRAFT_KEY,JSON.stringify(p.state||{}));
+ showRespSettings();showHemodynamicSettings();showCRRTSettings();updateMAP();updateIAP();updateGCS();updateProgress();renderOutputsCore();updateGoalSummary();updateSavedPatientsPanel();
+ activateMain(target); window.scrollTo({top:0,behavior:'smooth'});
+ $('saveStatus').textContent=`Yatak ${p.bed||'—'} yüklendi`;
+ setTimeout(()=>$('saveStatus').textContent='Lokal kayıt',1100);
+}
+function riskLabel(st){const r=stateRadio(st,'handoffRisk');return r==='risk'?'⚠ RİSK':r==='attention'?'! DİKKAT':r==='stable'?'✓ STABİL':''}
+function morningLabsText(st){
+ const override=stateVal(st,'handoffLabsOverride'); const pack=override||stateRadio(st,'dgMorningLabs')||'—';
+ const specs=[stateVal(st,'dgSpecialLabs'),stateVal(st,'handoffSpecialLabsExtra')].filter(Boolean);
+ return pack+(specs.length?' + '+specs.join(' + '):'');
+}
+function expectedResultText(st){return [stateVal(st,'dgExpectedResult'),stateVal(st,'handoffExpectedExtra')].filter(Boolean).join(' / ')||'—'}
+function goalsDataFromState(st){
+ const resp=[...stateChecks(st,'dgResp'),stateVal(st,'dgRespOther')].filter(Boolean).join(', ');
+ const hemo=[]; if(stateVal(st,'dgMapGoal'))hemo.push('MAP '+stateVal(st,'dgMapGoal')); if(stateVal(st,'dgVasoGoal'))hemo.push('Vazopresör: '+stateVal(st,'dgVasoGoal')); if(stateVal(st,'dgFluidGoal'))hemo.push('Denge: '+stateVal(st,'dgFluidGoal'));
+ const sed=[]; if(stateVal(st,'dgRassGoal'))sed.push('RASS '+stateVal(st,'dgRassGoal')); if(stateVal(st,'dgSedationPlan'))sed.push(stateVal(st,'dgSedationPlan')); if(stateVal(st,'dgMobilityGoal'))sed.push('Mobilizasyon: '+stateVal(st,'dgMobilityGoal'));
+ const inf=[]; if(stateVal(st,'dgAbxPlan'))inf.push('ABX: '+stateVal(st,'dgAbxPlan')); if(stateVal(st,'dgSourceControl'))inf.push('Kaynak kontrolü: '+stateVal(st,'dgSourceControl'));
+ const med=[]; if(stateVal(st,'dgStopDrugDecision'))med.push(stateVal(st,'dgStopDrugDecision')+(stateVal(st,'dgStopDrug')?': '+stateVal(st,'dgStopDrug'):'')); if(stateVal(st,'dgVte'))med.push('VTE: '+stateVal(st,'dgVte')); if(stateVal(st,'dgSup'))med.push('Stres ülseri: '+stateVal(st,'dgSup')); if(stateVal(st,'dgDeviceReview'))med.push('İnvaziv araç: '+stateVal(st,'dgDeviceReview'));
+ return {resp:resp||'—',hemo:hemo.join('; ')||'—',sed:sed.join('; ')||'—',inf:inf.join('; ')||'—',safety:med.join('; ')||'—'};
+}
+function dailyGoalsSheetHTML(st,p={}){
+ const g=goalsDataFromState(st); const bed=stateVal(st,'bed')||p.bed||'—'; const day=stateVal(st,'icuDay')||p.icuDay||'—'; const doctor=stateVal(st,'dgDoctor')||'—';
+ const family=stateRadio(st,'dgFamily')||'—'; const famInfo=stateVal(st,'dgFamilyInfo');
+ const labs=(stateRadio(st,'dgMorningLabs')||'—')+(stateVal(st,'dgSpecialLabs')?' + '+stateVal(st,'dgSpecialLabs'):'');
+ return `<section class="sheet"><div class="sheetTitle">YOĞUN BAKIM - GÜNLÜK HEDEFLER</div><div class="meta"><b>Tarih:</b> ${esc(new Date().toLocaleDateString('tr-TR'))}<span><b>Yatak:</b> ${esc(bed)}</span><span><b>YB günü:</b> ${esc(day)}</span><span><b>Hekim:</b> ${esc(doctor)}</span></div>
+ <div class="headline"><b>Ana sorun:</b> ${esc(problemSummaryFromState(st))}<br><b>Bugünün ana hedefi:</b> ${esc(stateVal(st,'dgMainGoal')||'—')}</div>
+ <div class="clinical"><b>Vizit özeti</b><br>${esc(clinicalSummaryFromState(st)).replace(/\n/g,'<br>')}</div>
+ <div class="goalrows">
+ <div class="goalrow"><div class="goalrowlabel">Solunum</div><div class="goalrowvalue">${esc(g.resp)}</div></div>
+ <div class="goalrow"><div class="goalrowlabel">Hemodinami / sıvı</div><div class="goalrowvalue">${esc(g.hemo)}</div></div>
+ <div class="goalrow"><div class="goalrowlabel">Sedasyon / mobilizasyon</div><div class="goalrowvalue">${esc(g.sed)}</div></div>
+ <div class="goalrow"><div class="goalrowlabel">Enfeksiyon / tedavi</div><div class="goalrowvalue">${esc(g.inf)}</div></div>
+ <div class="goalrow"><div class="goalrowlabel">Günlük güvenlik</div><div class="goalrowvalue">${esc(g.safety)}</div></div>
+ <div class="goalrow"><div class="goalrowlabel">İşlem / konsültasyon</div><div class="goalrowvalue">${esc(stateVal(st,'dgProcedure')||'—')}</div></div>
+ <div class="goalrow"><div class="goalrowlabel">Beklenen sonuç</div><div class="goalrowvalue">${esc(stateVal(st,'dgExpectedResult')||'—')}${stateVal(st,'dgResultAction')?'<br><b>Sonuca göre:</b> '+esc(stateVal(st,'dgResultAction')):''}</div></div>
+ <div class="goalrow"><div class="goalrowlabel">Sabah tetkikleri</div><div class="goalrowvalue">${esc(labs)}</div></div>
+ <div class="goalrow familyrow"><div class="goalrowlabel">Aile bilgilendirmesi</div><div class="goalrowvalue"><b>${esc(family)}</b>${famInfo?'<br>'+esc(famInfo):''}</div></div>
+ </div>
+ </section>`;
+}
+function printDocument(title,body,landscape=false){
+ const w=window.open('','_blank'); if(!w){alert('Yazdırma penceresi engellendi. Açılır pencerelere izin veriniz.');return}
+ w.document.write(`<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title><style>
+ @page{size:A4 ${landscape?'landscape':'portrait'};margin:${landscape?'7mm':'10mm'}}*{box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:#111;margin:0;font-size:${landscape?'9px':'10.5px'};line-height:1.28}.sheet{page-break-after:always;min-height:${landscape?'180mm':'270mm'}}.sheet:last-child{page-break-after:auto}.sheetTitle{text-align:center;font-weight:800;font-size:16px;border-bottom:2px solid #111;padding-bottom:5px;margin-bottom:6px}.meta{display:flex;gap:14px;flex-wrap:wrap;border-bottom:1px solid #777;padding:4px 0 6px}.meta span{margin-left:auto}.headline{border:1.5px solid #111;padding:7px;margin:7px 0;font-size:11px}.clinical{border:1px solid #999;padding:6px;margin-bottom:6px}.twocol{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px}.box{border:1px solid #777;padding:6px;min-height:48px}.box h3,.handoff h3{margin:0 0 4px;font-size:10.5px;text-transform:uppercase}.goalrows{border:1px solid #777;margin-top:6px}.goalrow{display:grid;grid-template-columns:43mm 1fr;border-top:1px solid #aaa;min-height:11mm}.goalrow:first-child{border-top:0}.goalrowlabel{font-weight:800;text-transform:uppercase;font-size:9.8px;padding:6px;border-right:1px solid #aaa;background:#f6f6f6}.goalrowvalue{padding:6px;white-space:pre-wrap}.goalrow.familyrow{min-height:34mm}.goalrow.familyrow .goalrowvalue{font-size:10.5px;line-height:1.35}.handoff{border:1.5px solid #111;padding:7px;margin-top:6px}.handoff>div{padding:3px 0;border-top:1px dotted #aaa}.handoff>div:first-of-type{border-top:0}table{width:100%;border-collapse:collapse;table-layout:fixed}th,td{border:1px solid #555;padding:4px;vertical-align:top;word-wrap:break-word;white-space:pre-wrap}th{font-weight:800;background:#eee}.handoffTitle{text-align:center;font-size:15px;font-weight:800;margin-bottom:5px}.handoffMeta{margin-bottom:6px;font-size:9px}.riskcell{font-weight:800;text-align:center}.foot{font-size:8px;margin-top:5px;color:#333}@media print{button{display:none}}
+ </style></head><body>${body}</body></html>`); w.document.close(); w.focus(); setTimeout(()=>w.print(),250);
+}
+function printDailyGoals(all=false){
+ saveCurrentPatient(false);
+ if(all){const pts=loadPatients(); if(!pts.length){alert('Kayıtlı hasta yok.');return} printDocument('Günlük Hedefler',pts.map(p=>dailyGoalsSheetHTML(p.state||{},p)).join(''),false);}
+ else{if(!hasMeaningfulPatientData()){alert('Önce hasta vizit verilerini giriniz.');return} const st=getState(); printDocument(`Yatak ${val('bed')||'—'} Günlük Hedefler`,dailyGoalsSheetHTML(st,{bed:val('bed'),icuDay:val('icuDay')}),false)}
+}
+function handoffTableHTML(){
+ saveCurrentPatient(false); const pts=loadPatients().slice().sort((a,b)=>String(a.bed||'').localeCompare(String(b.bed||''),'tr',{numeric:true})); if(!pts.length)return '';
+ const rows=pts.map(p=>{const st=p.state||{};return `<tr><td><b>${esc(p.bed||'—')}</b></td><td>${esc(problemSummaryFromState(st))}${stateVal(st,'dgDoctor')?'<br><small>'+esc(stateVal(st,'dgDoctor'))+'</small>':''}</td><td>${esc(stateVal(st,'handoffChange')||'—')}</td><td>${esc(expectedResultText(st))}</td><td>${esc(stateVal(st,'handoffNightTasks')||'—')}</td><td>${esc(morningLabsText(st))}</td><td class="riskcell">${esc(riskLabel(st)||'—')}${stateVal(st,'handoffRiskDetail')?'<br>'+esc(stateVal(st,'handoffRiskDetail')):''}</td><td>${esc(stateVal(st,'handoffCallCriteria')||'—')}</td></tr>`}).join('');
+ return `<div class="handoffTitle">YOĞUN BAKIM - AKŞAM VARDİYA DEVİR TABLOSU</div><div class="handoffMeta"><b>Tarih:</b> ${esc(new Date().toLocaleDateString('tr-TR'))} &nbsp; <b>Hasta sayısı:</b> ${pts.length} &nbsp; Semboller: ⚠ Risk &nbsp; ! Dikkat &nbsp; ✓ Stabil</div><table><colgroup><col style="width:5%"><col style="width:14%"><col style="width:14%"><col style="width:12%"><col style="width:17%"><col style="width:11%"><col style="width:11%"><col style="width:16%"></colgroup><thead><tr><th>Yatak</th><th>Ana sorun</th><th>Gün içi değişiklik</th><th>Beklenen sonuç</th><th>Gece yapılacak</th><th>Sabah tetkiki</th><th>Risk / Dikkat</th><th>Haber ver</th></tr></thead><tbody>${rows}</tbody></table><div class="foot">Bu çıktı vardiya devrini standartlaştırmak için hazırlanmıştır; klinik kayıt ve hekim değerlendirmesinin yerine geçmez.</div>`;
+}
+function printHandoff(){const h=handoffTableHTML();if(!h){alert('Kayıtlı hasta yok.');return}printDocument('Akşam Vardiya Devir Tablosu',h,true)}
+function markHandoffReady(){if($('handoffReady'))$('handoffReady').checked=true;saveCurrentPatient(true);updateSavedPatientsPanel();updateGoalSummary()}
+
+$('printDailyGoalsBtn')?.addEventListener('click',()=>printDailyGoals(false));
+$('printAllDailyGoalsBtn')?.addEventListener('click',()=>printDailyGoals(true));
+$('printHandoffBtn')?.addEventListener('click',printHandoff);
+$('handoffReadyBtn')?.addEventListener('click',markHandoffReady);
+
+// Yeni alanların görünür özetlerini canlı tut.
+document.querySelectorAll('#dailyGoalsPage input,#dailyGoalsPage select,#dailyGoalsPage textarea,#handoffPage input,#handoffPage select,#handoffPage textarea').forEach(el=>{
+ el.addEventListener('change',updateGoalSummary); if(el.tagName==='TEXTAREA'||['text','number'].includes(el.type))el.addEventListener('input',updateGoalSummary);
+});
+const _origActivateMain=activateMain;
+activateMain=function(id){_origActivateMain(id);if(id==='dailyGoalsPage'||id==='handoffPage'){updateGoalSummary();updateSavedPatientsPanel()}}
+
 loadState();
+updateGoalSummary();updateSavedPatientsPanel();
+
+// Kullanım kılavuzu
+const guideOverlay=$('guideOverlay');
+function openGuide(){if(guideOverlay){guideOverlay.classList.add('open');document.body.style.overflow='hidden';}}
+function closeGuide(){if(guideOverlay){guideOverlay.classList.remove('open');document.body.style.overflow='';}}
+$('guideBtn')?.addEventListener('click',openGuide);
+$('guideCloseBtn')?.addEventListener('click',closeGuide);
+guideOverlay?.addEventListener('click',e=>{if(e.target===guideOverlay)closeGuide()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&guideOverlay?.classList.contains('open'))closeGuide()});
+
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
 </script>
 </body></html>
