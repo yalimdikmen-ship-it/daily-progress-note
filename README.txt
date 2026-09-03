@@ -1,4 +1,4 @@
-YOĞUN BAKIM GÜNLÜK VİZİT + DAILY GOALS / AKŞAM DEVİR - v2.16 PROTOTİP
+YOĞUN BAKIM GÜNLÜK VİZİT + DAILY GOALS / AKŞAM DEVİR - v2.17 PROTOTİP
 
 Bu prototip v2.11 günlük vizit yapısını korur. Mevcut Değerlendirme, Organ Sistemleri,
 Cihazlar, Plan ve Progres bölümleri ile TXT progres çıktısı değiştirilmemiştir.
@@ -17,11 +17,15 @@ Yeni bölümler:
    - Tüm hastalar için A4 yatay nöbet tablosu üretir.
    - Risk gösterimi renge bağlı değildir: ⚠ Risk, ! Dikkat, ✓ Stabil.
 
-Sabah tetkik paketleri:
+Ertesi gün tetkik paketleri:
 Kısa: Kan sayımı, CRP, Prokalsitonin.
-Uzun: Kısa + Glukoz, Üre, Kreatinin, Na, K, Cl, Ca, Mg, P, AST, ALT, ALP,
-GGT, Total/Direkt bilirubin, Albumin, Total protein, LDH, Ferritin.
-Kan gazı ve laktat paket dışındadır.
+Uzun = Kısa +
+- İnflamasyon: Ferritin
+- Koagülasyon: Protrombin zamanı (PT), INR, Protrombin aktivitesi, aPTT, Fibrinojen, D-dimer
+- Böbrek/metabolik: Üre, Kreatinin, Ürik asit
+- Elektrolit/mineral: Sodyum, Potasyum, Klor, Kalsiyum, Magnezyum, Fosfor
+- Karaciğer/protein: AST, ALT, Total bilirubin, Direkt bilirubin, Total protein, Albümin
+- Doku/kas: LDH, CK, CK-MB
 
 NOT: Bu ilk prototipte veriler cihazın localStorage alanında tutulur. Çok kullanıcılı
 telefon/tablet paylaşımı henüz eklenmemiştir; önce klinik iş akışı ve çıktılar test edilmelidir.
@@ -34,3 +38,6 @@ v2.15: Günlük Hedefler ve Akşam Devir çıktı ekranlarına “Uygulamaya Dö
 
 
 v2.16: Günlük Hedefler ve Akşam Devir çıktıları artık yeni pencere açmaz. Uygulamanın üzerinde kapatılabilir önizleme katmanı olarak açılır; Kapat düğmesi ana uygulamaya anında döner.
+
+
+v2.17: Uzun ertesi gün tetkik paketi kurumun yüklenen tetkik listesine göre yeniden sıralandı. Kısa pakette bulunan Kan sayımı, CRP ve Prokalsitonin Uzun listede tekrarlanmaz; “Uzun = Kısa +” olarak gösterilir. Kan gazı çıkarıldı.

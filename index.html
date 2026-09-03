@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0f172a">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Yoğun Bakım Günlük Vizit v2.16 - Daily Goals & Devir</title>
+<title>Yoğun Bakım Günlük Vizit v2.17 - Daily Goals & Devir</title>
 <style>
 :root{--bg:#f3f6fa;--card:#fff;--ink:#172033;--muted:#64748b;--line:#dbe3ee;--nav:#0f172a;--accent:#2563eb;--soft:#eff6ff;--warn:#b45309;--warnbg:#fff7ed;--danger:#b42318;--dangerbg:#fff1f0;--ok:#18794e;--shadow:0 5px 18px rgba(15,23,42,.07)}
 *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
@@ -45,9 +45,10 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 .careitem{padding:9px 10px;border-left:4px solid #2563eb;background:#eff6ff;border-radius:8px;margin-bottom:8px}.careitem.routine{border-left-color:#94a3b8;background:#f8fafc}.careitem.alert{border-left-color:#d97706;background:#fff7ed}
 .todoitem{display:flex;gap:9px;align-items:flex-start;padding:10px 0;border-bottom:1px dashed var(--line)}.todoitem input{width:18px;height:18px;margin-top:2px}.tag{display:inline-block;margin-left:6px;padding:2px 6px;border-radius:999px;background:#eef2f7;color:#536176;font-size:11px;font-weight:800}
 .empty{color:var(--muted);font-size:13px}.statusline{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted);margin-bottom:8px}
+.labPackageBox{margin-top:9px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:#f8fafc;font-size:12px;line-height:1.4}.labPackageBox .longLabsTitle{margin-top:6px}.labPackageBox .labGroup{margin-top:3px}.labPackageBox b{color:#25344a}
 @media(max-width:640px){header{padding-top:max(10px,env(safe-area-inset-top))}.brand div{display:none}.actions .btn{padding:8px 9px;font-size:12px}.maintabs{top:61px}.card h2{font-size:14px}}
 
-/* v2.16 - Çıktılar yeni pencere yerine uygulama içi kapatılabilir önizleme katmanında açılır. Mevcut vizit alanlarına dokunmaz. */
+/* v2.17 - Uzun tetkik paketi kurum listesinden yeniden düzenlendi. Mevcut vizit alanlarına dokunmaz. */
 .goalgrid{display:grid;grid-template-columns:1fr;gap:10px}.goalgrid.two{grid-template-columns:1fr}@media(min-width:760px){.goalgrid.two{grid-template-columns:1fr 1fr}}
 .goalbox{border:1px solid var(--line);border-radius:13px;padding:11px;background:#fbfdff}.goalbox h3{margin:0 0 9px;font-size:13px;color:#24324a}
 .autosummary{border:1px dashed #94a3b8;border-radius:12px;background:#f8fafc;padding:10px 12px;font-size:12px;color:#334155;white-space:pre-wrap}
@@ -70,7 +71,7 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 </head>
 <body>
 <header><div class="headerin">
-<div class="brand"><h1>Yoğun Bakım Günlük Vizit ve Progres Sistemi</h1><div>Muayene odaklı • Tab yapısı • Lokal PWA • v2.16</div></div>
+<div class="brand"><h1>Yoğun Bakım Günlük Vizit ve Progres Sistemi</h1><div>Muayene odaklı • Tab yapısı • Lokal PWA • v2.17</div></div>
 <div class="actions"><button class="btn ghost" type="button" id="guideBtn">Kullanım Kılavuzu</button><button class="btn ghost" type="button" id="saveBtn">Kaydet</button><button class="btn danger" type="button" id="clearBtn">Yeni hasta</button><button class="btn primary" type="button" id="generateBtn">Çıktıları Oluştur</button></div>
 </div></header>
 
@@ -87,19 +88,19 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
       </ol></div>
 
       <div class="guideSection"><h3>2. Günlük Hedefler</h3><p>Vizitte girilmiş klinik bilgiler bu ekranda özetlenir; aynı verileri yeniden yazmanız gerekmez. Yalnız o güne ait karar ve hedefleri tamamlayın.</p>
-        <div class="guideKey"><b>Ana hedef</b><span>Hastada bugün ulaşılması istenen en önemli klinik hedef.</span><b>Solunum</b><span>Destek azaltma, spontan solunum testi, ekstübasyon, pronasyon veya diğer hedefler.</span><b>Hemodinami / sıvı</b><span>MAP, vazopresör ve günlük sıvı dengesi hedefleri.</span><b>Sedasyon / mobilizasyon</b><span>RASS, sedasyon azaltma/kesme ve mobilizasyon hedefleri.</span><b>Enfeksiyon / tedavi</b><span>Antibiyotik yeniden değerlendirmesi, de-eskalasyon ve kaynak kontrolü.</span><b>Günlük güvenlik</b><span>Kesilebilecek ilaç, VTE profilaksisi, stres ülser profilaksisi ve gereksiz kateter/dren/tüp değerlendirmesi.</span><b>Tetkikler</b><span>Beklenen sonuçlar, yapılacak işlem/konsültasyon ve sabah tetkik planı.</span><b>Aile bilgisi</b><span>Ailenin bilgilendirilip bilgilendirilmediği ve kısaca hangi bilginin verildiği.</span></div>
+        <div class="guideKey"><b>Ana hedef</b><span>Hastada bugün ulaşılması istenen en önemli klinik hedef.</span><b>Solunum</b><span>Destek azaltma, spontan solunum testi, ekstübasyon, pronasyon veya diğer hedefler.</span><b>Hemodinami / sıvı</b><span>MAP, vazopresör ve günlük sıvı dengesi hedefleri.</span><b>Sedasyon / mobilizasyon</b><span>RASS, sedasyon azaltma/kesme ve mobilizasyon hedefleri.</span><b>Enfeksiyon / tedavi</b><span>Antibiyotik yeniden değerlendirmesi, de-eskalasyon ve kaynak kontrolü.</span><b>Günlük güvenlik</b><span>Kesilebilecek ilaç, VTE profilaksisi, stres ülser profilaksisi ve gereksiz kateter/dren/tüp değerlendirmesi.</span><b>Tetkikler</b><span>Beklenen sonuçlar, yapılacak işlem/konsültasyon ve ertesi gün tetkik planı.</span><b>Aile bilgisi</b><span>Ailenin bilgilendirilip bilgilendirilmediği ve kısaca hangi bilginin verildiği.</span></div>
         <div class="guideTip"><b>PDF:</b> “Günlük Hedefler PDF / Yazdır” ile seçili hasta için tek A4 sayfa; “Tüm kayıtlı hastalar” ile her hasta ayrı A4 sayfa olarak oluşturulur.</div>
       </div>
 
-      <div class="guideSection"><h3>3. Sabah tetkikleri</h3><div class="guideKey"><b>Yok</b><span>Rutin sabah tetkiki planlanmıyor.</span><b>Kısa</b><span>Kan sayımı + CRP + Prokalsitonin.</span><b>Uzun</b><span>Kısa paket + geniş biyokimya + Ferritin.</span><b>Özel</b><span>Kısa veya Uzun pakete eklenebilir; ör. proBNP, troponin, fibrinojen. Yalnız özel tetkik de girilebilir.</span></div><p class="smallnote">Kan gazı ve laktat bu paketlerin parçası değildir; klinik gerekliliğe göre istenir.</p></div>
+      <div class="guideSection"><h3>3. Ertesi gün istenecek tetkikler</h3><div class="guideKey"><b>Yok</b><span>Rutin ertesi gün tetkiki planlanmıyor.</span><b>Kısa</b><span>Kan sayımı + CRP + Prokalsitonin.</span><b>Uzun</b><span><b>Kısa +</b> Ferritin; koagülasyon (Protrombin zamanı [PT], INR, Protrombin aktivitesi, aPTT, Fibrinojen, D-dimer); böbrek/metabolik (Üre, Kreatinin, Ürik asit); elektrolit/mineral (Sodyum, Potasyum, Klor, Kalsiyum, Magnezyum, Fosfor); karaciğer/protein (AST, ALT, Total bilirubin, Direkt bilirubin, Total protein, Albümin); doku/kas (LDH, CK, CK-MB).</span><b>Özel</b><span>Kısa veya Uzun pakete eklenebilir; ör. proBNP, troponin. Yalnız özel tetkik de girilebilir.</span></div></div>
 
       <div class="guideSection"><h3>4. Akşam devir</h3><p>Akşam hastayı tekrar açtığınızda gündüz bilgileri korunur. Yalnız nöbet için gerekli değişiklikleri tamamlayın:</p><ol class="guideSteps">
-        <li><b>Gün içindeki önemli değişiklik</b></li><li><b>Beklenen sonuç</b> veya gündüzden sonra eklenen sonuç</li><li><b>Gece yapılacak</b> iş veya takip</li><li><b>Sabah tetkiki</b> — gündüz planı aynen kullanılabilir veya değiştirilebilir</li><li><b>Risk / Dikkat</b> ve kısa açıklaması</li><li><b>Haber verme kriteri</b></li>
+        <li><b>Gün içindeki önemli değişiklik</b></li><li><b>Beklenen sonuç</b> veya gündüzden sonra eklenen sonuç</li><li><b>Gece yapılacak</b> iş veya takip</li><li><b>Ertesi gün tetkiki</b> — gündüz planı aynen kullanılabilir veya değiştirilebilir</li><li><b>Risk / Dikkat</b> ve kısa açıklaması</li><li><b>Haber verme kriteri</b></li>
       </ol><p><b>Devre Hazır</b> ile hastanın devir bilgilerini kaydedin.</p></div>
 
       <div class="guideSection"><h3>5. Risk ve dikkat sembolleri</h3><div class="guideKey"><b>⚠ Risk</b><span>Gece kötüleşme riski yüksek veya yakın klinik takip gerektiren durum.</span><b>! Dikkat</b><span>Özel izlem veya belirli bir konuya dikkat gerektiren durum.</span><b>✓ Stabil</b><span>Belirgin özel gece riski tanımlanmamış hasta.</span></div><p class="smallnote">Semboller renk kullanılmadan da anlamını koruyacak şekilde seçilmiştir; siyah-beyaz baskıda kullanılabilir.</p></div>
 
-      <div class="guideSection"><h3>6. Nöbetçi tablosu</h3><p>Kayıtlı tüm hastalar tek tabloda birleştirilir. Tablo şu bilgileri içerir: <b>Yatak, ana sorun, gün içi değişiklik, beklenen sonuç, gece yapılacak, sabah tetkiki, risk/dikkat ve haber verme kriteri.</b></p><div class="guideTip">Nöbet tablosu kısa ve operasyonel tutulur; aile bilgisi, profilaksi ve diğer gündüz hedefleri Daily Goals PDF'de kalır.</div></div>
+      <div class="guideSection"><h3>6. Nöbetçi tablosu</h3><p>Kayıtlı tüm hastalar tek tabloda birleştirilir. Tablo şu bilgileri içerir: <b>Yatak, ana sorun, gün içi değişiklik, beklenen sonuç, gece yapılacak, ertesi gün tetkiki, risk/dikkat ve haber verme kriteri.</b></p><div class="guideTip">Nöbet tablosu kısa ve operasyonel tutulur; aile bilgisi, profilaksi ve diğer gündüz hedefleri Daily Goals PDF'de kalır.</div></div>
 
       <div class="guideSection"><h3>7. Yeni hasta ve kayıt mantığı</h3><ul class="guideSteps"><li><b>Kaydet:</b> mevcut hastanın vizit, hedef ve devir verilerini cihazda saklar.</li><li><b>Yeni hasta:</b> yeni hasta formu açar; önceki kayıtlı hastaları silmez.</li><li>Kayıtlı hastalar Günlük Hedefler / Akşam Devir ekranından yeniden açılabilir.</li></ul></div>
 
@@ -623,12 +624,12 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 <div class="fields two"><div><label class="fieldlabel">Bugün yapılacak işlem / konsültasyon</label><textarea id="dgProcedure" placeholder="Kısa yazınız"></textarea></div>
 <div><label class="fieldlabel">Beklenen tetkik / görüntüleme sonucu</label><textarea id="dgExpectedResult" placeholder="Örn. kan kültürü, toraks BT raporu"></textarea></div></div>
 <div class="section"><label class="fieldlabel">Sonuç geldiğinde yapılacak / dikkat edilecek</label><input id="dgResultAction" type="text" placeholder="İsteğe bağlı"></div>
-<div class="section"><label class="fieldlabel">Sabah istenecek tetkikler</label><div class="radioRow">
+<div class="section"><label class="fieldlabel">Ertesi gün istenecek tetkikler</label><div class="radioRow">
 <label class="radioChip"><input type="radio" name="dgMorningLabs" value="Yok"><span>Yok</span></label>
 <label class="radioChip"><input type="radio" name="dgMorningLabs" value="Kısa"><span>Kısa</span></label>
-<label class="radioChip"><input type="radio" name="dgMorningLabs" value="Uzun"><span>Uzun</span></label>
-</div><div style="margin-top:8px"><label class="fieldlabel">+ Özel tetkik</label><input id="dgSpecialLabs" type="text" placeholder="örn. proBNP, troponin, fibrinojen"></div>
-<div class="smallnote"><b>Kısa:</b> Kan sayımı, CRP, Prokalsitonin. <b>Uzun:</b> Kısa + Glukoz, Üre, Kreatinin, Na, K, Cl, Ca, Mg, P, AST, ALT, ALP, GGT, Total/Direkt bilirubin, Albumin, Total protein, LDH, Ferritin. Kan gazı ve laktat klinik gerekliliğe göre ayrıca değerlendirilir.</div></div>
+<label class="radioChip"><input type="radio" name="dgMorningLabs" value="Uzun"><span>Uzun (Kısa +)</span></label>
+</div><div style="margin-top:8px"><label class="fieldlabel">+ Özel tetkik</label><input id="dgSpecialLabs" type="text" placeholder="örn. proBNP, troponin"></div>
+<div class="labPackageBox"><div><b>Kısa:</b> Kan sayımı, CRP, Prokalsitonin.</div><div class="longLabsTitle"><b>Uzun = Kısa +</b></div><div class="labGroup"><b>İnflamasyon:</b> Ferritin</div><div class="labGroup"><b>Koagülasyon:</b> Protrombin zamanı (PT), INR, Protrombin aktivitesi, aPTT, Fibrinojen, D-dimer</div><div class="labGroup"><b>Böbrek / metabolik:</b> Üre, Kreatinin, Ürik asit</div><div class="labGroup"><b>Elektrolit / mineral:</b> Sodyum, Potasyum, Klor, Kalsiyum, Magnezyum, Fosfor</div><div class="labGroup"><b>Karaciğer / protein:</b> AST, ALT, Total bilirubin, Direkt bilirubin, Total protein, Albümin</div><div class="labGroup"><b>Doku / kas:</b> LDH, CK, CK-MB</div></div></div>
 </div></div>
 
 <div class="card"><h2>Aile bilgilendirmesi</h2><div class="body">
@@ -647,7 +648,7 @@ select:focus,input:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3p
 <div class="section"><label class="fieldlabel">Gün içinde önemli değişiklik</label><textarea id="handoffChange" placeholder="Örn. noradrenalin kesildi, FiO₂ %60'tan %40'a geriledi"></textarea></div>
 <div class="section fields two"><div><label class="fieldlabel">Günlük Hedeflerden beklenen sonuç</label><div id="handoffExpectedInherited" class="readonlyline">-</div></div><div><label class="fieldlabel">Ek / değişen beklenen sonuç</label><input id="handoffExpectedExtra" type="text" placeholder="Varsa ekleyin"></div></div>
 <div class="section"><label class="fieldlabel">🌙 Gece yapılacak</label><textarea id="handoffNightTasks" placeholder="Saat gerekiyorsa metnin başına yazın: 00:00 Hb kontrolü"></textarea></div>
-<div class="section fields two"><div><label class="fieldlabel">Sabah tetkiki - Günlük Hedeflerden</label><div id="handoffLabsInherited" class="readonlyline">-</div></div><div><label class="fieldlabel">Akşam değişikliği</label><select id="handoffLabsOverride"><option value="">Gündüz planını kullan</option><option>Yok</option><option>Kısa</option><option>Uzun</option></select><input id="handoffSpecialLabsExtra" type="text" style="margin-top:7px" placeholder="Ek özel tetkik"></div></div>
+<div class="section fields two"><div><label class="fieldlabel">Ertesi gün tetkiki - Günlük Hedeflerden</label><div id="handoffLabsInherited" class="readonlyline">-</div></div><div><label class="fieldlabel">Akşam değişikliği</label><select id="handoffLabsOverride"><option value="">Gündüz planını kullan</option><option value="Yok">Yok</option><option value="Kısa">Kısa</option><option value="Uzun">Uzun (Kısa +)</option></select><input id="handoffSpecialLabsExtra" type="text" style="margin-top:7px" placeholder="Ek özel tetkik"></div></div>
 <div class="section"><label class="fieldlabel">Risk / dikkat düzeyi</label><div class="radioRow">
 <label class="radioChip"><input type="radio" name="handoffRisk" value="stable"><span>✓ Stabil</span></label>
 <label class="radioChip"><input type="radio" name="handoffRisk" value="attention"><span>! Dikkat</span></label>
@@ -1202,10 +1203,20 @@ function loadPatientById(id,target='handoffPage'){
  setTimeout(()=>$('saveStatus').textContent='Lokal kayıt',1100);
 }
 function riskLabel(st){const r=stateRadio(st,'handoffRisk');return r==='risk'?'⚠ RİSK':r==='attention'?'! DİKKAT':r==='stable'?'✓ STABİL':''}
+const SHORT_LABS_TEXT='Kan sayımı, CRP, Prokalsitonin';
+const LONG_LABS_EXTRA_TEXT='Ferritin; Protrombin zamanı (PT), INR, Protrombin aktivitesi, aPTT, Fibrinojen, D-dimer; Üre, Kreatinin, Ürik asit; Sodyum, Potasyum, Klor, Kalsiyum, Magnezyum, Fosfor; AST, ALT, Total bilirubin, Direkt bilirubin, Total protein, Albümin; LDH, CK, CK-MB';
 function morningLabsText(st){
  const override=stateVal(st,'handoffLabsOverride'); const pack=override||stateRadio(st,'dgMorningLabs')||'—';
  const specs=[stateVal(st,'dgSpecialLabs'),stateVal(st,'handoffSpecialLabsExtra')].filter(Boolean);
  return pack+(specs.length?' + '+specs.join(' + '):'');
+}
+function dailyGoalsLabsText(st){
+ const pack=stateRadio(st,'dgMorningLabs')||'—';
+ let text=pack;
+ if(pack==='Kısa') text='Kısa: '+SHORT_LABS_TEXT;
+ if(pack==='Uzun') text='Uzun (Kısa +): '+LONG_LABS_EXTRA_TEXT;
+ const special=stateVal(st,'dgSpecialLabs');
+ return text+(special?' + Özel: '+special:'');
 }
 function expectedResultText(st){return [stateVal(st,'dgExpectedResult'),stateVal(st,'handoffExpectedExtra')].filter(Boolean).join(' / ')||'—'}
 function goalsDataFromState(st){
@@ -1219,7 +1230,7 @@ function goalsDataFromState(st){
 function dailyGoalsSheetHTML(st,p={}){
  const g=goalsDataFromState(st); const bed=stateVal(st,'bed')||p.bed||'—'; const day=stateVal(st,'icuDay')||p.icuDay||'—'; const doctor=stateVal(st,'dgDoctor')||'—';
  const family=stateRadio(st,'dgFamily')||'—'; const famInfo=stateVal(st,'dgFamilyInfo');
- const labs=(stateRadio(st,'dgMorningLabs')||'—')+(stateVal(st,'dgSpecialLabs')?' + '+stateVal(st,'dgSpecialLabs'):'');
+ const labs=dailyGoalsLabsText(st);
  return `<section class="sheet"><div class="sheetTitle">YOĞUN BAKIM - GÜNLÜK HEDEFLER</div><div class="meta"><b>Tarih:</b> ${esc(new Date().toLocaleDateString('tr-TR'))}<span><b>Yatak:</b> ${esc(bed)}</span><span><b>YB günü:</b> ${esc(day)}</span><span><b>Hekim:</b> ${esc(doctor)}</span></div>
  <div class="headline"><b>Ana sorun:</b> ${esc(problemSummaryFromState(st))}<br><b>Bugünün ana hedefi:</b> ${esc(stateVal(st,'dgMainGoal')||'—')}</div>
  <div class="clinical"><b>Vizit özeti</b><br>${esc(clinicalSummaryFromState(st)).replace(/\n/g,'<br>')}</div>
@@ -1231,7 +1242,7 @@ function dailyGoalsSheetHTML(st,p={}){
  <div class="goalrow"><div class="goalrowlabel">Günlük güvenlik</div><div class="goalrowvalue">${esc(g.safety)}</div></div>
  <div class="goalrow"><div class="goalrowlabel">İşlem / konsültasyon</div><div class="goalrowvalue">${esc(stateVal(st,'dgProcedure')||'—')}</div></div>
  <div class="goalrow"><div class="goalrowlabel">Beklenen sonuç</div><div class="goalrowvalue">${esc(stateVal(st,'dgExpectedResult')||'—')}${stateVal(st,'dgResultAction')?'<br><b>Sonuca göre:</b> '+esc(stateVal(st,'dgResultAction')):''}</div></div>
- <div class="goalrow"><div class="goalrowlabel">Sabah tetkikleri</div><div class="goalrowvalue">${esc(labs)}</div></div>
+ <div class="goalrow"><div class="goalrowlabel">Ertesi gün tetkikleri</div><div class="goalrowvalue">${esc(labs)}</div></div>
  <div class="goalrow familyrow"><div class="goalrowlabel">Aile bilgilendirmesi</div><div class="goalrowvalue"><b>${esc(family)}</b>${famInfo?'<br>'+esc(famInfo):''}</div></div>
  </div>
  </section>`;
@@ -1298,7 +1309,7 @@ function printDailyGoals(all=false){
 function handoffTableHTML(){
  saveCurrentPatient(false); const pts=loadPatients().slice().sort((a,b)=>String(a.bed||'').localeCompare(String(b.bed||''),'tr',{numeric:true})); if(!pts.length)return '';
  const rows=pts.map(p=>{const st=p.state||{};return `<tr><td><b>${esc(p.bed||'—')}</b></td><td>${esc(problemSummaryFromState(st))}${stateVal(st,'dgDoctor')?'<br><small>'+esc(stateVal(st,'dgDoctor'))+'</small>':''}</td><td>${esc(stateVal(st,'handoffChange')||'—')}</td><td>${esc(expectedResultText(st))}</td><td>${esc(stateVal(st,'handoffNightTasks')||'—')}</td><td>${esc(morningLabsText(st))}</td><td class="riskcell">${esc(riskLabel(st)||'—')}${stateVal(st,'handoffRiskDetail')?'<br>'+esc(stateVal(st,'handoffRiskDetail')):''}</td><td>${esc(stateVal(st,'handoffCallCriteria')||'—')}</td></tr>`}).join('');
- return `<div class="handoffTitle">YOĞUN BAKIM - AKŞAM VARDİYA DEVİR TABLOSU</div><div class="handoffMeta"><b>Tarih:</b> ${esc(new Date().toLocaleDateString('tr-TR'))} &nbsp; <b>Hasta sayısı:</b> ${pts.length} &nbsp; Semboller: ⚠ Risk &nbsp; ! Dikkat &nbsp; ✓ Stabil</div><table><colgroup><col style="width:5%"><col style="width:14%"><col style="width:14%"><col style="width:12%"><col style="width:17%"><col style="width:11%"><col style="width:11%"><col style="width:16%"></colgroup><thead><tr><th>Yatak</th><th>Ana sorun</th><th>Gün içi değişiklik</th><th>Beklenen sonuç</th><th>Gece yapılacak</th><th>Sabah tetkiki</th><th>Risk / Dikkat</th><th>Haber ver</th></tr></thead><tbody>${rows}</tbody></table><div class="foot">Bu çıktı vardiya devrini standartlaştırmak için hazırlanmıştır; klinik kayıt ve hekim değerlendirmesinin yerine geçmez.</div>`;
+ return `<div class="handoffTitle">YOĞUN BAKIM - AKŞAM VARDİYA DEVİR TABLOSU</div><div class="handoffMeta"><b>Tarih:</b> ${esc(new Date().toLocaleDateString('tr-TR'))} &nbsp; <b>Hasta sayısı:</b> ${pts.length} &nbsp; Semboller: ⚠ Risk &nbsp; ! Dikkat &nbsp; ✓ Stabil</div><table><colgroup><col style="width:5%"><col style="width:14%"><col style="width:14%"><col style="width:12%"><col style="width:17%"><col style="width:11%"><col style="width:11%"><col style="width:16%"></colgroup><thead><tr><th>Yatak</th><th>Ana sorun</th><th>Gün içi değişiklik</th><th>Beklenen sonuç</th><th>Gece yapılacak</th><th>Ertesi gün tetkiki</th><th>Risk / Dikkat</th><th>Haber ver</th></tr></thead><tbody>${rows}</tbody></table><div class="foot">Bu çıktı vardiya devrini standartlaştırmak için hazırlanmıştır; klinik kayıt ve hekim değerlendirmesinin yerine geçmez.</div>`;
 }
 function printHandoff(){const h=handoffTableHTML();if(!h){alert('Kayıtlı hasta yok.');return}printDocument('Akşam Vardiya Devir Tablosu',h,true)}
 function markHandoffReady(){if($('handoffReady'))$('handoffReady').checked=true;saveCurrentPatient(true);updateSavedPatientsPanel();updateGoalSummary()}
@@ -1330,9 +1341,3 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&guideOverlay?.class
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
 </script>
 </body></html>
-<footer>
-  <p>
-    © 2026 Prof. Dr. Yalım Dikmen.
-    Licensed under GNU GPL v3.0.
-  </p>
-</footer>
